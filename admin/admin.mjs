@@ -177,19 +177,19 @@ function render() {
   if (view === "projects" || view === "posts") {
     const kind = view === "posts" ? "post" : "project",
       entries = data.entries.filter((e) => e.kind === kind);
-    root.innerHTML = `<div class="view-heading"><h1>${kind === "post" ? "Journal" : "Projects"}</h1><button class="primary" id="new-entry">New ${kind === "post" ? "entry" : "project"} +</button></div><p class="view-description">${kind === "post" ? "Notes and stories, when you have something to share. Journal navigation appears after the first entry is published." : "Add your work, arrange its order, and bring the process into view. Changes go live only when you publish."}</p>${entries
+    root.innerHTML = `<div class="view-heading"><h1>${kind === "post" ? "Writing" : "Projects"}</h1><button class="primary" id="new-entry">New ${kind === "post" ? "piece" : "project"} +</button></div><p class="view-description">${kind === "post" ? "A place for essays, notes, or a thought in progress. Write freely with the same editor you use for projects. Published pieces appear newest first by publication date." : "Add your work, arrange its order, and bring the process into view. Changes go live only when you publish."}</p>${entries
       .map(
         (e) =>
-          `<article class="entry-row">${e.cover.src ? `<img src="${esc(e.cover.src)}" alt="" loading="lazy">` : "<span></span>"}<div><h2><button class="entry-link" data-edit="${e.id}">${esc(e.title)}</button></h2><p>${e.year} · ${
+          `<article class="entry-row">${e.cover.src ? `<img src="${esc(e.cover.src)}" alt="" loading="lazy">` : "<span></span>"}<div><h2><button class="entry-link" data-edit="${e.id}">${esc(e.title)}</button></h2><p>${e.kind === "post" ? e.date : e.year} · ${
             data.categories
               .filter((t) => e.categories.includes(t.id))
               .map((t) => esc(t.label))
               .join(" / ") || "Uncategorized"
-          }</p></div><div class="row-actions"><span class="status-label">${e.status === "published" ? "In portfolio" : "Draft only"}</span><button data-order="${e.id}" data-direction="-1" aria-label="Move ${esc(e.title)} up" ${entries[0] === e ? "disabled" : ""}>↑</button><button data-order="${e.id}" data-direction="1" aria-label="Move ${esc(e.title)} down" ${entries.at(-1) === e ? "disabled" : ""}>↓</button><button data-edit="${e.id}">Edit</button></div></article>`,
+          }</p></div><div class="row-actions"><span class="status-label">${e.status === "published" ? "Included" : "Draft only"}</span>${kind === "project" ? `<button data-order="${e.id}" data-direction="-1" aria-label="Move ${esc(e.title)} up" ${entries[0] === e ? "disabled" : ""}>↑</button><button data-order="${e.id}" data-direction="1" aria-label="Move ${esc(e.title)} down" ${entries.at(-1) === e ? "disabled" : ""}>↓</button>` : ""}<button data-edit="${e.id}">Edit</button></div></article>`,
       )
       .join(
         "",
-      )}${!entries.length ? '<div class="empty"><h2>A blank page is a good start.</h2><p>Your journal can wait until there’s a story to tell. Projects are the focus for now.</p></div>' : ""}`;
+      )}${!entries.length ? '<div class="empty"><h2>A blank page is a good start.</h2><p>Start with a title and a few words. Images, an introduction, and topics are optional.</p></div>' : ""}`;
     $("#new-entry").onclick = () => {
       const id = "entry-" + crypto.randomUUID().slice(0, 8);
       const e = {
@@ -198,7 +198,7 @@ function render() {
         kind,
         status: "draft",
         sample: data.demo,
-        title: kind === "post" ? "Untitled entry" : "Untitled project",
+        title: kind === "post" ? "Untitled piece" : "Untitled project",
         intro: "",
         year: new Date().getFullYear(),
         date: new Date().toISOString().slice(0, 10),
@@ -249,7 +249,18 @@ function render() {
   update();
 }
 function renderEntry(root, e) {
-  root.innerHTML = `<div class="view-heading"><div><button id="back" class="quiet">← ${e.kind === "post" ? "Journal" : "Projects"}</button><h1>Edit ${e.kind === "post" ? "entry" : "project"}</h1></div><button id="delete-entry">Delete ${e.kind === "post" ? "entry" : "project"}</button></div><div class="fields">${field("Title", e.title, 'data-entry="title"', { full: true })}${field("Introduction", e.intro, 'data-entry="intro"', { area: true, full: true })}${field("Year", e.year, 'data-entry="year"', { type: "number" })}${field("Role / discipline", e.role, 'data-entry="role"')}${e.kind === "post" ? field("Publication date", e.date, 'data-entry="date"', { type: "date" }) : ""}${field("Page URL", entryPath(e), 'id="entry-url"', { readonly: true, full: true, hint: "The URL stays stable when a saved title changes." })}<fieldset><legend>Categories</legend><div class="checks">${data.categories.map((t) => `<label class="check"><input type="checkbox" data-term="categories" value="${t.id}" ${e.categories.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><fieldset><legend>Tags</legend><div class="checks">${data.tags.map((t) => `<label class="check"><input type="checkbox" data-term="tags" value="${t.id}" ${e.tags.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><div class="full"><button id="manage-terms" class="quiet">Create or manage categories & tags →</button><label class="check"><input id="included" type="checkbox" ${e.status === "published" ? "checked" : ""}>Include this ${e.kind === "post" ? "entry" : "project"} when publishing</label><label class="check"><input id="sample-entry" type="checkbox" ${e.sample ? "checked" : ""}>This is sample content</label></div></div><section class="section-rule"><h2>Cover image</h2><p class="hint">Web-ready JPG, PNG or WebP, up to 5 MB. Add a useful description for people who cannot see it.</p><div id="cover"></div></section><section class="section-rule"><div class="editor-heading"><h2>The story</h2><button id="undo" ${!history.length ? "disabled" : ""}>Undo block change</button></div><p class="hint">Select a block to format, move or remove it. Type /image, /gallery or /video to insert a block.</p><div id="blocks"></div><div class="block-palette" aria-label="Add a block">${TYPES.map((type) => `<button data-add="${type}">+ ${type[0].toUpperCase() + type.slice(1)}</button>`).join("")}</div></section><div class="fields">${field("Credits / collaborators", e.credits, 'data-entry="credits"', { area: true, full: true })}</div>`;
+  const prose = e.kind === "post";
+  const terms = `<div class="fields"><fieldset><legend>${prose ? "Topics (optional)" : "Categories"}</legend><div class="checks">${data.categories.map((t) => `<label class="check"><input type="checkbox" data-term="categories" value="${t.id}" ${e.categories.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><fieldset><legend>Tags${prose ? " (optional)" : ""}</legend><div class="checks">${data.tags.map((t) => `<label class="check"><input type="checkbox" data-term="tags" value="${t.id}" ${e.tags.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><div class="full"><button id="manage-terms" class="quiet">Create or manage categories & tags →</button></div></div>`;
+  const visibility = `<div class="entry-visibility"><label class="check"><input id="included" type="checkbox" ${e.status === "published" ? "checked" : ""}>Include this ${prose ? "piece" : "project"} when publishing</label><label class="check"><input id="sample-entry" type="checkbox" ${e.sample ? "checked" : ""}>This is sample content</label></div>`;
+  const cover = `<section class="section-rule"><h2>Cover image${prose ? " (optional)" : ""}</h2><p class="hint">${prose ? "Writing works beautifully without an image. " : ""}Web-ready JPG, PNG or WebP, up to 5 MB. Add a useful description for people who cannot see it.</p><div id="cover"></div></section>`;
+  const story = `<section class="section-rule"><div class="editor-heading"><h2>${prose ? "The writing" : "The story"}</h2><button id="undo" ${!history.length ? "disabled" : ""}>Undo block change</button></div><p class="hint">${prose ? "Write as much or as little as you like. " : ""}Select a block to format, move or remove it. Type /image, /gallery or /video to insert a block.</p><div id="blocks"></div><div class="block-palette" aria-label="Add a block">${TYPES.map((type) => `<button data-add="${type}">+ ${type[0].toUpperCase() + type.slice(1)}</button>`).join("")}</div></section>`;
+  const credits = `<div class="fields">${field(prose ? "Notes / acknowledgments (optional)" : "Credits / collaborators", e.credits, 'data-entry="credits"', { area: true, full: true })}</div>`;
+  const url = field("Page URL", entryPath(e), 'id="entry-url"', {
+    readonly: true,
+    full: true,
+    hint: "The URL stays stable when a saved title changes.",
+  });
+  root.innerHTML = `<div class="view-heading"><div><button id="back" class="quiet">← ${prose ? "Writing" : "Projects"}</button><h1>${prose ? "Edit writing" : "Edit project"}</h1></div><button id="delete-entry">Delete ${prose ? "piece" : "project"}</button></div><div class="fields">${field("Title", e.title, 'data-entry="title"', { full: true })}${field(prose ? "Introduction (optional)" : "Introduction", e.intro, 'data-entry="intro"', { area: true, full: true })}${prose ? field("Publication date", e.date, 'data-entry="date"', { type: "date" }) : field("Year", e.year, 'data-entry="year"', { type: "number" }) + field("Role / discipline", e.role, 'data-entry="role"')}${!prose ? url : ""}</div>${prose ? story + visibility + `<details class="writing-options"><summary>Images, topics & page details</summary>${terms}${cover}<div class="fields">${url}</div>${credits}</details>` : terms + visibility + cover + story + credits}`;
   $("#back").onclick = () => {
     currentId = null;
     render();
@@ -834,7 +845,7 @@ $("#publish").onclick = () =>
     const included = data.entries.filter((e) => e.status === "published");
     if (
       !confirm(
-        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} journal entries? Draft-only entries stay private. Categories and profile changes are included.`,
+        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} pieces of writing? Draft-only entries stay private. Categories and profile changes are included.`,
       )
     )
       return;
@@ -885,6 +896,10 @@ $("#preview").onclick = () =>
         method: "POST",
         body: { catalog: data, id: currentId },
       });
+      const previewTitle =
+        current().kind === "post" ? "Writing preview" : "Project preview";
+      $("#preview-title").textContent = previewTitle;
+      $("#preview-dialog iframe").title = previewTitle;
       $("#preview-dialog iframe").srcdoc = result.html;
       $("#preview-dialog").showModal();
     } finally {

@@ -1,0 +1,57 @@
+{
+  "at": "2026-11-17T23:26:08.017Z",
+  "checks": [
+    {
+      "surface": "Writing index",
+      "width": 1440,
+      "axeViolations": 0,
+      "rows": 2
+    },
+    {
+      "surface": "a-room-before-the-scene",
+      "width": 1440,
+      "overflow": false,
+      "title": "A room before the scene — R. Barela"
+    },
+    {
+      "surface": "keeping-a-notebook",
+      "width": 1440,
+      "overflow": false,
+      "title": "Keeping a notebook — R. Barela"
+    },
+    {
+      "surface": "Writing editor",
+      "width": 1440,
+      "axeViolations": 0,
+      "overflow": false
+    },
+    {
+      "surface": "Writing index",
+      "width": 390,
+      "axeViolations": 0,
+      "rows": 2
+    },
+    {
+      "surface": "a-room-before-the-scene",
+      "width": 390,
+      "overflow": false,
+      "title": "A room before the scene — R. Barela"
+    },
+    {
+      "surface": "keeping-a-notebook",
+      "width": 390,
+      "overflow": false,
+      "title": "Keeping a notebook — R. Barela"
+    },
+    {
+      "surface": "Writing editor",
+      "width": 390,
+      "axeViolations": 0,
+      "overflow": false
+    },
+    {
+      "surface": "Legacy journal index",
+      "destination": "http://127.0.0.1:4321/writing/"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ Do not copy the local preview session mechanism into production. It exists only 
 
 ## Prepare real content
 
-Replace all 20 sample projects/photos with approved material, verify roles and credits, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
+Replace all 20 sample projects/photos with approved material, remove or replace the two sample Writing pieces, verify roles and credits, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
 
 ## Publication behavior
 

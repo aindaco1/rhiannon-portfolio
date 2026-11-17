@@ -14,7 +14,13 @@ import {
   termPath,
   esc,
 } from "../lib/content.mjs";
-import { archive, project, about, shell } from "../lib/views.mjs";
+import {
+  archive,
+  entryView,
+  writingArchive,
+  about,
+  shell,
+} from "../lib/views.mjs";
 export async function buildSite(
   input,
   {
@@ -86,7 +92,7 @@ export async function buildSite(
   await page("/", catalog.profile.name, archive(catalog));
   await page("/about/", "About", about(catalog));
   for (const e of catalog.entries)
-    await page(entryPath(e), e.title, project(catalog, e), e.intro);
+    await page(entryPath(e), e.title, entryView(catalog, e), e.intro);
   for (const kind of ["categories", "tags"])
     for (const term of catalog[kind])
       if (catalog.entries.some((e) => e[kind].includes(term.id)))
@@ -95,8 +101,19 @@ export async function buildSite(
           term.label,
           archive(catalog, { term, taxonomy: kind, kind: "all" }),
         );
-  if (catalog.entries.some((e) => e.kind === "post"))
-    await page("/journal/", "Journal", archive(catalog, { kind: "post" }));
+  await page("/writing/", "Writing", writingArchive(catalog));
+  // Keep previously shared Journal URLs working without duplicating articles.
+  async function redirect(from, to) {
+    const target = `${source}${from}index.html`;
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(
+      target,
+      `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${esc(to)}"><title>Writing — ${esc(catalog.profile.name)}</title>${catalog.profile.url ? `<link rel="canonical" href="${esc(catalog.profile.url + to)}">` : ""}</head><body><p>This page has moved to <a href="${esc(to)}">Writing</a>.</p></body></html>`,
+    );
+  }
+  await redirect("/journal/", "/writing/");
+  for (const entry of catalog.entries.filter((e) => e.kind === "post"))
+    await redirect(`/journal/${entry.slug}/`, entryPath(entry));
   await page(
     "/404.html",
     "Page not found",

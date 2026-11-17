@@ -1,0 +1,14 @@
+
+> rhiannon-portfolio@0.1.0 test:browser
+> playwright test --grep Writing is text-led
+
+[WebServer] (node:88805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:88857) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/portfolio.spec.js:474:1 › Writing is text-led, responsive, accessible and uses the same WYSIWYG preview (6.7s)
+
+  1 passed (10.3s)

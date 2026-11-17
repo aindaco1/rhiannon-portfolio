@@ -1,5 +1,7 @@
 # R. Barela portfolio — acceptance record
 
+This records the initial build. The subsequent Writing section, updated navigation and current verification are documented in [Writing acceptance](docs/WRITING-TASK.md).
+
 Built November 17, 2026 in `/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio`.
 
 **Outcome:** a working local portfolio and browser editor, with 20 clearly labeled fictional projects across Art, Makeup, Props, Sets and Film. Typography and whitespace follow The Dare; visible categories, metadata and reading columns follow the Creative Independent reference. Dummy photographs are credited stock images, not artist credits. The public site and editor are available on loopback ports 4321 and 4322.

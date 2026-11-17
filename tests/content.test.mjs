@@ -14,14 +14,14 @@ const seed = JSON.parse(
   await readFile(new URL("./fixtures/catalog.json", import.meta.url)),
 );
 const copy = () => structuredClone(seed);
-test("20 sample projects span all five disciplines; journal is absent", () => {
+test("20 sample projects span all five disciplines; Writing is discoverable when empty", () => {
   const d = validateCatalog(copy());
   assert.equal(d.entries.length, 20);
   assert.equal(d.categories.length, 5);
   for (const term of d.categories)
     assert(d.entries.some((e) => e.categories.includes(term.id)));
   assert(
-    !shell(d, { title: "Work", body: archive(d) }).includes('href="/journal/"'),
+    shell(d, { title: "Work", body: archive(d) }).includes('href="/writing/"'),
   );
 });
 test("category renames preserve their URL and referenced terms cannot be deleted", () => {

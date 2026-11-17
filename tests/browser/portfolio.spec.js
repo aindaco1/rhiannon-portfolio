@@ -41,8 +41,8 @@ for (const width of [320, 390, 768, 1440])
       page.getByRole("navigation", { name: "Disciplines" }).getByRole("link"),
     ).toHaveCount(6);
     await expect(
-      page.getByRole("link", { name: "Journal", exact: true }),
-    ).toHaveCount(0);
+      page.getByRole("link", { name: "Writing", exact: true }),
+    ).toHaveCount(1);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -424,26 +424,26 @@ test("a pending photo cannot return to a block that was removed", async ({
   await expect(page.locator(".content-block--image")).toHaveCount(0);
   await expect(page.locator(".content-block--gallery img")).toHaveCount(2);
 });
-test("the journal uses the same editor and appears only after publication", async ({
+test("writing uses the shared editor; only published pieces appear", async ({
   page,
   request,
 }) => {
   await page.goto(admin + "/admin/");
   await resetDraft(page);
-  await page.getByRole("button", { name: /^Journal/ }).click();
-  await page.getByRole("button", { name: "New entry +", exact: true }).click();
+  await page.getByRole("button", { name: /^Writing/ }).click();
+  await page.getByRole("button", { name: "New piece +", exact: true }).click();
   await page
     .getByLabel("Title", { exact: true })
     .fill("A note from the studio");
   await page
     .getByRole("textbox", { name: "Block text", exact: true })
-    .fill("A short journal entry for the rehearsal.");
+    .fill("A short piece of writing for the rehearsal.");
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await expect(page.locator("#save-state")).toHaveText("Draft saved");
-  expect(await (await request.get("/")).text()).not.toContain(
-    'href="/journal/"',
+  expect(await (await request.get("/writing/")).text()).not.toContain(
+    "A note from the studio",
   );
-  await page.getByLabel("Include this entry when publishing").check();
+  await page.getByLabel("Include this piece when publishing").check();
   page.once("dialog", (dialog) => dialog.accept());
   await page
     .getByRole("button", { name: "Publish changes", exact: true })
@@ -452,8 +452,10 @@ test("the journal uses the same editor and appears only after publication", asyn
     "Published to the local preview",
     { timeout: 30000 },
   );
-  expect(await (await request.get("/")).text()).toContain('href="/journal/"');
-  expect((await request.get("/journal/a-note-from-the-studio/")).status()).toBe(
+  expect(await (await request.get("/writing/")).text()).toContain(
+    "A note from the studio",
+  );
+  expect((await request.get("/writing/a-note-from-the-studio/")).status()).toBe(
     200,
   );
   const state = (await api(page, "/state")).body;
@@ -461,6 +463,132 @@ test("the journal uses the same editor and appears only after publication", asyn
     catalog: seed,
     revision: state.revision,
     publishedRevision: state.publishedRevision,
+  });
+  const restored = (await api(page, "/state")).body;
+  await api(page, "/publish", "POST", {
+    revision: restored.revision,
+    publishedRevision: restored.publishedRevision,
+  });
+});
+
+test("Writing is text-led, responsive, accessible and uses the same WYSIWYG preview", async ({
+  page,
+  request,
+}) => {
+  const { sampleWriting } = await import("../fixtures/writing.mjs");
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  const state = (await api(page, "/state")).body;
+  const catalog = {
+    ...state.catalog,
+    entries: [...state.catalog.entries, ...structuredClone(sampleWriting)],
+  };
+  const saved = (
+    await api(page, "/draft", "PUT", {
+      catalog,
+      revision: state.revision,
+      publishedRevision: state.publishedRevision,
+    })
+  ).body;
+  expect(
+    (
+      await api(page, "/publish", "POST", {
+        revision: saved.revision,
+        publishedRevision: saved.publishedRevision,
+      })
+    ).status,
+  ).toBe(200);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 950 });
+    await page.goto("http://127.0.0.1:4325/writing/");
+    await expect(page.locator(".writing-list-item")).toHaveCount(2);
+    await expect(page.locator(".writing-list img")).toHaveCount(0);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.getByRole("link", { name: /A room before the scene/ }).click();
+    await expect(page.locator("h1")).toHaveText("A room before the scene");
+    await expect(page.locator(".writing-body h2").first()).toHaveText(
+      "The things left behind",
+    );
+    await expect(page.locator(".project-cover")).toHaveCount(0);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    if (width === 390 || width === 1440) {
+      const result = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze();
+      expect(result.violations).toEqual([]);
+      await page.screenshot({
+        path: `docs/evidence/writing/article-${width}.png`,
+      });
+    }
+  }
+  await page.goto("http://127.0.0.1:4325/journal/a-room-before-the-scene/");
+  await expect(page).toHaveURL(/\/writing\/a-room-before-the-scene\/$/);
+  await page.goto(admin + "/admin/");
+  await page.getByRole("button", { name: /^Writing/ }).click();
+  await expect(
+    page.getByRole("button", {
+      name: "Move A room before the scene up",
+      exact: true,
+    }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "A room before the scene", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Edit writing", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("Role / discipline", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.getByLabel("Year", { exact: true })).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "The writing", exact: true }),
+  ).toBeVisible();
+  const text = page
+    .getByRole("textbox", { name: "Block text", exact: true })
+    .first();
+  await text.fill("An independently edited paragraph.");
+  await text.press("ControlOrMeta+a");
+  await page.getByRole("button", { name: "Bold", exact: true }).click();
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await page.reload();
+  await page.getByRole("button", { name: /^Writing/ }).click();
+  await page
+    .getByRole("button", { name: "A room before the scene", exact: true })
+    .click();
+  await expect(
+    page.getByRole("textbox", { name: "Block text", exact: true }).first(),
+  ).toContainText("An independently edited paragraph.");
+  await page.getByRole("button", { name: "Preview", exact: true }).click();
+  const preview = page.frameLocator("#preview-dialog iframe");
+  await expect(
+    page.getByRole("dialog", { name: "Writing preview" }),
+  ).toBeVisible();
+  await expect(preview.locator("body")).toHaveClass("page-writing");
+  await expect(preview.locator(".writing-body strong").first()).toHaveText(
+    "An independently edited paragraph.",
+  );
+  const live = await (
+    await request.get("/writing/a-room-before-the-scene/")
+  ).text();
+  expect(live).not.toContain("An independently edited paragraph.");
+  await page
+    .getByRole("button", { name: "Close preview", exact: true })
+    .click();
+  const latest = (await api(page, "/state")).body;
+  await api(page, "/draft", "PUT", {
+    catalog: seed,
+    revision: latest.revision,
+    publishedRevision: latest.publishedRevision,
   });
   const restored = (await api(page, "/state")).body;
   await api(page, "/publish", "POST", {

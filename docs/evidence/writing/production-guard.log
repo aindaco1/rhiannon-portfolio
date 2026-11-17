@@ -1,0 +1,20 @@
+
+> rhiannon-portfolio@0.1.0 build:production
+> node scripts/build.mjs --production
+
+Platform v0.50.0: fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d
+file:///Users/aindaco1/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/rhiannon-portfolio/lib/content.mjs:32
+  if (!condition) throw new ContentError(message);
+                        ^
+
+ContentError: Production is blocked while sample content is enabled.
+    at requireThat (file:///Users/aindaco1/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/rhiannon-portfolio/lib/content.mjs:32:25)
+    at validateCatalog (file:///Users/aindaco1/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/rhiannon-portfolio/lib/content.mjs:118:5)
+    at buildSite (file:///Users/aindaco1/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/rhiannon-portfolio/scripts/build.mjs:35:33)
+    at file:///Users/aindaco1/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/rhiannon-portfolio/scripts/build.mjs:203:9 {
+  status: 400
+}
+
+Node.js v26.12.1
+
+Expected refusal confirmed.

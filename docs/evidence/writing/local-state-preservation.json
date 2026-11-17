@@ -1,0 +1,22 @@
+{
+  "before": "d00b60d6b436b2e574d10104224201e5b64bfe926a5592a7039b6dbf6f2bb42b",
+  "preserved": {
+    "catalog": {
+      "entries": 20,
+      "existingEntriesSha256": "5aecc5e3c30be3ea6be0f60f93e5ec9adeda94e9e35d9cfc7ada80e4706106a0",
+      "added": 2
+    },
+    "published": {
+      "entries": 20,
+      "existingEntriesSha256": "5aecc5e3c30be3ea6be0f60f93e5ec9adeda94e9e35d9cfc7ada80e4706106a0",
+      "added": 2
+    }
+  },
+  "after": "0ce612df1fdcdd65fb3ccdb8434f89c687b71e7ca4e4a80daf2b704681ae88b5",
+  "finalCheck": {
+    "at": "2026-11-17T23:26:27.742Z",
+    "stateSha256": "0ce612df1fdcdd65fb3ccdb8434f89c687b71e7ca4e4a80daf2b704681ae88b5",
+    "existingProjectsAndMetadata": "unchanged in working and published snapshots",
+    "writingPieces": 2
+  }
+}

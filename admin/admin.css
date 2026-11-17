@@ -719,3 +719,21 @@ dialog::backdrop {
     padding: 9px;
   }
 }
+
+.writing-options {
+  margin: 30px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+}
+.writing-options summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+.writing-options[open] summary {
+  margin-bottom: 25px;
+}
+.entry-visibility {
+  margin: 25px 0;
+}
