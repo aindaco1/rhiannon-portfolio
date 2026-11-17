@@ -1,0 +1,1275 @@
+{
+  "schemaVersion": 1,
+  "demo": true,
+  "profile": {
+    "name": "R. Barela",
+    "intro": "An artist, makeup, prop and set designer for film, and filmmaker.",
+    "bio": "Working across art, makeup, props, sets, and filmmaking.\n\nThis preview brings those disciplines together in one place. The projects and photographs shown here are placeholders; a full biography, selected credits, and original work will follow.",
+    "email": "",
+    "instagram": "https://www.instagram.com/r._barela/",
+    "imdb": "https://www.imdb.com/name/nm15080135/",
+    "url": "",
+    "portrait": ""
+  },
+  "categories": [
+    {
+      "id": "art",
+      "slug": "art",
+      "label": "Art"
+    },
+    {
+      "id": "makeup",
+      "slug": "makeup",
+      "label": "Makeup"
+    },
+    {
+      "id": "props",
+      "slug": "props",
+      "label": "Props"
+    },
+    {
+      "id": "sets",
+      "slug": "sets",
+      "label": "Sets"
+    },
+    {
+      "id": "film",
+      "slug": "film",
+      "label": "Film"
+    }
+  ],
+  "tags": [
+    {
+      "id": "character-study",
+      "slug": "character-study",
+      "label": "Character study"
+    },
+    {
+      "id": "texture",
+      "slug": "texture",
+      "label": "Texture"
+    },
+    {
+      "id": "color",
+      "slug": "color",
+      "label": "Color"
+    },
+    {
+      "id": "short-film",
+      "slug": "short-film",
+      "label": "Short film"
+    },
+    {
+      "id": "objects",
+      "slug": "objects",
+      "label": "Objects"
+    },
+    {
+      "id": "interiors",
+      "slug": "interiors",
+      "label": "Interiors"
+    }
+  ],
+  "entries": [
+    {
+      "id": "sample-1",
+      "slug": "red-study",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Red study",
+      "intro": "Color, texture, and a character taking shape.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Makeup / Art",
+      "categories": [
+        "makeup",
+        "art"
+      ],
+      "tags": [
+        "character-study",
+        "color"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-red-study.jpg",
+        "alt": "A portrait with theatrical makeup against a red background",
+        "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nColor, texture, and a character taking shape. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-red-study.jpg",
+              "alt": "A portrait with theatrical makeup against a red background",
+              "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-still-life.jpg",
+              "alt": "Red apples and sculptural folds of fabric",
+              "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-2",
+      "slug": "objects-for-a-scene",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Objects for a scene",
+      "intro": "A small collection of objects with a life of their own.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Props / Art",
+      "categories": [
+        "props",
+        "art"
+      ],
+      "tags": [
+        "texture",
+        "short-film"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-still-life.jpg",
+        "alt": "Red apples and sculptural folds of fabric",
+        "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA small collection of objects with a life of their own. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-still-life.jpg",
+              "alt": "Red apples and sculptural folds of fabric",
+              "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-3",
+      "slug": "the-waiting-room",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "The waiting room",
+      "intro": "An imagined interior, suspended between arrivals.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Sets / Film",
+      "categories": [
+        "sets",
+        "film"
+      ],
+      "tags": [
+        "color",
+        "objects"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-waiting-room.jpg",
+        "alt": "A vintage room with armchairs and a dark teal wall",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nAn imagined interior, suspended between arrivals. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-rose-study.jpg",
+              "alt": "An expressive makeup portrait with a rose",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-4",
+      "slug": "a-face-in-bloom",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "A face in bloom",
+      "intro": "A character study built around a single gesture.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Makeup",
+      "categories": [
+        "makeup"
+      ],
+      "tags": [
+        "short-film",
+        "interiors"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-rose-study.jpg",
+        "alt": "An expressive makeup portrait with a rose",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA character study built around a single gesture. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-rose-study.jpg",
+              "alt": "An expressive makeup portrait with a rose",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-red-veil.jpg",
+              "alt": "A figure wrapped in translucent red fabric",
+              "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-5",
+      "slug": "soft-armor",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Soft armor",
+      "intro": "Fabric, silhouette, and the space around a body.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Art / Props",
+      "categories": [
+        "art",
+        "props"
+      ],
+      "tags": [
+        "objects",
+        "character-study"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-red-veil.jpg",
+        "alt": "A figure wrapped in translucent red fabric",
+        "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nFabric, silhouette, and the space around a body. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-red-veil.jpg",
+              "alt": "A figure wrapped in translucent red fabric",
+              "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-empty-room.jpg",
+              "alt": "An empty room with textured walls and soft light",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-6",
+      "slug": "after-the-light",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "After the light",
+      "intro": "A quiet scene about what remains in a room.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Film / Sets",
+      "categories": [
+        "film",
+        "sets"
+      ],
+      "tags": [
+        "interiors",
+        "texture"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-empty-room.jpg",
+        "alt": "An empty room with textured walls and soft light",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA quiet scene about what remains in a room. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-empty-room.jpg",
+              "alt": "An empty room with textured walls and soft light",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-television.jpg",
+              "alt": "A wooden chair and a vintage television in a dark room",
+              "caption": "Placeholder photograph: Lê Minh / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        },
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "video_id": "76979871",
+          "src": "",
+          "poster": "/assets/media/sample-empty-room.jpg",
+          "caption": "Vimeo sample player — placeholder video, not R. Barela’s film.",
+          "align": "left"
+        }
+      ]
+    },
+    {
+      "id": "sample-7",
+      "slug": "signal-noise",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Signal / noise",
+      "intro": "Familiar objects, a slightly unfamiliar world.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Props / Film",
+      "categories": [
+        "props",
+        "film"
+      ],
+      "tags": [
+        "character-study",
+        "color"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-television.jpg",
+        "alt": "A wooden chair and a vintage television in a dark room",
+        "caption": "Placeholder photograph: Lê Minh / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nFamiliar objects, a slightly unfamiliar world. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-television.jpg",
+              "alt": "A wooden chair and a vintage television in a dark room",
+              "caption": "Placeholder photograph: Lê Minh / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-face-study.jpg",
+              "alt": "A portrait with red makeup and draped fabric",
+              "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-8",
+      "slug": "second-skin",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Second skin",
+      "intro": "A study of shape, expression, and transformation.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Makeup",
+      "categories": [
+        "makeup"
+      ],
+      "tags": [
+        "texture",
+        "short-film"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-face-study.jpg",
+        "alt": "A portrait with red makeup and draped fabric",
+        "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA study of shape, expression, and transformation. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-face-study.jpg",
+              "alt": "A portrait with red makeup and draped fabric",
+              "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-red-study.jpg",
+              "alt": "A portrait with theatrical makeup against a red background",
+              "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-9",
+      "slug": "still-for-a-moment",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Still, for a moment",
+      "intro": "A material study in red, shadow, and balance.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Art",
+      "categories": [
+        "art"
+      ],
+      "tags": [
+        "color",
+        "objects"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-still-life.jpg",
+        "alt": "Red apples and sculptural folds of fabric",
+        "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA material study in red, shadow, and balance. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-still-life.jpg",
+              "alt": "Red apples and sculptural folds of fabric",
+              "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-10",
+      "slug": "room-tone",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Room tone",
+      "intro": "Building a place that feels as if someone just left.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Sets",
+      "categories": [
+        "sets"
+      ],
+      "tags": [
+        "short-film",
+        "interiors"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-waiting-room.jpg",
+        "alt": "A vintage room with armchairs and a dark teal wall",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nBuilding a place that feels as if someone just left. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-rose-study.jpg",
+              "alt": "An expressive makeup portrait with a rose",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-11",
+      "slug": "the-red-thread",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "The red thread",
+      "intro": "An imagined short film told through color and movement.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Film",
+      "categories": [
+        "film"
+      ],
+      "tags": [
+        "objects",
+        "character-study"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-red-veil.jpg",
+        "alt": "A figure wrapped in translucent red fabric",
+        "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nAn imagined short film told through color and movement. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-red-veil.jpg",
+              "alt": "A figure wrapped in translucent red fabric",
+              "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-empty-room.jpg",
+              "alt": "An empty room with textured walls and soft light",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-12",
+      "slug": "a-trace-of-color",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "A trace of color",
+      "intro": "Small marks that change the whole picture.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Makeup / Art",
+      "categories": [
+        "makeup",
+        "art"
+      ],
+      "tags": [
+        "interiors",
+        "texture"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-red-study.jpg",
+        "alt": "A portrait with theatrical makeup against a red background",
+        "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nSmall marks that change the whole picture. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-red-study.jpg",
+              "alt": "A portrait with theatrical makeup against a red background",
+              "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-still-life.jpg",
+              "alt": "Red apples and sculptural folds of fabric",
+              "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-13",
+      "slug": "the-borrowed-room",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "The borrowed room",
+      "intro": "An interior assembled from light and texture.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Sets",
+      "categories": [
+        "sets"
+      ],
+      "tags": [
+        "character-study",
+        "color"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-empty-room.jpg",
+        "alt": "An empty room with textured walls and soft light",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nAn interior assembled from light and texture. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-empty-room.jpg",
+              "alt": "An empty room with textured walls and soft light",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-television.jpg",
+              "alt": "A wooden chair and a vintage television in a dark room",
+              "caption": "Placeholder photograph: Lê Minh / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-14",
+      "slug": "ordinary-magic",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Ordinary magic",
+      "intro": "Everyday objects considered as characters.",
+      "year": 2025,
+      "date": "2026-11-17",
+      "role": "Props",
+      "categories": [
+        "props"
+      ],
+      "tags": [
+        "texture",
+        "short-film"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-television.jpg",
+        "alt": "A wooden chair and a vintage television in a dark room",
+        "caption": "Placeholder photograph: Lê Minh / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nEveryday objects considered as characters. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-television.jpg",
+              "alt": "A wooden chair and a vintage television in a dark room",
+              "caption": "Placeholder photograph: Lê Minh / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-face-study.jpg",
+              "alt": "A portrait with red makeup and draped fabric",
+              "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-15",
+      "slug": "night-flowers",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Night flowers",
+      "intro": "A mood study for a character after dark.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Makeup / Film",
+      "categories": [
+        "makeup",
+        "film"
+      ],
+      "tags": [
+        "color",
+        "objects"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-rose-study.jpg",
+        "alt": "An expressive makeup portrait with a rose",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA mood study for a character after dark. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-rose-study.jpg",
+              "alt": "An expressive makeup portrait with a rose",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-red-veil.jpg",
+              "alt": "A figure wrapped in translucent red fabric",
+              "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-16",
+      "slug": "tender-objects",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Tender objects",
+      "intro": "Soft forms and objects held in careful balance.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Art / Props",
+      "categories": [
+        "art",
+        "props"
+      ],
+      "tags": [
+        "short-film",
+        "interiors"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-still-life.jpg",
+        "alt": "Red apples and sculptural folds of fabric",
+        "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nSoft forms and objects held in careful balance. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-still-life.jpg",
+              "alt": "Red apples and sculptural folds of fabric",
+              "caption": "Placeholder photograph: Valentin Ivantsov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-17",
+      "slug": "between-scenes",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Between scenes",
+      "intro": "A fragment of a story, before anything happens.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Film",
+      "categories": [
+        "film"
+      ],
+      "tags": [
+        "objects",
+        "character-study"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-waiting-room.jpg",
+        "alt": "A vintage room with armchairs and a dark teal wall",
+        "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA fragment of a story, before anything happens. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-waiting-room.jpg",
+              "alt": "A vintage room with armchairs and a dark teal wall",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-rose-study.jpg",
+              "alt": "An expressive makeup portrait with a rose",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-18",
+      "slug": "false-front",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "False front",
+      "intro": "Building the details that make a fictional place believable.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Sets / Props",
+      "categories": [
+        "sets",
+        "props"
+      ],
+      "tags": [
+        "interiors",
+        "texture"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-television.jpg",
+        "alt": "A wooden chair and a vintage television in a dark room",
+        "caption": "Placeholder photograph: Lê Minh / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nBuilding the details that make a fictional place believable. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-television.jpg",
+              "alt": "A wooden chair and a vintage television in a dark room",
+              "caption": "Placeholder photograph: Lê Minh / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-face-study.jpg",
+              "alt": "A portrait with red makeup and draped fabric",
+              "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-19",
+      "slug": "veil-studies",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Veil studies",
+      "intro": "A series of experiments with color and concealment.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Art",
+      "categories": [
+        "art"
+      ],
+      "tags": [
+        "character-study",
+        "color"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-red-veil.jpg",
+        "alt": "A figure wrapped in translucent red fabric",
+        "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA series of experiments with color and concealment. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-red-veil.jpg",
+              "alt": "A figure wrapped in translucent red fabric",
+              "caption": "Placeholder photograph: Vladimir Gladkov / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-empty-room.jpg",
+              "alt": "An empty room with textured walls and soft light",
+              "caption": "Placeholder photograph: Pexels contributor / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    },
+    {
+      "id": "sample-20",
+      "slug": "last-look",
+      "kind": "project",
+      "status": "published",
+      "sample": true,
+      "title": "Last look",
+      "intro": "A final character and lighting study.",
+      "year": 2024,
+      "date": "2026-11-17",
+      "role": "Makeup / Film",
+      "categories": [
+        "makeup",
+        "film"
+      ],
+      "tags": [
+        "texture",
+        "short-film"
+      ],
+      "cover": {
+        "src": "/assets/media/sample-face-study.jpg",
+        "alt": "A portrait with red makeup and draped fabric",
+        "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+        "decorative": false
+      },
+      "credits": "Fictional project for layout review. These stock photographs are not work by R. Barela. Replace the project, imagery, role and credits with approved material before launch.",
+      "blocks": [
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## The idea\n\nA final character and lighting study. This fictional project demonstrates how a finished piece can sit alongside the thinking and materials behind it.\n\nA real project can tell its own story here: the brief, the process, and the details that made it work."
+        },
+        {
+          "type": "gallery",
+          "align": "left",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/sample-face-study.jpg",
+              "alt": "A portrait with red makeup and draped fabric",
+              "caption": "Placeholder photograph: Amin Zand Miralvand / Pexels.",
+              "decorative": false
+            },
+            {
+              "src": "/assets/media/sample-red-study.jpg",
+              "alt": "A portrait with theatrical makeup against a red background",
+              "caption": "Placeholder photograph: Polina Tankilevitch / Pexels.",
+              "decorative": false
+            }
+          ],
+          "caption": "Reference imagery for the sample portfolio."
+        },
+        {
+          "type": "text",
+          "align": "left",
+          "body": "## Behind the work\n\nUse this space for sketches, a few words about the process, or a moment from the set. Keep the images close to the story they tell."
+        }
+      ]
+    }
+  ]
+}

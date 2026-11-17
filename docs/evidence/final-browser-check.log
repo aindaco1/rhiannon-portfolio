@@ -1,0 +1,28 @@
+
+> rhiannon-portfolio@0.1.0 test:browser
+> playwright test
+
+[WebServer] (node:70699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 1 worker
+
+(node:70771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/portfolio.spec.js:31:3 › public archive at 320px has visible categories, loaded photos and no overflow (244ms)
+  ✓   2 tests/browser/portfolio.spec.js:31:3 › public archive at 390px has visible categories, loaded photos and no overflow (251ms)
+  ✓   3 tests/browser/portfolio.spec.js:31:3 › public archive at 768px has visible categories, loaded photos and no overflow (216ms)
+  ✓   4 tests/browser/portfolio.spec.js:31:3 › public archive at 1440px has visible categories, loaded photos and no overflow (380ms)
+  ✓   5 tests/browser/portfolio.spec.js:61:1 › category, tag, project and contact links work without JavaScript (443ms)
+  ✓   6 tests/browser/portfolio.spec.js:87:1 › public archive, project and about pass automated accessibility checks (1.1s)
+  ✓   7 tests/browser/portfolio.spec.js:103:1 › video loads only after deliberate activation (235ms)
+  ✓   8 tests/browser/portfolio.spec.js:120:1 › admin and API reject anonymous and cross-origin requests (226ms)
+  ✓   9 tests/browser/portfolio.spec.js:136:1 › owner creates taxonomy, authors blocks, uploads, saves, reloads, previews and publishes (5.9s)
+  ✓  10 tests/browser/portfolio.spec.js:283:1 › stale saves return a conflict and preserve the winning draft (215ms)
+  ✓  11 tests/browser/portfolio.spec.js:314:1 › failed publication leaves the previous live artifact intact (204ms)
+  ✓  12 tests/browser/portfolio.spec.js:359:1 › mobile editor remains usable and accessible (835ms)
+  ✓  13 tests/browser/portfolio.spec.js:379:1 › browser recovery restores edits only against their saved baseline (509ms)
+  ✓  14 tests/browser/portfolio.spec.js:403:1 › a pending photo cannot return to a block that was removed (540ms)
+  ✓  15 tests/browser/portfolio.spec.js:427:1 › the journal uses the same editor and appears only after publication (5.0s)
+
+  15 passed (19.8s)

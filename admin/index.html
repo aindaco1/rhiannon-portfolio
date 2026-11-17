@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Editor — R. Barela</title>
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+    <script type="module" src="/assets/js/admin.js"></script>
+  </head>
+  <body>
+    <a href="#view" class="skip-link">Skip to editor</a>
+    <header class="admin-header">
+      <a href="/admin/" class="brand">R. Barela <span>/ Editor</span></a
+      ><a
+        id="public-link"
+        href="http://127.0.0.1:4321"
+        target="_blank"
+        rel="noopener"
+        >View portfolio ↗</a
+      >
+    </header>
+    <div class="admin-layout">
+      <aside class="sidebar">
+        <nav aria-label="Editor">
+          <button data-view="projects" aria-current="page">
+            Projects <span id="project-count"></span></button
+          ><button data-view="posts">
+            Journal <span id="post-count"></span></button
+          ><button data-view="taxonomy">Categories & tags</button
+          ><button data-view="profile">About & contact</button>
+        </nav>
+        <p>
+          One place for your work.<br />Save a draft, preview it,<br />then
+          publish when ready.
+        </p>
+        <small id="mode"></small
+        ><button id="download" class="quiet">Download recovery copy</button
+        ><button id="reload" class="quiet">Reload saved version</button>
+      </aside>
+      <main id="view" tabindex="-1"><p>Loading your portfolio…</p></main>
+    </div>
+    <div class="save-bar">
+      <div>
+        <strong id="save-state">Loading</strong>
+        <p id="feedback" role="status" aria-live="polite"></p>
+      </div>
+      <div class="save-actions">
+        <button id="preview" disabled>Preview</button
+        ><button id="save" disabled>Save draft</button
+        ><button id="publish" class="primary" disabled>Publish changes</button>
+      </div>
+    </div>
+    <dialog id="preview-dialog" aria-labelledby="preview-title">
+      <header>
+        <h2 id="preview-title">Project preview</h2>
+        <button id="close-preview">Close preview</button>
+      </header>
+      <iframe
+        title="Project preview"
+        sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+      ></iframe>
+    </dialog>
+    <dialog id="recovery-dialog" aria-labelledby="recovery-title">
+      <h2 id="recovery-title">Unsaved work found</h2>
+      <p id="recovery-message"></p>
+      <div>
+        <button id="restore-recovery">Restore edits</button
+        ><button id="download-recovery">Download copy</button
+        ><button id="dismiss-recovery">Use saved version</button>
+      </div>
+    </dialog>
+  </body>
+</html>

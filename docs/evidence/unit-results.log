@@ -1,0 +1,31 @@
+
+> rhiannon-portfolio@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ Worker fails closed before serving API or static assets (15.837875ms)
+✔ cross-origin mutations and missing Origin fail (5.576333ms)
+✔ request body budgets and unsupported images fail before writes (1.635ms)
+✔ bounded photo upload uses immutable hash paths (5.792667ms)
+✔ previews use the same block rendering and never cache private content (2.853583ms)
+✔ production publishing is blocked for sample material (0.495916ms)
+✔ 20 sample projects span all five disciplines; journal is absent (2.764667ms)
+✔ category renames preserve their URL and referenced terms cannot be deleted (1.32625ms)
+✔ entry URLs remain stable and duplicate URLs fail (0.551875ms)
+✔ private draft entries and their photos are absent from published data (0.386667ms)
+✔ production rejects the preview and sample project flags, then requires a domain/contact (1.571875ms)
+✔ media and block inputs are validated at the server boundary (2.86925ms)
+✔ only safe YouTube/Vimeo videos can become players (1.028875ms)
+✔ public text and attributes cannot inject executable markup (1.086625ms)
+✔ all supported blocks render without remote embeds until an explicit play (0.162958ms)
+✔ unlisted Vimeo share links preserve the playback hash (0.675459ms)
+✔ GitHub App tokens are repository-scoped; draft saves preserve expected SHA and baseline (34.968834ms)
+✔ a changed live file does not silently rebase an existing working draft (10.725083ms)
+✔ Cloudflare Access verifies signature, audience, expiry and the email allowlist (9.84475ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 208.337375

@@ -1,0 +1,11 @@
+[WebServer] (node:70233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:70326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/portfolio.spec.js:136:1 › owner creates taxonomy, authors blocks, uploads, saves, reloads, previews and publishes (6.6s)
+  ✓  2 tests/browser/portfolio.spec.js:369:1 › browser recovery restores edits only against their saved baseline (530ms)
+
+  2 passed (10.8s)

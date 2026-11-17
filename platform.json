@@ -1,0 +1,9 @@
+{
+  "release": "v0.50.0",
+  "commit": "fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d",
+  "packages": {
+    "admin-shell": "0.15.0",
+    "worker-core": "0.16.0",
+    "build-core": "0.2.0"
+  }
+}

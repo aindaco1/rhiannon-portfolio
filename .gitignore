@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.build/
+.admin-build/
+.local/
+.bundle/
+vendor/
+.env*
+.dev.vars*
+.wrangler/
+test-results/
+playwright-report/
+.DS_Store
+
+!worker/.dev.vars.example
