@@ -75,7 +75,7 @@ test("category, tag, project and contact links work without JavaScript", async (
   await expect(page.locator("h1")).toHaveText("Character study");
   await page
     .getByRole("navigation", { name: "Main" })
-    .getByRole("link", { name: /Contact/ })
+    .getByRole("link", { name: "Bio", exact: true })
     .click();
   await expect(page.locator("#contact")).toBeVisible();
   await expect(page.locator(".contact-link")).toHaveAttribute(
@@ -84,10 +84,10 @@ test("category, tag, project and contact links work without JavaScript", async (
   );
   await context.close();
 });
-test("public archive, project and about pass automated accessibility checks", async ({
+test("public archive, project and bio pass automated accessibility checks", async ({
   page,
 }) => {
-  for (const route of ["/", "/work/red-study/", "/about/"]) {
+  for (const route of ["/", "/work/red-study/", "/bio/"]) {
     await page.goto(route);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])

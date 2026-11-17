@@ -1,0 +1,14 @@
+{
+  "at": "2026-11-17T23:31:05.694Z",
+  "before": "0ce612df1fdcdd65fb3ccdb8434f89c687b71e7ca4e4a80daf2b704681ae88b5",
+  "after": "e99837d395c4c64fe63561b6f9019273eaee592c2cd989ccade8877c89da6d1b",
+  "changedProfileFields": [
+    "intro",
+    "bio",
+    "email"
+  ],
+  "workingEntriesPreserved": 22,
+  "publishedEntriesPreserved": 22,
+  "allOtherData": "deep-equal in each snapshot",
+  "backup": ".local/before-bio-state.json"
+}

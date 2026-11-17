@@ -13,12 +13,13 @@ import {
   entryPath,
   termPath,
   esc,
+  BIO_PDF_PATH,
 } from "../lib/content.mjs";
 import {
   archive,
   entryView,
   writingArchive,
-  about,
+  bio,
   shell,
 } from "../lib/views.mjs";
 export async function buildSite(
@@ -90,7 +91,7 @@ export async function buildSite(
     paths.push(path);
   }
   await page("/", catalog.profile.name, archive(catalog));
-  await page("/about/", "About", about(catalog));
+  await page("/bio/", "Bio", bio(catalog));
   for (const e of catalog.entries)
     await page(entryPath(e), e.title, entryView(catalog, e), e.intro);
   for (const kind of ["categories", "tags"])
@@ -102,16 +103,17 @@ export async function buildSite(
           archive(catalog, { term, taxonomy: kind, kind: "all" }),
         );
   await page("/writing/", "Writing", writingArchive(catalog));
-  // Keep previously shared Journal URLs working without duplicating articles.
-  async function redirect(from, to) {
+  // Keep previously shared URLs working without duplicating pages.
+  async function redirect(from, to, label = "Writing") {
     const target = `${source}${from}index.html`;
     await mkdir(dirname(target), { recursive: true });
     await writeFile(
       target,
-      `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${esc(to)}"><title>Writing — ${esc(catalog.profile.name)}</title>${catalog.profile.url ? `<link rel="canonical" href="${esc(catalog.profile.url + to)}">` : ""}</head><body><p>This page has moved to <a href="${esc(to)}">Writing</a>.</p></body></html>`,
+      `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${esc(to)}"><title>${esc(label)} — ${esc(catalog.profile.name)}</title>${catalog.profile.url ? `<link rel="canonical" href="${esc(catalog.profile.url + to)}">` : ""}</head><body><p>This page has moved to <a href="${esc(to)}">${esc(label)}</a>.</p></body></html>`,
     );
   }
   await redirect("/journal/", "/writing/");
+  await redirect("/about/", "/bio/", "Bio");
   for (const entry of catalog.entries.filter((e) => e.kind === "post"))
     await redirect(`/journal/${entry.slug}/`, entryPath(entry));
   await page(
@@ -130,6 +132,8 @@ export async function buildSite(
     );
   }
   await cp("assets/favicon.svg", `${source}/assets/favicon.svg`);
+  await mkdir(dirname(`${source}${BIO_PDF_PATH}`), { recursive: true });
+  await cp(`.${BIO_PDF_PATH}`, `${source}${BIO_PDF_PATH}`);
   await writeFile(
     `${source}/robots.txt`,
     catalog.demo

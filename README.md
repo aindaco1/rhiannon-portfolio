@@ -15,6 +15,7 @@ npm run dev
 
 - Portfolio: http://127.0.0.1:4321
 - Writing: http://127.0.0.1:4321/writing/
+- Bio: http://127.0.0.1:4321/bio/
 - Editor: http://127.0.0.1:4322/admin/
 
 The editor automatically starts a local session on the loopback address. It cannot be reached over the LAN. Local drafts, staged photos and published pages persist in ignored `.local/`; the committed sample content is never rewritten by the local editor. Stop and restart the server to rebuild source changes. Publishing in the local editor rebuilds the visitor site immediately. The previous local artifact is retained in `.local/previous` until the next successful publish.
@@ -29,7 +30,9 @@ The editor automatically starts a local session on the loopback address. It cann
 
 For free-form text, open **Writing → New piece +**, add a title and write in **The writing** using the same WYSIWYG editor. The introduction, cover, categories and tags are optional; expand **Images, topics & page details** to set them. Use **Save draft** and **Preview** while working, then check **Include this piece when publishing** and choose **Publish changes**. Publishing includes all saved pending changes across the site.
 
-Writing has a permanent navigation link, a newest-first index, and a dedicated reading layout: a narrower text column, author/date/reading-time details, and optional images. Previously shared `/journal/` URLs redirect to `/writing/`. The two demo pieces are labeled as sample text, not R. Barela’s writing, and production validation rejects them until removed or replaced. Contact points to Instagram until a real email is provided.
+Writing has a permanent navigation link, a newest-first index, and a dedicated reading layout: a narrower text column, author/date/reading-time details, and optional images. Previously shared `/journal/` URLs redirect to `/writing/`. The two demo pieces are labeled as sample text, not R. Barela’s writing, and production validation rejects them until removed or replaced.
+
+Bio contains the supplied biography and résumé, a link to the unchanged original PDF, and the listed contact email. The header has Work, Writing and Bio; the footer retains a direct contact link. Old `/about/` links redirect to `/bio/`. Edit the text under **Bio & contact** in the admin. The PDF is a separate static file at `assets/documents/r-barela-bio-resume.pdf`; editing the profile text does not alter it.
 
 Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels. Prepare camera originals separately. The build creates 800px WebP derivatives; uploaded originals must already be web-ready. Movies stay on YouTube or Vimeo and load only after the visitor chooses Play.
 
@@ -58,4 +61,4 @@ npm run build:production
 
 The last command **must fail** while sample content is enabled. Browser tests use a separate `.local/browser-tests` store and ports 4325/4326. They use a fixed catalog in `tests/fixtures/` and never write to your preview state or a live repository. Keep the unreferenced `sample-*` image files for these fixtures; the production build excludes them when no published entry uses them. The production Worker bundles for Cloudflare and has no local authentication bypass.
 
-See [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.
+See [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), [Bio acceptance evidence](docs/BIO-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.

@@ -1,0 +1,40 @@
+{
+  "at": "2026-11-17T23:33:23.452Z",
+  "checks": [
+    {
+      "width": 320,
+      "overflow": false,
+      "resumeEntries": 43
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "resumeEntries": 43,
+      "axeViolations": 0
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "resumeEntries": 43
+    },
+    {
+      "width": 1440,
+      "overflow": false,
+      "resumeEntries": 43,
+      "axeViolations": 0
+    },
+    {
+      "download": "R-Barela-Bio-and-Resume.pdf",
+      "bytes": 92173,
+      "sha256": "b6a5378aa6929746a16c39495af8f1dbbb5341323a252b011699b4d860f64af1",
+      "originalUnchanged": true,
+      "contentType": "application/pdf"
+    },
+    {
+      "legacyAbout": "http://127.0.0.1:4321/bio/"
+    },
+    {
+      "adminProfile": "Full biography, résumé and contact email present"
+    }
+  ]
+}

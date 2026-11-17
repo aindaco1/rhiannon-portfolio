@@ -21,6 +21,7 @@ const types = {
   ".webp": "image/webp",
   ".txt": "text/plain",
   ".xml": "application/xml",
+  ".pdf": "application/pdf",
 };
 async function staticFile(root, path) {
   const base = resolve(root);

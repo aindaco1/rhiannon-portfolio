@@ -1010,3 +1010,58 @@ footer small {
     padding-bottom: 30px;
   }
 }
+
+/* Bio uses the existing profile layout, with room for the résumé. */
+.bio .about-body {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 8%;
+}
+.bio-summary {
+  min-width: 0;
+}
+.bio-download {
+  margin-top: 32px;
+}
+.bio-download a {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 15px 0;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  text-decoration: none;
+  font-size: 17px;
+}
+.bio-download a:hover {
+  text-decoration: underline;
+}
+.bio-download span {
+  font-size: 13px;
+  align-self: center;
+}
+.bio .contact h2 {
+  font-size: 25px;
+  margin-bottom: 18px;
+}
+.bio .contact p {
+  margin-bottom: 18px;
+  font-size: 16px;
+}
+.bio-reading h2 {
+  font-size: 26px;
+  border-top: 1px dotted #777;
+  padding-top: 22px;
+}
+.bio-reading ul {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.bio-reading li {
+  margin-bottom: 14px;
+}
+@media (max-width: 700px) {
+  .bio .about-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 45px;
+  }
+}
