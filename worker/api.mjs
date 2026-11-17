@@ -8,7 +8,7 @@ import {
   mediaReferences,
   entryPath,
 } from "../lib/content.mjs";
-import { shell, entryView } from "../lib/views.mjs";
+import { shell, entryView, bio } from "../lib/views.mjs";
 export const MAX_UPLOAD = 5 * 1024 * 1024;
 export const privateHeaders = {
   "cache-control": "private, no-store",
@@ -76,12 +76,14 @@ export async function handleApi(
       const input = await readJsonObject(request, 2 * 1024 * 1024),
         catalog = validateCatalog(input.catalog),
         entry = catalog.entries.find((e) => e.id === input.id);
-      if (!entry) throw new ContentError("Choose an entry to preview.");
+      const isBio = input.page === "bio";
+      if (!isBio && !entry)
+        throw new ContentError("Choose an entry to preview.");
       return json({
         html: shell(catalog, {
-          title: entry.title,
-          body: entryView(catalog, entry),
-          path: entryPath(entry),
+          title: isBio ? "Bio" : entry.title,
+          body: isBio ? bio(catalog) : entryView(catalog, entry),
+          path: isBio ? "/bio/" : entryPath(entry),
           preview: true,
         }).replace(
           /(<a\b[^>]*\bhref=")\//g,

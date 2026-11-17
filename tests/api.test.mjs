@@ -141,3 +141,27 @@ test("production publishing is blocked for sample material", async () => {
   assert.equal(response.status, 400);
   assert.equal(calls, 0);
 });
+
+test("Bio preview uses the public renderer and stays private", async () => {
+  const catalog = structuredClone(seed);
+  catalog.profile.bio = [
+    { type: "text", body: "A **private** biography.", align: "left" },
+  ];
+  const response = await handleApi(
+    request("/api/preview", "POST", { catalog, page: "bio" }),
+    store,
+    { publicOrigin: "https://portfolio.example" },
+  );
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("cache-control"), /no-store/);
+  const { html } = await response.json();
+  assert(html.includes("<h1>Bio</h1>"));
+  assert(html.includes("<strong>private</strong>"));
+  assert(
+    html.includes(
+      "https://portfolio.example/assets/documents/r-barela-bio-resume.pdf",
+    ),
+  );
+  assert(!html.includes("/assets/js/site.js"));
+  assert(!html.includes("masthead-bottom"));
+});

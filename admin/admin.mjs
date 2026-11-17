@@ -22,6 +22,7 @@ import {
   parseVideo,
   videoUrl,
   entryPath,
+  bioBlocks,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
   api = new AdminApiClient({ baseUrl: location.origin + "/api" }),
@@ -62,7 +63,8 @@ function update() {
         : "Draft saved";
   $("#save").disabled = busy || pendingUploads > 0 || !dirty();
   $("#publish").disabled = busy || pendingUploads > 0 || !data;
-  $("#preview").disabled = busy || pendingUploads > 0 || !current();
+  $("#preview").disabled =
+    busy || pendingUploads > 0 || (!current() && view !== "profile");
   $("#project-count").textContent =
     data?.entries.filter((e) => e.kind === "project").length ?? "";
   $("#post-count").textContent =
@@ -117,6 +119,7 @@ async function load() {
       ? `${location.protocol}//127.0.0.1:${Number(location.port) - 1}`
       : data.profile.url || "#";
   currentId = null;
+  history = [];
   render();
   feedback(
     result.conflict
@@ -248,12 +251,18 @@ function render() {
   else renderProfile(root);
   update();
 }
+function contentEditorMarkup(title, description = "") {
+  return `<section class="section-rule"><div class="editor-heading"><h2>${title}</h2><button id="undo" ${!history.length ? "disabled" : ""}>Undo block change</button></div><p class="hint">${description}Select a block to format, move or remove it. Type /image, /gallery or /video to insert a block.</p><div id="blocks"></div><div class="block-palette" aria-label="Add a block">${TYPES.map((type) => `<button data-add="${type}">+ ${type[0].toUpperCase() + type.slice(1)}</button>`).join("")}</div></section>`;
+}
 function renderEntry(root, e) {
   const prose = e.kind === "post";
   const terms = `<div class="fields"><fieldset><legend>${prose ? "Topics (optional)" : "Categories"}</legend><div class="checks">${data.categories.map((t) => `<label class="check"><input type="checkbox" data-term="categories" value="${t.id}" ${e.categories.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><fieldset><legend>Tags${prose ? " (optional)" : ""}</legend><div class="checks">${data.tags.map((t) => `<label class="check"><input type="checkbox" data-term="tags" value="${t.id}" ${e.tags.includes(t.id) ? "checked" : ""}>${esc(t.label)}</label>`).join("")}</div></fieldset><div class="full"><button id="manage-terms" class="quiet">Create or manage categories & tags →</button></div></div>`;
   const visibility = `<div class="entry-visibility"><label class="check"><input id="included" type="checkbox" ${e.status === "published" ? "checked" : ""}>Include this ${prose ? "piece" : "project"} when publishing</label><label class="check"><input id="sample-entry" type="checkbox" ${e.sample ? "checked" : ""}>This is sample content</label></div>`;
   const cover = `<section class="section-rule"><h2>Cover image${prose ? " (optional)" : ""}</h2><p class="hint">${prose ? "Writing works beautifully without an image. " : ""}Web-ready JPG, PNG or WebP, up to 5 MB. Add a useful description for people who cannot see it.</p><div id="cover"></div></section>`;
-  const story = `<section class="section-rule"><div class="editor-heading"><h2>${prose ? "The writing" : "The story"}</h2><button id="undo" ${!history.length ? "disabled" : ""}>Undo block change</button></div><p class="hint">${prose ? "Write as much or as little as you like. " : ""}Select a block to format, move or remove it. Type /image, /gallery or /video to insert a block.</p><div id="blocks"></div><div class="block-palette" aria-label="Add a block">${TYPES.map((type) => `<button data-add="${type}">+ ${type[0].toUpperCase() + type.slice(1)}</button>`).join("")}</div></section>`;
+  const story = contentEditorMarkup(
+    prose ? "The writing" : "The story",
+    prose ? "Write as much or as little as you like. " : "",
+  );
   const credits = `<div class="fields">${field(prose ? "Notes / acknowledgments (optional)" : "Credits / collaborators", e.credits, 'data-entry="credits"', { area: true, full: true })}</div>`;
   const url = field("Page URL", entryPath(e), 'id="entry-url"', {
     readonly: true,
@@ -321,6 +330,18 @@ function renderEntry(root, e) {
       refresh: () => render(),
     }),
   );
+  mountContentEditor(root, e);
+}
+function mountContentEditor(
+  root,
+  e,
+  {
+    notify = changed,
+    isAttached = () => data.entries.includes(e),
+    isCurrent = () => currentId === e.id,
+  } = {},
+) {
+  const linkSelections = new WeakMap();
   function snapshot() {
     history.push(clone(e.blocks));
     if (history.length > 50) history.shift();
@@ -333,32 +354,43 @@ function renderEntry(root, e) {
       e.blocks = value;
     },
     renderBody: (card, block, index) =>
-      renderBody(card, block, index, e, snapshot),
+      renderBody(card, block, index, e, snapshot, {
+        notify,
+        isAttached,
+        isCurrent,
+      }),
     beforeMutation: snapshot,
-    onMutation: () => changed(),
+    onMutation: () => notify(),
   });
   const format = (command) => (control) => {
     const block = control.closest(".admin-content-block"),
       editable = block?.querySelector("[contenteditable]");
     if (!editable) return;
+    const range = selection?.cloneRange();
     snapshot();
     editable.focus();
-    if (selection && editable.contains(selection.commonAncestorContainer)) {
+    if (range && editable.contains(range.commonAncestorContainer)) {
       const s = getSelection();
       s.removeAllRanges();
-      s.addRange(selection);
+      s.addRange(range);
     }
     document.execCommand(command, false);
-    syncEditable(editable, e);
+    syncEditable(editable, e, notify);
     rememberSelection();
   };
   composer.bind({
     focus: (event) => {
       composer.activate(event.target);
-      rememberSelection();
+      if (event.target.closest("[contenteditable]")) rememberSelection();
     },
-    selection: rememberSelection,
+    selection: (event) => {
+      if (event.target.closest("[contenteditable]")) rememberSelection();
+    },
     pointer: (event) => {
+      if (event.target.closest('button[data-content-action^="format-"]')) {
+        rememberSelection();
+        event.preventDefault();
+      }
       composer.activate(event.target);
     },
     outside: () => {
@@ -369,7 +401,7 @@ function renderEntry(root, e) {
       const input = event.target;
       if (input.matches("[contenteditable]")) {
         snapshot();
-        syncEditable(input, e);
+        syncEditable(input, e, notify);
       }
     },
     fieldChange: () => {},
@@ -383,28 +415,33 @@ function renderEntry(root, e) {
         const editable = control
           .closest(".admin-content-block")
           .querySelector("[contenteditable]");
+        const range = selection?.cloneRange();
         snapshot();
         editable.focus();
-        if (selection) {
+        if (range && editable.contains(range.commonAncestorContainer)) {
           const s = getSelection();
           s.removeAllRanges();
-          s.addRange(selection);
+          s.addRange(range);
         }
         document.execCommand("formatBlock", false, control.value);
-        syncEditable(editable, e);
+        syncEditable(editable, e, notify);
       },
       "format-link": (control) => {
         rememberSelection();
         const panel = control
           .closest(".admin-content-block")
           .querySelector("[data-content-link-panel]");
+        linkSelections.set(panel, selection?.cloneRange());
         panel.hidden = false;
         panel.querySelector("input").focus();
       },
       "link-apply": (control) => {
         const card = control.closest(".admin-content-block"),
           input = card.querySelector('[data-content-action="link-url"]'),
-          editable = card.querySelector("[contenteditable]");
+          editable = card.querySelector("[contenteditable]"),
+          panel = card.querySelector("[data-content-link-panel]");
+        // Input blur and the Apply click may both request the same change.
+        if (panel.hidden) return;
         if (!isSafeEditorHref(input.value)) {
           feedback(
             "Enter a safe https://, mailto: or site-relative link.",
@@ -412,16 +449,18 @@ function renderEntry(root, e) {
           );
           return;
         }
+        const range = linkSelections.get(panel);
         snapshot();
+        panel.hidden = true;
         editable.focus();
-        if (selection) {
+        if (range && editable.contains(range.commonAncestorContainer)) {
           const s = getSelection();
           s.removeAllRanges();
-          s.addRange(selection);
+          s.addRange(range);
         }
         document.execCommand("createLink", false, input.value);
-        syncEditable(editable, e);
-        card.querySelector("[data-content-link-panel]").hidden = true;
+        syncEditable(editable, e, notify);
+        rememberSelection();
       },
       "link-remove": format("unlink"),
     },
@@ -438,7 +477,7 @@ function renderEntry(root, e) {
         RICH_TEXT_POLICY,
       );
       document.execCommand("insertHTML", false, html);
-      syncEditable(event.target.closest("[contenteditable]"), e);
+      syncEditable(event.target.closest("[contenteditable]"), e, notify);
     },
   });
   composer.render();
@@ -447,7 +486,7 @@ function renderEntry(root, e) {
     e.blocks = history.pop();
     composer.render();
     $("#undo").disabled = !history.length;
-    changed();
+    notify();
   };
   root.querySelectorAll("[data-add]").forEach(
     (button) =>
@@ -458,7 +497,7 @@ function renderEntry(root, e) {
         const node = $("#blocks").lastElementChild.previousElementSibling;
         composer.activate(node);
         node.querySelector("[data-content-field],input,textarea")?.focus();
-        changed();
+        notify();
       }),
   );
 }
@@ -470,16 +509,17 @@ function rememberSelection() {
   )
     selection = s.getRangeAt(0).cloneRange();
 }
-function syncEditable(input, e) {
+function syncEditable(input, e, notify = changed) {
   const block = e.blocks[Number(input.dataset.contentIndex)];
   if (!block) return;
   block[input.dataset.contentField] = editorElementToMarkdown(
     input,
     RICH_TEXT_POLICY,
   );
-  changed();
+  notify();
 }
-function renderBody(card, b, index, e, snapshot) {
+function renderBody(card, b, index, e, snapshot, owner) {
+  const { notify } = owner;
   const input = (label, field, { area = false } = {}) => {
     const wrap = document.createElement("div");
     wrap.innerHTML = fieldHtml(label, b[field] || "", area);
@@ -489,7 +529,7 @@ function renderBody(card, b, index, e, snapshot) {
     control.oninput = () => {
       snapshot();
       b[field] = control.value;
-      changed();
+      notify();
     };
     card.append(wrap);
   };
@@ -513,6 +553,7 @@ function renderBody(card, b, index, e, snapshot) {
   } else if (b.type === "image")
     card.append(
       mediaField(b, {
+        ...owner,
         entry: e,
         item: b,
         getItems: () => e.blocks,
@@ -527,11 +568,12 @@ function renderBody(card, b, index, e, snapshot) {
     layout.querySelector("select").onchange = (event) => {
       snapshot();
       b.layout = event.target.value;
-      changed();
+      notify();
     };
     card.append(layout);
     b.images.forEach((img, i) => {
       const media = mediaField(img, {
+        ...owner,
         entry: e,
         item: b,
         getItems: () => e.blocks,
@@ -556,7 +598,7 @@ function renderBody(card, b, index, e, snapshot) {
             b.images[i],
           ];
           composer.render();
-          changed();
+          notify();
         };
         controls.append(button);
       }
@@ -567,7 +609,7 @@ function renderBody(card, b, index, e, snapshot) {
         snapshot();
         b.images.splice(b.images.indexOf(img), 1);
         composer.render();
-        changed();
+        notify();
       };
       controls.append(remove);
       media.append(controls);
@@ -580,7 +622,7 @@ function renderBody(card, b, index, e, snapshot) {
       snapshot();
       b.images.push({ src: "", alt: "", caption: "", decorative: false });
       composer.render();
-      changed();
+      notify();
     };
     card.append(add);
     input("Gallery caption", "caption");
@@ -599,7 +641,7 @@ function renderBody(card, b, index, e, snapshot) {
           control.value ? parseVideo(control.value) : { video_id: "" },
         );
         control.setCustomValidity("");
-        changed();
+        notify();
       } catch (error) {
         control.setCustomValidity(error.message);
         control.reportValidity();
@@ -620,7 +662,17 @@ function fieldHtml(label, value, area = false) {
 }
 function mediaField(
   target,
-  { entry, item, getItems, contains, refresh, before = () => {} },
+  {
+    entry,
+    item,
+    getItems,
+    contains,
+    refresh,
+    before = () => {},
+    notify = changed,
+    isAttached = () => data.entries.includes(entry),
+    isCurrent = () => currentId === entry.id,
+  },
 ) {
   const wrap = document.createElement("div");
   wrap.className = "media-controls";
@@ -629,17 +681,17 @@ function mediaField(
   fields[0].oninput = () => {
     before();
     target.alt = fields[0].value;
-    changed();
+    notify();
   };
   fields[1].oninput = () => {
     before();
     target.caption = fields[1].value;
-    changed();
+    notify();
   };
   wrap.querySelector("[type=checkbox]").onchange = (event) => {
     before();
     target.decorative = event.target.checked;
-    changed();
+    notify();
   };
   const remove = createMediaRemovalControl({
     label: "Remove photo",
@@ -648,7 +700,7 @@ function mediaField(
       before();
       mediaGeneration.set(target, (mediaGeneration.get(target) || 0) + 1);
       target.src = "";
-      changed();
+      notify();
       refresh();
     },
   });
@@ -675,10 +727,10 @@ function mediaField(
         item,
         target,
         getItems,
-        isAttached: () => data.entries.includes(entry),
+        isAttached,
         contains,
         isCurrent: () =>
-          currentId === entry.id && mediaGeneration.get(target) === generation,
+          isCurrent() && mediaGeneration.get(target) === generation,
       });
       pendingUploads++;
       update();
@@ -698,7 +750,7 @@ function mediaField(
         before();
         target.src = result.src;
         remove.changed();
-        changed();
+        notify();
         refresh();
         feedback("Photo uploaded. Add its description, then save your draft.");
       } finally {
@@ -783,7 +835,31 @@ function renderTaxonomy(root) {
 }
 function renderProfile(root) {
   const p = data.profile;
-  root.innerHTML = `<h1>Bio & contact</h1><p class="view-description">Introduce your practice and give people a direct way to reach you.</p><div class="fields">${field("Name", p.name, 'data-profile="name"', { full: true })}${field("Short introduction", p.intro, 'data-profile="intro"', { full: true, area: true })}${field("Biography & résumé", p.bio, 'data-profile="bio"', { full: true, area: true, hint: "Paragraphs and simple Markdown are supported." })}${field("Public contact email", p.email, 'data-profile="email"', { type: "email" })}${field("Public site URL", p.url, 'data-profile="url"', { type: "url", hint: "Add the real HTTPS domain before launch." })}${field("Instagram", p.instagram, 'data-profile="instagram"', { type: "url" })}${field("IMDb", p.imdb, 'data-profile="imdb"', { type: "url" })}<label class="check full"><input id="sample-site" type="checkbox" ${data.demo ? "checked" : ""}>Sample portfolio — show the preview notice and keep search indexing off</label></div><p class="hint">Production publishing requires real content, the domain and a contact email. Turning off the notice alone does not approve sample projects for production.</p>`;
+  root.innerHTML = `<h1>Bio & contact</h1><p class="view-description">Introduce your practice and give people a direct way to reach you.</p><div class="fields">${field("Name", p.name, 'data-profile="name"', { full: true })}${field("Short introduction", p.intro, 'data-profile="intro"', { full: true, area: true })}</div>`;
+  const editor = { blocks: bioBlocks(p) };
+  root.insertAdjacentHTML(
+    "beforeend",
+    contentEditorMarkup(
+      "Biography & résumé",
+      "Edit the text and formatting directly. ",
+    ),
+  );
+  root.insertAdjacentHTML(
+    "beforeend",
+    '<p class="hint">The downloadable PDF remains a separate document; editing this page does not change it.</p>',
+  );
+  root.insertAdjacentHTML(
+    "beforeend",
+    `<details class="writing-options"><summary>Contact, links & site settings</summary><div class="fields">${field("Public contact email", p.email, 'data-profile="email"', { type: "email" })}${field("Public site URL", p.url, 'data-profile="url"', { type: "url", hint: "Add the real HTTPS domain before launch." })}${field("Instagram", p.instagram, 'data-profile="instagram"', { type: "url" })}${field("IMDb", p.imdb, 'data-profile="imdb"', { type: "url" })}<label class="check full"><input id="sample-site" type="checkbox" ${data.demo ? "checked" : ""}>Sample portfolio — show the preview notice and keep search indexing off</label></div><p class="hint">Production publishing requires real content, the domain and a contact email. Turning off the notice alone does not approve sample projects for production.</p></details>`,
+  );
+  mountContentEditor(root, editor, {
+    notify: () => {
+      p.bio = editor.blocks;
+      changed();
+    },
+    isAttached: () => data.profile === p,
+    isCurrent: () => view === "profile" && data.profile === p,
+  });
   root.querySelectorAll("[data-profile]").forEach(
     (input) =>
       (input.oninput = () => {
@@ -824,7 +900,7 @@ async function save() {
   if (JSON.stringify(data) === original) {
     data = catalog;
     localStorage.removeItem(key);
-    if (currentId) render();
+    if (currentId || view === "profile") render();
   } else changed();
   feedback("Draft saved. The public portfolio is unchanged.");
   update();
@@ -894,10 +970,19 @@ $("#preview").onclick = () =>
     try {
       const result = await api.request("/preview", {
         method: "POST",
-        body: { catalog: data, id: currentId },
+        body: {
+          catalog: data,
+          ...(view === "profile" && !current()
+            ? { page: "bio" }
+            : { id: currentId }),
+        },
       });
       const previewTitle =
-        current().kind === "post" ? "Writing preview" : "Project preview";
+        view === "profile" && !current()
+          ? "Bio preview"
+          : current().kind === "post"
+            ? "Writing preview"
+            : "Project preview";
       $("#preview-title").textContent = previewTitle;
       $("#preview-dialog iframe").title = previewTitle;
       $("#preview-dialog iframe").srcdoc = result.html;
@@ -938,6 +1023,7 @@ for (const button of document.querySelectorAll("[data-view]"))
   button.onclick = () => {
     view = button.dataset.view;
     currentId = null;
+    history = [];
     render();
   };
 await act(load);

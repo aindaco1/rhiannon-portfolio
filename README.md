@@ -32,7 +32,7 @@ For free-form text, open **Writing → New piece +**, add a title and write in *
 
 Writing has a permanent navigation link, a newest-first index, and a dedicated reading layout: a narrower text column, author/date/reading-time details, and optional images. Previously shared `/journal/` URLs redirect to `/writing/`. The two demo pieces are labeled as sample text, not R. Barela’s writing, and production validation rejects them until removed or replaced.
 
-Bio contains the supplied biography and résumé, a link to the unchanged original PDF, and the listed contact email. The header has Work, Writing and Bio; the footer retains a direct contact link. Old `/about/` links redirect to `/bio/`. Edit the text under **Bio & contact** in the admin. The PDF is a separate static file at `assets/documents/r-barela-bio-resume.pdf`; editing the profile text does not alter it.
+Bio contains the supplied biography and résumé, a link to the unchanged original PDF, and the listed contact email. The header has the name and Work, Writing and Bio navigation; the footer retains a direct contact link. Old `/about/` links redirect to `/bio/`. Under **Bio & contact** in the admin, edit the introduction and use the shared WYSIWYG block editor for the biography and résumé. Formatting, links, lists, images, undo, **Save draft**, **Preview**, and **Publish changes** work as they do for projects and Writing. Contact links and site settings are in a disclosure below the editor. The PDF is a separate static file at `assets/documents/r-barela-bio-resume.pdf`; editing the profile text does not alter it.
 
 Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels. Prepare camera originals separately. The build creates 800px WebP derivatives; uploaded originals must already be web-ready. Movies stay on YouTube or Vimeo and load only after the visitor chooses Play.
 
@@ -47,7 +47,7 @@ Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels. Prepare camera originals 
 - `worker/`: Cloudflare Access authentication and GitHub App storage adapter.
 - `scripts/local-store.mjs`: local disk implementation of the same storage contract.
 
-Dust Wave Platform is pinned to **v0.50.0**, commit `fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d`. The app uses its shared block composer/model, rich-text codec and paste sanitization, media-target/removal controls, API client, unsaved-change guard, draft-baseline recovery, bounded request/response readers, GitHub transport, and asset minifier. No editor code was copied from Store or Pool. No React, Vite, database, or duplicate project/post editor.
+Dust Wave Platform is pinned to **v0.50.0**, commit `fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d`. The app uses its shared block composer/model, rich-text codec and paste sanitization, media-target/removal controls, API client, unsaved-change guard, draft-baseline recovery, bounded request/response readers, GitHub transport, and asset minifier. No editor code was copied from Store or Pool. No React, Vite, database, or duplicate editor. Projects, Writing and Bio use one composer integration. Bio accepts existing Markdown and saves block content after its first editor change.
 
 The single catalog is deliberate: this is a small, two-editor portfolio. Saves use optimistic revisions and publish as an atomic multi-file Git commit; concurrent edits are rejected instead of merged silently. Download a recovery copy before reconciling a conflict.
 
@@ -61,4 +61,4 @@ npm run build:production
 
 The last command **must fail** while sample content is enabled. Browser tests use a separate `.local/browser-tests` store and ports 4325/4326. They use a fixed catalog in `tests/fixtures/` and never write to your preview state or a live repository. Keep the unreferenced `sample-*` image files for these fixtures; the production build excludes them when no published entry uses them. The production Worker bundles for Cloudflare and has no local authentication bypass.
 
-See [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), [Bio acceptance evidence](docs/BIO-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.
+See [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), [Bio acceptance evidence](docs/BIO-TASK.md), [Bio editor acceptance](docs/BIO-EDITOR-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.

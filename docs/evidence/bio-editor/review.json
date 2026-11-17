@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-17T23:57:55.516Z",
+  "results": [
+    {
+      "width": 1440,
+      "existingResumeBullets": 43,
+      "linkedReferencesPreserved": true,
+      "editorAxeViolations": 0,
+      "preview": "Bio page with all existing content",
+      "openingEditorLeavesDraftUnchanged": true
+    },
+    {
+      "width": 390,
+      "existingResumeBullets": 43,
+      "linkedReferencesPreserved": true,
+      "editorAxeViolations": 0,
+      "preview": "Bio page with all existing content",
+      "openingEditorLeavesDraftUnchanged": true
+    }
+  ],
+  "preservedState": {
+    "before": "fa6ac0ab447de47da618c0f864544b4f66a316b08e3f97b10fc51a5732465b3d",
+    "after": "fa6ac0ab447de47da618c0f864544b4f66a316b08e3f97b10fc51a5732465b3d",
+    "deepEqual": true
+  }
+}

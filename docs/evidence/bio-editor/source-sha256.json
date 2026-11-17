@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-17T23:58:47.608Z",
+  "baseCommit": "4cda87f82b3c8b2469efd844046d751e7480680f",
+  "platform": "fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d",
+  "files": {
+    "README.md": "aac292ad99d146326ec89e9aa7953d8182473bf9e79298d993eeaa9def7f4ae5",
+    "admin/admin.mjs": "33cfdaefbcab1afcd484ed199d46a365bcce23a827ba28f23ea278efb5fd655c",
+    "assets/css/site.css": "22df0616785f5bcdd7b667bbbeec048bebafa07d4fcdf57de85cf8f5807e9ded",
+    "lib/content.mjs": "4b3db6e64ec7fff345207e00c8653a0bfa64f9824f7ee4d29c5eba1489c89b41",
+    "lib/views.mjs": "9dab0ea3f5d8ad6aef05ed9a6774c95fa7cdafc53ccf89cbf14f1f6c6c5d7681",
+    "tests/api.test.mjs": "8d4cc4cc854356e33867496369214b698a423216aa849adc255de6cc55ab75c3",
+    "tests/browser/portfolio.spec.js": "49977f3813a9bcc6de4af5f8750c00b89bf039143f404a5dc1ea1863d2a1adad",
+    "worker/api.mjs": "cac99049acbc65239c4170d075dd45cac3157ed75d84cb99b4240e6d612a21cd",
+    "tests/bio.test.mjs": "b7d1fc2042ab3656d8129ba37820287e22b3a90fb5a40c882af959615826f55a",
+    "content/catalog.json": "22eee97557396f804266f446fc0591cdd323eddc896ea3bcf446316ad480c2f5",
+    "assets/documents/r-barela-bio-resume.pdf": "b6a5378aa6929746a16c39495af8f1dbbb5341323a252b011699b4d860f64af1"
+  }
+}

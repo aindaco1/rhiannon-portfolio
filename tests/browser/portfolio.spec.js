@@ -55,6 +55,7 @@ for (const width of [320, 390, 768, 1440])
         .evaluate((e) => e.naturalWidth > 0),
     ).toBe(true);
     expect(errors).toEqual([]);
+    await expect(page.locator(".masthead-bottom")).toHaveCount(0);
     if (width === 1440 || width === 390)
       await page.screenshot({ path: `docs/evidence/home-${width}.png` });
   });
@@ -400,30 +401,40 @@ test("browser recovery restores edits only against their saved baseline", async 
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await expect(page.locator("#save-state")).toHaveText("Draft saved");
 });
-test("a pending photo cannot return to a block that was removed", async ({
-  page,
-}) => {
-  await page.goto(admin + "/admin/");
-  await resetDraft(page);
-  await page.getByRole("button", { name: "Red study", exact: true }).click();
-  await page.getByRole("button", { name: "+ Image", exact: true }).click();
-  let release;
-  await page.route("**/api/media", async (route) => {
-    await new Promise((resolve) => (release = resolve));
-    await route.continue();
+for (const owner of ["project", "bio"])
+  test(`a pending ${owner} photo cannot return to a block that was removed`, async ({
+    page,
+  }) => {
+    await page.goto(admin + "/admin/");
+    await resetDraft(page);
+    await page
+      .getByRole("button", {
+        name: owner === "bio" ? "Bio & contact" : "Red study",
+        exact: true,
+      })
+      .click();
+    await page.getByRole("button", { name: "+ Image", exact: true }).click();
+    let release;
+    await page.route("**/api/media", async (route) => {
+      await new Promise((resolve) => (release = resolve));
+      await route.continue();
+    });
+    await page
+      .locator(".content-block--image input[type=file]")
+      .setInputFiles("assets/media/sample-red-study.jpg");
+    await expect.poll(() => !!release).toBe(true);
+    await page
+      .getByRole("button", { name: "Delete block", exact: true })
+      .click();
+    release();
+    await expect(page.locator("#feedback")).toContainText(
+      "original image slot changed",
+    );
+    await expect(page.locator(".content-block--image")).toHaveCount(0);
+    await expect(page.locator(".content-block--gallery img")).toHaveCount(
+      owner === "project" ? 2 : 0,
+    );
   });
-  await page
-    .locator(".content-block--image input[type=file]")
-    .setInputFiles("assets/media/sample-red-study.jpg");
-  await expect.poll(() => !!release).toBe(true);
-  await page.getByRole("button", { name: "Delete block", exact: true }).click();
-  release();
-  await expect(page.locator("#feedback")).toContainText(
-    "original image slot changed",
-  );
-  await expect(page.locator(".content-block--image")).toHaveCount(0);
-  await expect(page.locator(".content-block--gallery img")).toHaveCount(2);
-});
 test("writing uses the shared editor; only published pieces appear", async ({
   page,
   request,
@@ -584,6 +595,153 @@ test("Writing is text-led, responsive, accessible and uses the same WYSIWYG prev
   await page
     .getByRole("button", { name: "Close preview", exact: true })
     .click();
+  const latest = (await api(page, "/state")).body;
+  await api(page, "/draft", "PUT", {
+    catalog: seed,
+    revision: latest.revision,
+    publishedRevision: latest.publishedRevision,
+  });
+  const restored = (await api(page, "/state")).body;
+  await api(page, "/publish", "POST", {
+    revision: restored.revision,
+    publishedRevision: restored.publishedRevision,
+  });
+});
+
+test("Bio supports the shared WYSIWYG editor, recovery, private preview and publication", async ({
+  page,
+  request,
+}) => {
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  const before = (await api(page, "/state")).body;
+  before.catalog.profile.bio =
+    "A biography with [an existing link](https://example.com).\n\n## Credits\n\n- A retained credit";
+  await api(page, "/draft", "PUT", {
+    catalog: before.catalog,
+    revision: before.revision,
+    publishedRevision: before.publishedRevision,
+  });
+  await page.reload();
+  await page
+    .getByRole("button", { name: "Bio & contact", exact: true })
+    .click();
+  await expect(page.locator('[data-profile="bio"]')).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Save draft", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    page.locator('#blocks a[href="https://example.com"]'),
+  ).toHaveText("an existing link");
+  await expect(page.locator("#blocks h2")).toHaveText("Credits");
+  await page
+    .getByRole("textbox", { name: "Short introduction", exact: true })
+    .fill("An updated introduction.");
+  await page.getByRole("button", { name: "+ Text", exact: true }).click();
+  let text = page
+    .getByRole("textbox", { name: "Block text", exact: true })
+    .last();
+  await text.fill("A new Bio paragraph.");
+  await text.press("ControlOrMeta+a");
+  await page.getByRole("button", { name: "Bold", exact: true }).click();
+  await text.press("ControlOrMeta+a");
+  await page.getByRole("button", { name: "Link", exact: true }).click();
+  await page
+    .getByRole("textbox", { name: "Link URL", exact: true })
+    .fill("https://example.com/new");
+  await page.getByRole("button", { name: "Apply", exact: true }).click();
+  await page.getByRole("button", { name: "+ Quote", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Undo block change", exact: true })
+    .click();
+  await expect(page.locator(".content-block--quote")).toHaveCount(0);
+  await page.getByRole("button", { name: "+ Image", exact: true }).click();
+  await page
+    .locator(".content-block--image input[type=file]")
+    .setInputFiles("assets/media/sample-red-study.jpg");
+  await expect(page.locator("#feedback")).toContainText("Photo uploaded");
+  await page
+    .getByLabel("Image description", { exact: true })
+    .fill("A Bio rehearsal image.");
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  const savedBio = (await api(page, "/state")).body.catalog.profile.bio;
+  expect(Array.isArray(savedBio)).toBe(true);
+  expect(savedBio[0].body).toBe(before.catalog.profile.bio);
+  expect(savedBio[1].body).toContain("https://example.com/new");
+  const photo = savedBio[2].src;
+  expect((await request.get(photo)).status()).toBe(404);
+  // Check edits after a normalized save bind to the newly saved profile.
+  await page
+    .getByRole("textbox", { name: "Short introduction", exact: true })
+    .fill("A recovered Bio introduction.");
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.reload();
+  await page
+    .getByRole("button", { name: "Restore edits", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Bio & contact", exact: true })
+    .click();
+  await expect(
+    page.getByRole("textbox", { name: "Short introduction", exact: true }),
+  ).toHaveValue("A recovered Bio introduction.");
+  await expect(
+    page.locator('#blocks a[href="https://example.com/new"]'),
+  ).toHaveText("A new Bio paragraph.");
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await page.getByRole("button", { name: "Preview", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "Bio preview" })).toBeVisible();
+  const preview = page.frameLocator("#preview-dialog iframe");
+  await expect(preview.locator("h1")).toHaveText("Bio");
+  await expect(preview.locator(".bio-reading strong")).toHaveText(
+    "A new Bio paragraph.",
+  );
+  await expect
+    .poll(() =>
+      preview
+        .locator(".bio-reading img")
+        .evaluate((e) => e.complete && e.naturalWidth > 0),
+    )
+    .toBe(true);
+  expect(await (await request.get("/bio/")).text()).not.toContain(
+    "A new Bio paragraph.",
+  );
+  await page
+    .getByRole("button", { name: "Close preview", exact: true })
+    .click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page
+    .getByRole("textbox", { name: "Block text", exact: true })
+    .first()
+    .click();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  expect(
+    (
+      await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+  await page.screenshot({ path: "docs/evidence/bio-editor/editor-mobile.png" });
+  page.once("dialog", (dialog) => dialog.accept());
+  await page
+    .getByRole("button", { name: "Publish changes", exact: true })
+    .click();
+  await expect(page.locator("#feedback")).toContainText(
+    "Published to the local preview",
+    { timeout: 30000 },
+  );
+  const publicBio = await (await request.get("/bio/")).text();
+  expect(publicBio).toContain("A new Bio paragraph.");
+  expect(publicBio).toContain("A recovered Bio introduction.");
+  expect(publicBio).not.toContain("masthead-bottom");
+  expect((await request.get(photo)).status()).toBe(200);
   const latest = (await api(page, "/state")).body;
   await api(page, "/draft", "PUT", {
     catalog: seed,
