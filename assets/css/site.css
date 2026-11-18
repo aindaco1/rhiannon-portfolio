@@ -770,10 +770,6 @@ footer small {
 .page-writing {
   --paper: #f7f6ee;
 }
-.page-writing .masthead {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
 .writing-archive,
 .writing-article {
   border-top: 1px solid var(--ink);
@@ -970,10 +966,6 @@ footer small {
   margin: 10px 0 25px;
 }
 @media (max-width: 900px) {
-  .page-writing .top-line {
-    flex-direction: row;
-    align-items: center;
-  }
   .writing-article-grid {
     grid-template-columns: 145px minmax(0, 1fr);
     gap: 0 35px;
@@ -984,15 +976,6 @@ footer small {
   }
 }
 @media (max-width: 600px) {
-  .page-writing .top-line {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 25px;
-  }
-  .page-writing .masthead {
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
   .writing-index-heading {
     padding: 40px 0;
   }
