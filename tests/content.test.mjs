@@ -44,6 +44,21 @@ test("entry URLs remain stable and duplicate URLs fail", () => {
   d.entries[0].slug = d.entries[1].slug;
   assert.throws(() => validateCatalog(d), /unique/);
 });
+test("project years accept an editable range while preserving single years", () => {
+  const d = copy();
+  d.entries[0].year = "2014-2026";
+  const ranged = validateCatalog(d);
+  assert.equal(ranged.entries[0].year, "2014–2026");
+  assert.equal(ranged.entries[1].year, seed.entries[1].year);
+  assert(project(ranged, ranged.entries[0]).includes("2014–2026"));
+  assert(archive(ranged).includes("2014–2026"));
+  d.entries[0].year = "2026";
+  assert.equal(validateCatalog(d).entries[0].year, 2026);
+  for (const value of ["2026–2014", "1899–2026", "2014–2101", "2014–bad", "2026.5", null, ""]) {
+    d.entries[0].year = value;
+    assert.throws(() => validateCatalog(d), /ascending year range/);
+  }
+});
 test("private draft entries and their photos are absent from published data", () => {
   const d = copy();
   d.entries[0].status = "draft";

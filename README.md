@@ -1,6 +1,6 @@
 # R. Barela
 
-A static portfolio and a small browser editor. Twenty fictional projects demonstrate art, makeup, props, sets and film; two clearly labeled sample pieces demonstrate free-form Writing. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
+A static portfolio and a small browser editor. Retablos and Woodcarvings contain 22 supplied artwork images from 2014–2026. Twenty fictional projects still demonstrate art, makeup, props, sets and film; two clearly labeled sample pieces demonstrate free-form Writing. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
 
 ## Run locally
 
@@ -22,7 +22,7 @@ The editor automatically starts a local session on the loopback address. It cann
 
 ## Editing
 
-1. Add a project, title, introduction and cover photograph.
+1. Add a project, title, introduction and cover photograph. The **Year or range** field accepts a single year (2026) or a span (2014–2026).
 2. Select categories and tags, or create them under **Categories & tags**. Rename labels without changing their URLs. Reassign entries before deleting a term.
 3. Write with the shared block editor. Text, headings, lists, links, quotes, photos, galleries, YouTube/Vimeo and dividers are supported. Select a block for formatting and move controls; use the plus buttons or `/image`, `/gallery`, etc. Undo reverses block edits.
 4. **Save draft** persists the working portfolio. It does not publish text, photos or PDFs. Browser recovery is a fallback, not the durable store. **Preview** renders the current project with the same presentation code as the public build.
@@ -34,7 +34,7 @@ Writing has a permanent navigation link, a newest-first index, and a dedicated r
 
 Bio contains the supplied biography and résumé, a downloadable PDF (initially the supplied original), and the listed contact email. The header has the name and Work, Writing and Bio navigation; the footer retains a direct contact link. Old `/about/` links redirect to `/bio/`. Under **Bio & contact** in the admin, edit the introduction and use the shared WYSIWYG block editor for the biography and résumé. Formatting, links, lists, images, undo, **Save draft**, **Preview**, and **Publish changes** work as they do for projects and Writing. Contact links and site settings are in a disclosure below the editor. **Upload or replace PDF** accepts a PDF up to 5 MB. The selected filename links to a private download for review. **Save draft** keeps the selection; **Publish changes** updates the public Bio download. Until publication, visitors keep the previous PDF. The page text and PDF are edited separately. Existing profiles keep the original `assets/documents/r-barela-bio-resume.pdf` until a replacement is selected.
 
-Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels. Prepare camera originals separately. The build creates 800px WebP derivatives; uploaded originals must already be web-ready. Movies stay on YouTube or Vimeo and load only after the visitor chooses Play.
+Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels. Prepare camera originals separately. The build creates 800px WebP derivatives; uploaded originals must already be web-ready. Project thumbnails, covers and galleries show complete images without cropping the artwork. Movies stay on YouTube or Vimeo and load only after the visitor chooses Play.
 
 ## Structure and reuse
 

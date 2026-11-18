@@ -1,0 +1,6 @@
+
+> rhiannon-portfolio@0.1.0 build
+> node scripts/build.mjs
+
+Platform v0.50.0: fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d
+Built 24 entries, 39 pages → dist

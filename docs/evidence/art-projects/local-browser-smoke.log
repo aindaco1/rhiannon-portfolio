@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "retablos",
+    "width": 1440,
+    "images": 11,
+    "year": "2014–2026",
+    "orderMatches": true,
+    "allImagesDecoded": true,
+    "overflow": false,
+    "accessibilityViolations": 0,
+    "errors": []
+  },
+  {
+    "slug": "woodcarvings",
+    "width": 1440,
+    "images": 11,
+    "year": "2014–2026",
+    "orderMatches": true,
+    "allImagesDecoded": true,
+    "overflow": false,
+    "accessibilityViolations": 0,
+    "errors": []
+  },
+  {
+    "slug": "retablos",
+    "width": 390,
+    "images": 11,
+    "year": "2014–2026",
+    "orderMatches": true,
+    "allImagesDecoded": true,
+    "overflow": false,
+    "accessibilityViolations": 0,
+    "errors": []
+  },
+  {
+    "slug": "woodcarvings",
+    "width": 390,
+    "images": 11,
+    "year": "2014–2026",
+    "orderMatches": true,
+    "allImagesDecoded": true,
+    "overflow": false,
+    "accessibilityViolations": 0,
+    "errors": []
+  }
+]

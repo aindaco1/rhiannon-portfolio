@@ -869,3 +869,28 @@ test("a late PDF upload cannot replace a newer selection or a remounted Bio edit
   await expect(page.locator("#save-state")).toHaveText("Draft saved");
   await resetDraft(page);
 });
+
+test("project year ranges save, reload and appear in preview", async ({ page }) => {
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  await page.getByRole("button", { name: "Red study", exact: true }).click();
+  await page.getByLabel(/^Year or range/).fill("2014-2026");
+  await page.locator("#save").click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await expect(page.getByLabel(/^Year or range/)).toHaveValue("2014–2026");
+  await page.reload();
+  await page.getByRole("button", { name: "Red study", exact: true }).click();
+  await expect(page.getByLabel(/^Year or range/)).toHaveValue("2014–2026");
+  await page.locator("#preview").click();
+  await expect(page.frameLocator("#preview-dialog iframe").locator(".project-details")).toContainText("2014–2026");
+  await page.getByRole("button", { name: "Close preview", exact: true }).click();
+  await page.getByLabel(/^Year or range/).fill("2026–2014");
+  await page.locator("#save").click();
+  await expect(page.locator("#feedback")).toContainText("ascending year range");
+  expect((await api(page, "/state")).body.catalog.entries[0].year).toBe("2014–2026");
+  await page.getByLabel(/^Year or range/).fill("2026");
+  await page.locator("#save").click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  expect((await api(page, "/state")).body.catalog.entries[0].year).toBe(2026);
+  await resetDraft(page);
+});

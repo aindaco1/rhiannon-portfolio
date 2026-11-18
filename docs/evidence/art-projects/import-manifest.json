@@ -1,0 +1,200 @@
+[
+  {
+    "file": "01-painted-fish-side.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/4e8588085bb07fb908f3673562cbf2f86f48d7ccf1bb146282a7874a3c22dca7.webp",
+    "sha256": "4e8588085bb07fb908f3673562cbf2f86f48d7ccf1bb146282a7874a3c22dca7",
+    "bytes": 652720,
+    "width": 1600,
+    "height": 598
+  },
+  {
+    "file": "02-painted-fish-handheld.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/b56e328d2e62f6587eeaf62e8bb5b6df1a6c2718e78110204d11702f927b4390.webp",
+    "sha256": "b56e328d2e62f6587eeaf62e8bb5b6df1a6c2718e78110204d11702f927b4390",
+    "bytes": 380806,
+    "width": 1392,
+    "height": 551
+  },
+  {
+    "file": "03-red-chile-carving.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/18377983126bc77f80eb4c145b333d7abe06ddca5c9f58d36be1d2c7b7fb00b1.webp",
+    "sha256": "18377983126bc77f80eb4c145b333d7abe06ddca5c9f58d36be1d2c7b7fb00b1",
+    "bytes": 407372,
+    "width": 1600,
+    "height": 460
+  },
+  {
+    "file": "04-san-rafael-wood-slice.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/a0821d8013a818f91d3b3cbe4fdf1da67e000e074f9ebb52a4ec4b8ffe04c43e.webp",
+    "sha256": "a0821d8013a818f91d3b3cbe4fdf1da67e000e074f9ebb52a4ec4b8ffe04c43e",
+    "bytes": 2104876,
+    "width": 1529,
+    "height": 1600
+  },
+  {
+    "file": "05-white-ghost.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/d14fb8a5a1db8c8519903fac81890716d1943872a9d071a1175b8dd856e79f10.webp",
+    "sha256": "d14fb8a5a1db8c8519903fac81890716d1943872a9d071a1175b8dd856e79f10",
+    "bytes": 493130,
+    "width": 651,
+    "height": 1600
+  },
+  {
+    "file": "06-small-tree.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/24c9f2bf05e03862ca5e63d8158a66d2d1c5d8172aead9434ca9572f408395c5.webp",
+    "sha256": "24c9f2bf05e03862ca5e63d8158a66d2d1c5d8172aead9434ca9572f408395c5",
+    "bytes": 354742,
+    "width": 442,
+    "height": 1600
+  },
+  {
+    "file": "07-san-pasqual-workshop.webp",
+    "project": "retablos",
+    "src": "/assets/media/ed6a039732b162dd184d3f392af782eceefddb9a32d4edc21d79ca7962d8a29a.webp",
+    "sha256": "ed6a039732b162dd184d3f392af782eceefddb9a32d4edc21d79ca7962d8a29a",
+    "bytes": 1779622,
+    "width": 1195,
+    "height": 1600
+  },
+  {
+    "file": "08a-san-pasqual-tray.webp",
+    "project": "retablos",
+    "src": "/assets/media/260713e02b84dee99d8511d776cf58f0cd7a7fd51db89243acf27710ba40e001.webp",
+    "sha256": "260713e02b84dee99d8511d776cf58f0cd7a7fd51db89243acf27710ba40e001",
+    "bytes": 1867888,
+    "width": 1218,
+    "height": 1600
+  },
+  {
+    "file": "08b-guadalupe-shaped-panel.webp",
+    "project": "retablos",
+    "src": "/assets/media/efd24b0dfafc7deacdf53580c1ada532d69aa119ec37de2904d29b6a04d38d2d.webp",
+    "sha256": "efd24b0dfafc7deacdf53580c1ada532d69aa119ec37de2904d29b6a04d38d2d",
+    "bytes": 1787330,
+    "width": 1196,
+    "height": 1600
+  },
+  {
+    "file": "09-floral-cross.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/e796364ca232615caf2cf519293aed1d8f542280e74b88dcb65d59b20e57a6b5.webp",
+    "sha256": "e796364ca232615caf2cf519293aed1d8f542280e74b88dcb65d59b20e57a6b5",
+    "bytes": 549456,
+    "width": 941,
+    "height": 1600
+  },
+  {
+    "file": "10-praying-figure-front.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/a81a0c149c5d92b5f4a1264221e9d30d117720f58662af8a81250712f0a03966.webp",
+    "sha256": "a81a0c149c5d92b5f4a1264221e9d30d117720f58662af8a81250712f0a03966",
+    "bytes": 930348,
+    "width": 688,
+    "height": 1600
+  },
+  {
+    "file": "11-praying-figure-back.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/18ad0b2a79e7898a75aad278f776381c86a8b32380723b6c00ef93d567046080.webp",
+    "sha256": "18ad0b2a79e7898a75aad278f776381c86a8b32380723b6c00ef93d567046080",
+    "bytes": 893690,
+    "width": 686,
+    "height": 1600
+  },
+  {
+    "file": "12-san-pasqual-studio.webp",
+    "project": "retablos",
+    "src": "/assets/media/09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713.webp",
+    "sha256": "09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713",
+    "bytes": 628918,
+    "width": 689,
+    "height": 935
+  },
+  {
+    "file": "13-sacred-heart.webp",
+    "project": "retablos",
+    "src": "/assets/media/6fa9650bb749f50aa3a2d64522de1ebffc3677d3877d9fad4ce8b35f258e0d86.webp",
+    "sha256": "6fa9650bb749f50aa3a2d64522de1ebffc3677d3877d9fad4ce8b35f258e0d86",
+    "bytes": 1715372,
+    "width": 1144,
+    "height": 1600
+  },
+  {
+    "file": "14-skull-and-roses-panel.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp",
+    "sha256": "36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865",
+    "bytes": 426618,
+    "width": 617,
+    "height": 925
+  },
+  {
+    "file": "15-holy-family-arched-panel.webp",
+    "project": "retablos",
+    "src": "/assets/media/03f7b68abf75c2fed1a5f3844c0223bde12c5a8ca8a2db29170fe5e76edae791.webp",
+    "sha256": "03f7b68abf75c2fed1a5f3844c0223bde12c5a8ca8a2db29170fe5e76edae791",
+    "bytes": 230312,
+    "width": 396,
+    "height": 582
+  },
+  {
+    "file": "16-saint-joseph-and-child.webp",
+    "project": "retablos",
+    "src": "/assets/media/16e8ee6b69c82ba95e7c2db2674567aea89cfef1cb70433c4440ebf979e6f7ce.webp",
+    "sha256": "16e8ee6b69c82ba95e7c2db2674567aea89cfef1cb70433c4440ebf979e6f7ce",
+    "bytes": 538610,
+    "width": 788,
+    "height": 1028
+  },
+  {
+    "file": "17-skeleton-musician-detail.webp",
+    "project": "retablos",
+    "src": "/assets/media/167184261f2344c9fe6ee4aad291944164673aaa2cab00a26869242499cb4d4a.webp",
+    "sha256": "167184261f2344c9fe6ee4aad291944164673aaa2cab00a26869242499cb4d4a",
+    "bytes": 569408,
+    "width": 942,
+    "height": 1261
+  },
+  {
+    "file": "18-san-pasqual-framed.webp",
+    "project": "retablos",
+    "src": "/assets/media/595545e4f4587c4dc1b65756cb106541d868cf6a8710850097191df49a6712b3.webp",
+    "sha256": "595545e4f4587c4dc1b65756cb106541d868cf6a8710850097191df49a6712b3",
+    "bytes": 1811910,
+    "width": 1169,
+    "height": 1600
+  },
+  {
+    "file": "19-san-pasqual-inscribed.webp",
+    "project": "retablos",
+    "src": "/assets/media/2f6b3d1f994c8baa564b6f8b0c4eae82d463b95e5b14c168a81d1b67f73cd513.webp",
+    "sha256": "2f6b3d1f994c8baa564b6f8b0c4eae82d463b95e5b14c168a81d1b67f73cd513",
+    "bytes": 1597708,
+    "width": 1114,
+    "height": 1600
+  },
+  {
+    "file": "20-guadalupe-oval-flowers.webp",
+    "project": "woodcarvings",
+    "src": "/assets/media/e8da487dae5ea6d164405856d24f24e96ca65fa74c02658c9d338cd72228c713.webp",
+    "sha256": "e8da487dae5ea6d164405856d24f24e96ca65fa74c02658c9d338cd72228c713",
+    "bytes": 1059290,
+    "width": 1020,
+    "height": 1026
+  },
+  {
+    "file": "21-saint-francis-panel.webp",
+    "project": "retablos",
+    "src": "/assets/media/2963adffa212eff50e8a63aa1802b9cbe775338e8ac176ce617d57408786db0a.webp",
+    "sha256": "2963adffa212eff50e8a63aa1802b9cbe775338e8ac176ce617d57408786db0a",
+    "bytes": 1926022,
+    "width": 1200,
+    "height": 1600
+  }
+]

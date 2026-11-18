@@ -72,6 +72,194 @@
   ],
   "entries": [
     {
+      "id": "retablos",
+      "slug": "retablos",
+      "kind": "project",
+      "status": "published",
+      "sample": false,
+      "title": "Retablos",
+      "intro": "Painted devotional panels.",
+      "year": "2014–2026",
+      "date": "2026-11-17",
+      "role": "Artist",
+      "categories": [
+        "art"
+      ],
+      "tags": [],
+      "cover": {
+        "src": "/assets/media/ed6a039732b162dd184d3f392af782eceefddb9a32d4edc21d79ca7962d8a29a.webp",
+        "alt": "San Pasqual holding a long wooden spoon beside a hanging red chile ristra, painted on a wood panel.",
+        "caption": "",
+        "decorative": false
+      },
+      "credits": "",
+      "blocks": [
+        {
+          "type": "gallery",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/260713e02b84dee99d8511d776cf58f0cd7a7fd51db89243acf27710ba40e001.webp",
+              "alt": "San Pasqual in a blue-gray robe, holding a spoon beside a red chile ristra and a bowl.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/efd24b0dfafc7deacdf53580c1ada532d69aa119ec37de2904d29b6a04d38d2d.webp",
+              "alt": "Our Lady of Guadalupe in pink and blue, surrounded by golden rays on a shaped wooden panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713.webp",
+              "alt": "San Pasqual holding a spoon, with a red chile ristra and a bowl beside him on a pale wood panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/6fa9650bb749f50aa3a2d64522de1ebffc3677d3877d9fad4ce8b35f258e0d86.webp",
+              "alt": "Flaming red Sacred Heart encircled by thorns, with black drops beneath it on a wood panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/03f7b68abf75c2fed1a5f3844c0223bde12c5a8ca8a2db29170fe5e76edae791.webp",
+              "alt": "The Holy Family painted within a blue arched border on a shaped wooden panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/16e8ee6b69c82ba95e7c2db2674567aea89cfef1cb70433c4440ebf979e6f7ce.webp",
+              "alt": "Saint Joseph holding the child Jesus and a flowering stem, painted within a red border.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/167184261f2344c9fe6ee4aad291944164673aaa2cab00a26869242499cb4d4a.webp",
+              "alt": "A seated skeleton musician wearing flowers and playing a violin against a blue background.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/595545e4f4587c4dc1b65756cb106541d868cf6a8710850097191df49a6712b3.webp",
+              "alt": "San Pasqual holding a loaf of bread within a dark painted frame.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/2f6b3d1f994c8baa564b6f8b0c4eae82d463b95e5b14c168a81d1b67f73cd513.webp",
+              "alt": "San Pasqual holding bread with one hand raised, beside a chile ristra above an inscribed name panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/2963adffa212eff50e8a63aa1802b9cbe775338e8ac176ce617d57408786db0a.webp",
+              "alt": "Saint Francis in a brown robe with a white bird overhead, painted inside a yellow and blue frame.",
+              "decorative": false,
+              "caption": ""
+            }
+          ],
+          "caption": "",
+          "align": "left"
+        }
+      ]
+    },
+    {
+      "id": "woodcarvings",
+      "slug": "woodcarvings",
+      "kind": "project",
+      "status": "published",
+      "sample": false,
+      "title": "Woodcarvings",
+      "intro": "Carved and painted works in wood.",
+      "year": "2014–2026",
+      "date": "2026-11-17",
+      "role": "Artist",
+      "categories": [
+        "art"
+      ],
+      "tags": [],
+      "cover": {
+        "src": "/assets/media/4e8588085bb07fb908f3673562cbf2f86f48d7ccf1bb146282a7874a3c22dca7.webp",
+        "alt": "Painted wooden fish with a yellow-green back, black spots and a striped tail.",
+        "caption": "",
+        "decorative": false
+      },
+      "credits": "",
+      "blocks": [
+        {
+          "type": "gallery",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/b56e328d2e62f6587eeaf62e8bb5b6df1a6c2718e78110204d11702f927b4390.webp",
+              "alt": "Opposite side of a painted wooden fish, with pink shading and black spots.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/18377983126bc77f80eb4c145b333d7abe06ddca5c9f58d36be1d2c7b7fb00b1.webp",
+              "alt": "Faceted red chile pepper carving with a green stem.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/a0821d8013a818f91d3b3cbe4fdf1da67e000e074f9ebb52a4ec4b8ffe04c43e.webp",
+              "alt": "San Rafael holding a fish, painted on a round wood slice with the words San Rafael and God Heals.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/d14fb8a5a1db8c8519903fac81890716d1943872a9d071a1175b8dd856e79f10.webp",
+              "alt": "Tall white carved ghost with two black eyes.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/24c9f2bf05e03862ca5e63d8158a66d2d1c5d8172aead9434ca9572f408395c5.webp",
+              "alt": "Small carved tree with a green tiered crown and a bare wooden trunk.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/e796364ca232615caf2cf519293aed1d8f542280e74b88dcb65d59b20e57a6b5.webp",
+              "alt": "White wooden cross with blue floral decoration and a blue heart at its center.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/a81a0c149c5d92b5f4a1264221e9d30d117720f58662af8a81250712f0a03966.webp",
+              "alt": "Front of a golden wooden praying figure with closed eyes and clasped hands.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/18ad0b2a79e7898a75aad278f776381c86a8b32380723b6c00ef93d567046080.webp",
+              "alt": "Back of a golden wooden praying figure, with dark stars decorating the cloak.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp",
+              "alt": "A skull surrounded by roses, drawn in dark lines on a wooden panel.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/e8da487dae5ea6d164405856d24f24e96ca65fa74c02658c9d338cd72228c713.webp",
+              "alt": "Our Lady of Guadalupe on an oval wooden plaque surrounded by raised orange, pink and yellow flowers.",
+              "decorative": false,
+              "caption": ""
+            }
+          ],
+          "caption": "",
+          "align": "left"
+        }
+      ]
+    },
+    {
       "id": "sample-1",
       "slug": "red-study",
       "kind": "project",

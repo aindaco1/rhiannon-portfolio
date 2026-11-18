@@ -186,7 +186,7 @@ main {
 }
 .card-image img {
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.35s;
 }
 .project-card a:hover img {
@@ -270,8 +270,7 @@ main {
 }
 .project-cover img {
   max-height: 850px;
-  object-fit: cover;
-  aspect-ratio: 16/10;
+  object-fit: contain;
 }
 .project-cover figcaption,
 figcaption {
@@ -371,7 +370,7 @@ figcaption {
 }
 .gallery-images img {
   aspect-ratio: 4/5;
-  object-fit: cover;
+  object-fit: contain;
 }
 .gallery--carousel .gallery-images {
   display: flex;
@@ -598,9 +597,6 @@ footer small {
   .project-intro {
     font-size: 24px;
     margin-top: 25px;
-  }
-  .project-cover img {
-    aspect-ratio: 4/5;
   }
   .project-story {
     display: flex;

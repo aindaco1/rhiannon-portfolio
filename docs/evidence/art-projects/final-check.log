@@ -1,0 +1,87 @@
+
+> rhiannon-portfolio@0.1.0 check
+> npm test && npm run build && npm run test:browser
+
+
+> rhiannon-portfolio@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ Worker fails closed before serving API or static assets (14.709042ms)
+✔ cross-origin mutations and missing Origin fail (4.602334ms)
+✔ request body budgets and unsupported images fail before writes (0.718583ms)
+✔ bounded photo upload uses immutable hash paths (5.161625ms)
+✔ previews use the same block rendering and never cache private content (2.683875ms)
+✔ production publishing is blocked for sample material (0.466167ms)
+✔ Bio preview uses the public renderer and stays private (1.932459ms)
+✔ PDF uploads validate bytes, enforce limits and reuse immutable paths (4.96ms)
+✔ legacy Bio loads without rewriting its text, headings or links (3.460833ms)
+✔ Bio blocks share validation and media publication boundaries with entries (1.637125ms)
+✔ legacy PDF links survive and replacements require an uploaded document (2.677ms)
+✔ 20 sample projects span all five disciplines; Writing is discoverable when empty (3.133125ms)
+✔ category renames preserve their URL and referenced terms cannot be deleted (1.391583ms)
+✔ entry URLs remain stable and duplicate URLs fail (0.566125ms)
+✔ project years accept an editable range while preserving single years (4.139791ms)
+✔ private draft entries and their photos are absent from published data (0.47475ms)
+✔ production rejects the preview and sample project flags, then requires a domain/contact (1.782792ms)
+✔ media and block inputs are validated at the server boundary (1.948792ms)
+✔ only safe YouTube/Vimeo videos can become players (0.886708ms)
+✔ public text and attributes cannot inject executable markup (0.947209ms)
+✔ all supported blocks render without remote embeds until an explicit play (0.188959ms)
+✔ unlisted Vimeo share links preserve the playback hash (0.688625ms)
+✔ GitHub App tokens are repository-scoped; draft saves preserve expected SHA and baseline (35.846125ms)
+✔ a changed live file does not silently rebase an existing working draft (11.710958ms)
+✔ Cloudflare Access verifies signature, audience, expiry and the email allowlist (9.803375ms)
+✔ GitHub publication rejects a missing PDF and protected downloads retain PDF headers (3.122458ms)
+✔ Writing has an empty state and a permanent navigation link (0.620708ms)
+✔ free-form writing needs no image, introduction, role or taxonomy (18.583875ms)
+✔ writing archives are newest first and never list private drafts (0.946042ms)
+✔ writing previews share the article renderer, preserve formatting and escape authored text (0.621792ms)
+✔ writing sharing metadata never borrows an unrelated project cover (0.58775ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 226.816083
+
+> rhiannon-portfolio@0.1.0 build
+> node scripts/build.mjs
+
+Platform v0.50.0: fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d
+Built 24 entries, 39 pages → dist
+
+> rhiannon-portfolio@0.1.0 test:browser
+> playwright test
+
+[WebServer] (node:21646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:21732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/portfolio.spec.js:31:3 › public archive at 320px has visible categories, loaded photos and no overflow (224ms)
+  ✓   2 tests/browser/portfolio.spec.js:31:3 › public archive at 390px has visible categories, loaded photos and no overflow (235ms)
+  ✓   3 tests/browser/portfolio.spec.js:31:3 › public archive at 768px has visible categories, loaded photos and no overflow (232ms)
+  ✓   4 tests/browser/portfolio.spec.js:31:3 › public archive at 1440px has visible categories, loaded photos and no overflow (382ms)
+  ✓   5 tests/browser/portfolio.spec.js:62:1 › category, tag, project and contact links work without JavaScript (432ms)
+  ✓   6 tests/browser/portfolio.spec.js:88:1 › public archive, project and bio pass automated accessibility checks (1.1s)
+  ✓   7 tests/browser/portfolio.spec.js:104:1 › video loads only after deliberate activation (264ms)
+  ✓   8 tests/browser/portfolio.spec.js:121:1 › admin and API reject anonymous and cross-origin requests (295ms)
+  ✓   9 tests/browser/portfolio.spec.js:137:1 › owner creates taxonomy, authors blocks, uploads, saves, reloads, previews and publishes (6.4s)
+  ✓  10 tests/browser/portfolio.spec.js:284:1 › stale saves return a conflict and preserve the winning draft (214ms)
+  ✓  11 tests/browser/portfolio.spec.js:315:1 › failed publication leaves the previous live artifact intact (214ms)
+  ✓  12 tests/browser/portfolio.spec.js:360:1 › mobile editor remains usable and accessible (898ms)
+  ✓  13 tests/browser/portfolio.spec.js:380:1 › browser recovery restores edits only against their saved baseline (556ms)
+  ✓  14 tests/browser/portfolio.spec.js:405:3 › a pending project photo cannot return to a block that was removed (574ms)
+  ✓  15 tests/browser/portfolio.spec.js:405:3 › a pending bio photo cannot return to a block that was removed (520ms)
+  ✓  16 tests/browser/portfolio.spec.js:438:1 › writing uses the shared editor; only published pieces appear (5.1s)
+  ✓  17 tests/browser/portfolio.spec.js:485:1 › Writing is text-led, responsive, accessible and uses the same WYSIWYG preview (6.7s)
+  ✓  18 tests/browser/portfolio.spec.js:611:1 › Bio supports the shared WYSIWYG editor, recovery, private preview and publication (6.2s)
+  ✓  19 tests/browser/portfolio.spec.js:758:1 › Bio PDF replacement is private until publication and survives save/reload (11.3s)
+  ✓  20 tests/browser/portfolio.spec.js:839:1 › a late PDF upload cannot replace a newer selection or a remounted Bio editor (646ms)
+  ✓  21 tests/browser/portfolio.spec.js:873:1 › project year ranges save, reload and appear in preview (837ms)
+
+  21 passed (48.8s)

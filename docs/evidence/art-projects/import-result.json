@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-18T00:35:00.862Z",
+  "projects": [
+    {
+      "title": "Retablos",
+      "path": "/work/retablos/",
+      "year": "2014–2026",
+      "images": 11
+    },
+    {
+      "title": "Woodcarvings",
+      "path": "/work/woodcarvings/",
+      "year": "2014–2026",
+      "images": 11
+    }
+  ],
+  "uploadedFiles": 22,
+  "status": "live",
+  "revision": "db1c592d644e9679339fc420a52fb15643021f9726c7214f3ea5df5099624580",
+  "beforeStateSha256": "f780493351dd69614ccc16f5f1a14aa0758d2fad5f152ecf354c0c7cd7f2dd69",
+  "existingContentPreserved": true
+}

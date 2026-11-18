@@ -271,7 +271,7 @@ function renderEntry(root, e) {
     full: true,
     hint: "The URL stays stable when a saved title changes.",
   });
-  root.innerHTML = `<div class="view-heading"><div><button id="back" class="quiet">← ${prose ? "Writing" : "Projects"}</button><h1>${prose ? "Edit writing" : "Edit project"}</h1></div><button id="delete-entry">Delete ${prose ? "piece" : "project"}</button></div><div class="fields">${field("Title", e.title, 'data-entry="title"', { full: true })}${field(prose ? "Introduction (optional)" : "Introduction", e.intro, 'data-entry="intro"', { area: true, full: true })}${prose ? field("Publication date", e.date, 'data-entry="date"', { type: "date" }) : field("Year", e.year, 'data-entry="year"', { type: "number" }) + field("Role / discipline", e.role, 'data-entry="role"')}${!prose ? url : ""}</div>${prose ? story + visibility + `<details class="writing-options"><summary>Images, topics & page details</summary>${terms}${cover}<div class="fields">${url}</div>${credits}</details>` : terms + visibility + cover + story + credits}`;
+  root.innerHTML = `<div class="view-heading"><div><button id="back" class="quiet">← ${prose ? "Writing" : "Projects"}</button><h1>${prose ? "Edit writing" : "Edit project"}</h1></div><button id="delete-entry">Delete ${prose ? "piece" : "project"}</button></div><div class="fields">${field("Title", e.title, 'data-entry="title"', { full: true })}${field(prose ? "Introduction (optional)" : "Introduction", e.intro, 'data-entry="intro"', { area: true, full: true })}${prose ? field("Publication date", e.date, 'data-entry="date"', { type: "date" }) : field("Year or range", e.year, 'data-entry="year"', { hint: "For example, 2026 or 2014–2026." }) + field("Role / discipline", e.role, 'data-entry="role"')}${!prose ? url : ""}</div>${prose ? story + visibility + `<details class="writing-options"><summary>Images, topics & page details</summary>${terms}${cover}<div class="fields">${url}</div>${credits}</details>` : terms + visibility + cover + story + credits}`;
   $("#back").onclick = () => {
     currentId = null;
     render();
@@ -297,7 +297,7 @@ function renderEntry(root, e) {
     (input) =>
       (input.oninput = () => {
         const f = input.dataset.entry;
-        e[f] = f === "year" ? Number(input.value) : input.value;
+        e[f] = input.value;
         if (f === "title" && newIds.has(e.id)) {
           e.slug = slugify(e.title) || e.id;
           $("#entry-url").value = entryPath(e);
