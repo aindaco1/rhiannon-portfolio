@@ -978,3 +978,45 @@ test('late MP4 uploads cannot overwrite a changed block', async ({ page }) => {
   expect((await api(page, '/state')).body.catalog.entries[0].blocks.at(-1).src).toBe('');
   await resetDraft(page);
 });
+
+test('all media pickers explain limits and preparation; Bio videos can be removed and restored', async ({ page }) => {
+  await page.goto(admin + '/admin/');
+  await resetDraft(page);
+  await page.getByRole('button', { name: 'Red study', exact: true }).click();
+  await page.getByRole('button', { name: '+ Image', exact: true }).click();
+  await page.getByRole('button', { name: '+ Gallery', exact: true }).click();
+  await page.getByRole('button', { name: '+ Add gallery image', exact: true }).last().click();
+  const photoHints = await page.locator('input[type=file]').evaluateAll(inputs => inputs.map(input => document.getElementById(input.getAttribute('aria-describedby'))?.textContent));
+  expect(photoHints.length).toBeGreaterThanOrEqual(3);
+  for (const text of photoHints) {
+    expect(text).toContain('5 MB');
+    expect(text).toContain('1600–2400');
+    expect(text).toContain('40 megapixels');
+    expect(text).toContain('WebP');
+    expect(text).toContain('sRGB');
+  }
+  await page.getByRole('button', { name: 'Bio & contact', exact: true }).click();
+  const pdf = page.getByLabel('Upload or replace PDF', { exact: true });
+  await expect(pdf).toHaveAccessibleDescription(/PDF \(.pdf\), up to 5 MB.*Letter.*A4.*150 dpi/);
+  await page.getByRole('button', { name: '+ Video', exact: true }).click();
+  await page.getByLabel('Video source', { exact: true }).selectOption('local');
+  const upload = page.getByLabel('Upload or replace MP4', { exact: true });
+  await expect(upload).toHaveAccessibleDescription(/MP4.*25 MB.*1280 × 720.*24–30 fps.*H.264\/AVC.*AAC.*fast start.*MOV.*HEVC/);
+  await upload.setInputFiles('tests/fixtures/loop.mp4');
+  await expect(page.locator('#feedback')).toContainText('Video uploaded');
+  await page.getByLabel('Video caption', { exact: true }).fill('Director reel test');
+  await page.locator('#save').click();
+  await expect(page.locator('#save-state')).toHaveText('Draft saved');
+  const before = (await api(page, '/state')).body.catalog.profile.bio;
+  await page.getByRole('button', { name: 'Remove video', exact: true }).click();
+  await expect(page.locator('#blocks video')).toHaveCount(0);
+  await page.locator('#save').click();
+  await expect(page.locator('#save-state')).toHaveText('Draft saved');
+  expect((await api(page, '/state')).body.catalog.profile.bio.at(-1).src).toBe('');
+  await page.getByRole('button', { name: 'Undo block change', exact: true }).click();
+  await expect(page.locator('#blocks video')).toHaveCount(1);
+  await page.locator('#save').click();
+  await expect(page.locator('#save-state')).toHaveText('Draft saved');
+  expect((await api(page, '/state')).body.catalog.profile.bio).toEqual(before);
+  await resetDraft(page);
+});

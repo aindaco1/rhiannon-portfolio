@@ -26,6 +26,9 @@ import {
   bioPdf,
   MAX_PDF_BYTES,
   MAX_VIDEO_BYTES,
+  MAX_IMAGE_BYTES,
+  MAX_IMAGE_PIXELS,
+  VIDEO_SIZE_MESSAGE,
   validateMp4,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
@@ -45,6 +48,21 @@ let data,
   recovery = null;
 const newIds = new Set(),
   mediaGeneration = new WeakMap();
+const megabytes = (bytes) => bytes / (1024 * 1024);
+const uploadHelp = {
+  photo: `JPG/JPEG, PNG or WebP, up to ${megabytes(MAX_IMAGE_BYTES)} MB per image and ${MAX_IMAGE_PIXELS / 1_000_000} megapixels. Recommended: 1600–2400 pixels on the longest edge, original aspect ratio, sRGB color. WebP is a good choice for smaller files; PNG/WebP can preserve transparency. Convert HEIC, TIFF or RAW before uploading.`,
+  video: `MP4 (.mp4), up to ${megabytes(MAX_VIDEO_BYTES)} MB. Recommended: 1280 × 720 (720p), original aspect ratio, 24–30 fps; H.264/AVC video (8-bit, 4:2:0) and AAC audio (96–128 kbps stereo), with fast start enabled. Convert MOV, HEVC/H.265 or ProRes before uploading. Prepare larger files separately or use a YouTube/Vimeo link. Playback starts on click and repeats; audio is preserved.`,
+  pdf: `PDF (.pdf), up to ${megabytes(MAX_PDF_BYTES)} MB. Letter (8.5 × 11 in) or A4 is recommended. Export searchable text with embedded fonts and images around 150 dpi for a readable, smaller file. Save your draft, then publish to update the public download. Editing the page text does not change the PDF.`,
+};
+let uploadHelpId = 0;
+function describeUpload(control, kind) {
+  const hint = document.createElement("p");
+  hint.id = `upload-help-${++uploadHelpId}`;
+  hint.className = "hint";
+  hint.textContent = uploadHelp[kind];
+  control.setAttribute("aria-describedby", hint.id);
+  control.closest("label").after(hint);
+}
 const clone = (value) => structuredClone(value),
   current = () => data.entries.find((e) => e.id === currentId),
   dirty = () => !!data && JSON.stringify(data) !== saved;
@@ -632,7 +650,7 @@ function renderBody(card, b, index, e, snapshot, owner) {
     input("Gallery caption", "caption");
   } else if (b.type === "video") {
     const source = document.createElement("label");
-    source.innerHTML = 'Video source<select aria-label="Video source"><option value="embed">YouTube / Vimeo</option><option value="local">MP4 loop</option></select>';
+    source.innerHTML = 'Video source<select aria-label="Video source"><option value="embed">YouTube / Vimeo</option><option value="local">MP4 video</option></select>';
     const select = source.querySelector("select");
     select.value = b.provider === "local" ? "local" : "embed";
     select.onchange = () => {
@@ -645,12 +663,12 @@ function renderBody(card, b, index, e, snapshot, owner) {
     card.append(source);
     if (b.provider === "local") {
       const wrap = document.createElement("label");
-      wrap.innerHTML = 'Upload or replace MP4<input aria-label="Upload or replace MP4" type="file" accept="video/mp4,.mp4"><span class="hint">Web-ready H.264 MP4, up to 10 MB. Playback starts on click and repeats. Audio is preserved.</span>';
+      wrap.innerHTML = 'Upload or replace MP4<input aria-label="Upload or replace MP4" type="file" accept="video/mp4,.mp4">';
       const fileInput = wrap.querySelector("input");
       fileInput.onchange = () => act(async () => {
         const file = fileInput.files[0];
         if (!file) return;
-        if (file.size > MAX_VIDEO_BYTES) throw new Error("Prepare an MP4 no larger than 10 MB.");
+        if (file.size > MAX_VIDEO_BYTES) throw new Error(VIDEO_SIZE_MESSAGE);
         const generation = (mediaGeneration.get(b) || 0) + 1;
         mediaGeneration.set(b, generation);
         const isCurrent = () => fileInput.isConnected && owner.isAttached() && owner.isCurrent() &&
@@ -677,6 +695,19 @@ function renderBody(card, b, index, e, snapshot, owner) {
         }
       });
       card.append(wrap);
+      describeUpload(fileInput, "video");
+      const remove = createMediaRemovalControl({
+        label: "Remove video",
+        hasSelection: () => !!b.src,
+        clearSelection: () => {
+          snapshot();
+          mediaGeneration.set(b, (mediaGeneration.get(b) || 0) + 1);
+          Object.assign(b, { src: "", poster: "" });
+          notify();
+          composer.render();
+        },
+      });
+      card.append(remove.button);
       if (b.src) {
         const preview = document.createElement("video");
         Object.assign(preview, { src: b.src, poster: b.poster || "", controls: true, playsInline: true, loop: true, preload: "none" });
@@ -736,6 +767,7 @@ function mediaField(
   const wrap = document.createElement("div");
   wrap.className = "media-controls";
   wrap.innerHTML = `${target.src ? `<img src="${esc(target.src)}" alt="${esc(target.alt)}">` : ""}<label>Choose photo<input type="file" accept="image/jpeg,image/png,image/webp"></label><div class="media-fields">${fieldHtml("Image description", target.alt || "")}${fieldHtml("Caption", target.caption || "")}</div><label class="check"><input type="checkbox" ${target.decorative ? "checked" : ""}>Decorative image (no description needed)</label>`;
+  describeUpload(wrap.querySelector("[type=file]"), "photo");
   const fields = wrap.querySelectorAll(".media-fields input");
   fields[0].oninput = () => {
     before();
@@ -768,7 +800,7 @@ function mediaField(
     act(async () => {
       const file = event.target.files[0];
       if (!file) return;
-      if (file.size > 5 * 1024 * 1024)
+      if (file.size > MAX_IMAGE_BYTES)
         throw new Error(
           "Prepare a web-ready image under 5 MB before uploading.",
         );
@@ -777,7 +809,7 @@ function mediaField(
       const bitmap = await createImageBitmap(file);
       const pixels = bitmap.width * bitmap.height;
       bitmap.close();
-      if (pixels > 40_000_000)
+      if (pixels > MAX_IMAGE_PIXELS)
         throw new Error("Resize this photo below 40 megapixels.");
       const generation = (mediaGeneration.get(target) || 0) + 1;
       mediaGeneration.set(target, generation);
@@ -897,9 +929,10 @@ function renderProfile(root) {
   root.innerHTML = `<h1>Bio & contact</h1><p class="view-description">Introduce your practice and give people a direct way to reach you.</p><div class="fields">${field("Name", p.name, 'data-profile="name"', { full: true })}${field("Short introduction", p.intro, 'data-profile="intro"', { full: true, area: true })}</div>`;
   root.insertAdjacentHTML(
     "beforeend",
-    '<section class="pdf-upload" aria-labelledby="pdf-title"><h2 id="pdf-title">Downloadable bio & résumé PDF</h2><p><a id="bio-pdf-download" download="R-Barela-Bio-and-Resume.pdf"></a></p><label>Upload or replace PDF<input id="bio-pdf-upload" type="file" accept="application/pdf,.pdf" aria-describedby="pdf-hint"></label><p id="pdf-hint" class="hint">PDF, up to 5 MB. Save your draft, then publish to update the public download. Editing the page text does not change the PDF.</p></section>',
+    '<section class="pdf-upload" aria-labelledby="pdf-title"><h2 id="pdf-title">Downloadable bio & résumé PDF</h2><p><a id="bio-pdf-download" download="R-Barela-Bio-and-Resume.pdf"></a></p><label>Upload or replace PDF<input id="bio-pdf-upload" type="file" accept="application/pdf,.pdf"></label></section>',
   );
   const pdfInput = root.querySelector("#bio-pdf-upload");
+  describeUpload(pdfInput, "pdf");
   const refreshPdf = () => {
     const pdf = bioPdf(p), link = root.querySelector("#bio-pdf-download");
     link.href = pdf.src;

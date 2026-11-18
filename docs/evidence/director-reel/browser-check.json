@@ -1,0 +1,50 @@
+{
+  "time": "2026-11-18T01:28:55.950Z",
+  "pages": [
+    {
+      "width": 1440,
+      "bioReelPresent": true,
+      "noOverflow": true,
+      "axeViolations": [],
+      "realProjects": 4
+    },
+    {
+      "width": 390,
+      "bioReelPresent": true,
+      "noOverflow": true,
+      "axeViolations": [],
+      "realProjects": 4
+    }
+  ],
+  "errors": [],
+  "playback": {
+    "duration": 203.866667,
+    "plays": true,
+    "seekTo90": true,
+    "rangeStatus": 206,
+    "verificationMuted": true
+  },
+  "removedProjectRoutes": 20,
+  "admin": {
+    "hints": [
+      {
+        "accept": "application/pdf,.pdf",
+        "help": "PDF (.pdf), up to 5 MB. Letter (8.5 × 11 in) or A4 is recommended. Export searchable text with embedded fonts and images around 150 dpi for a readable, smaller file. Save your draft, then publish to update the public download. Editing the page text does not change the PDF."
+      },
+      {
+        "accept": "image/jpeg,image/png,image/webp",
+        "help": "JPG/JPEG, PNG or WebP, up to 5 MB per image and 40 megapixels. Recommended: 1600–2400 pixels on the longest edge, original aspect ratio, sRGB color. WebP is a good choice for smaller files; PNG/WebP can preserve transparency. Convert HEIC, TIFF or RAW before uploading."
+      },
+      {
+        "accept": "video/mp4,.mp4",
+        "help": "MP4 (.mp4), up to 25 MB. Recommended: 1280 × 720 (720p), original aspect ratio, 24–30 fps; H.264/AVC video (8-bit, 4:2:0) and AAC audio (96–128 kbps stereo), with fast start enabled. Convert MOV, HEVC/H.265 or ProRes before uploading. Prepare larger files separately or use a YouTube/Vimeo link. Playback starts on click and repeats; audio is preserved."
+      }
+    ],
+    "replaceFullSizeFile": true,
+    "captionEdit": true,
+    "remove": true,
+    "undo": true,
+    "privatePreviewPlays": true,
+    "savedStateUnchanged": true
+  }
+}

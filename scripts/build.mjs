@@ -12,6 +12,7 @@ import {
   mediaReferences,
   videoReferences,
   validateMp4,
+  MAX_IMAGE_PIXELS,
   entryPath,
   termPath,
   esc,
@@ -55,7 +56,7 @@ export async function buildSite(
     // Development uploads live outside source control; fixture images remain in assets/media.
     const buffer = await readAsset(path);
     const meta = await sharp(buffer, {
-      limitInputPixels: 40_000_000,
+      limitInputPixels: MAX_IMAGE_PIXELS,
     }).metadata();
     if (!["jpeg", "png", "webp"].includes(meta.format))
       throw new Error(`Unsupported image: ${path}`);

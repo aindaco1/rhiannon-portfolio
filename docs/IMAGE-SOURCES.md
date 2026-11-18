@@ -16,3 +16,7 @@ License: https://www.pexels.com/license/
 ## November 17, 2026 — deep inside, Retablos panel and Bio headshot
 
 User-supplied media imported with source hashes, dimensions and output paths in [the import manifest](evidence/deep-inside/import-manifest.json). The three HEIC exhibition photographs were converted to WebP; the headshot PNG became a web-sized WebP; the supplied painted panel was copied byte-for-byte. Originals were retained. The explicitly attached dream-loop MP4 was prepared as a full-length 720p H.264/AAC web copy, with a poster extracted at 80 seconds. See [the task record](DEEP-INSIDE-TASK.md) for verification and local publication scope.
+
+## November 17, 2026 — director reel
+
+The user supplied `R.BarelaDirectorReel copy.mov`. Its complete video and audio were prepared as 720p H.264/AAC MP4 for Bio; the poster is the opening title at 0.5 seconds. Original/output hashes and byte counts are in [the reel manifest](evidence/director-reel/import-manifest.json). See [the task record](DIRECTOR-REEL-TASK.md) for preparation and verification details.

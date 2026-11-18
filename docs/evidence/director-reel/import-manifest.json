@@ -1,0 +1,30 @@
+{
+  "original": {
+    "path": "/Users/aindaco1/Desktop/Film/R.BarelaDirectorReel copy.mov",
+    "sha256": "233ff7389d72cf4aa89efc4e567b110fadbbb015a4f604887a957cfaf8f5fd7f",
+    "bytes": 248499605,
+    "codec": "HEVC",
+    "width": 1920,
+    "height": 1080
+  },
+  "video": {
+    "path": "/assets/videos/7b0b14e6eeaca5342ef2ea692dfab2f68ebc0a75c298aa58b27de06807788833.mp4",
+    "sha256": "7b0b14e6eeaca5342ef2ea692dfab2f68ebc0a75c298aa58b27de06807788833",
+    "bytes": 25893437,
+    "duration": 203.866667,
+    "width": 1280,
+    "height": 720,
+    "codec": "H.264",
+    "pixelFormat": "yuv420p",
+    "audio": "AAC stereo, 96 kbps",
+    "fps": 30,
+    "fastStart": true
+  },
+  "poster": {
+    "path": "/assets/media/f169900ed22910d01d58e883eb156300b27483d99bd435de003cdd8c1ec1cb87.webp",
+    "sha256": "f169900ed22910d01d58e883eb156300b27483d99bd435de003cdd8c1ec1cb87",
+    "bytes": 15884,
+    "frameTime": 0.5
+  },
+  "preparation": "ffmpeg libx264 preset slow CRF 26; entire original duration and audio retained, resized without cropping. Originals unchanged."
+}

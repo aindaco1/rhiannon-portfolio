@@ -11,7 +11,7 @@ test('MP4 uploads validate bounded complete containers and use immutable paths',
   assert.doesNotThrow(() => validateMp4(bytes));
   for (const bad of [Buffer.from('<script>bad</script>'), bytes.subarray(0, bytes.length - 1), Buffer.alloc(0)])
     assert.throws(() => validateMp4(bad));
-  assert.throws(() => validateMp4(Buffer.alloc(MAX_VIDEO_BYTES + 1)), /10 MB/);
+  assert.throws(() => validateMp4(Buffer.alloc(MAX_VIDEO_BYTES + 1)), /25 MB/);
   const writes = [];
   const upload = (body, headers = {}) => handleApi(new Request('https://editor.example/api/videos', {
     method: 'POST', headers: { origin: 'https://editor.example', ...headers }, body,

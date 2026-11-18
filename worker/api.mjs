@@ -10,11 +10,12 @@ import {
   validatePdf,
   MAX_PDF_BYTES,
   MAX_VIDEO_BYTES,
+  MAX_IMAGE_BYTES,
   validateMp4,
   entryPath,
 } from "../lib/content.mjs";
 import { shell, entryView, bio } from "../lib/views.mjs";
-export const MAX_UPLOAD = 5 * 1024 * 1024;
+export const MAX_UPLOAD = MAX_IMAGE_BYTES;
 export const privateHeaders = {
   "cache-control": "private, no-store",
   "x-content-type-options": "nosniff",
