@@ -1,6 +1,6 @@
 # R. Barela
 
-The source repository is public. GitHub Pages and the hosted editor are not yet configured; see [deployment](docs/DEPLOYMENT.md) for the remaining setup and the private draft storage requirement.
+The source repository is public. The public site uses GitHub Pages at [rbarela.com](https://rbarela.com). The hosted editor remains disabled; see [deployment](docs/DEPLOYMENT.md) for the private draft storage requirement.
 
 A static portfolio and a small browser editor. Twenty real projects are included: the four art collections/installations and sixteen projects imported from the supplied Film directory, including the unfinished Santa Bunny. All fictional projects and sample posts have been removed. Bio includes a headshot and director reel; Writing contains three supplied pieces with their original publication dates. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
 
@@ -62,6 +62,6 @@ npm audit
 npm run build:production
 ```
 
-The last command **must fail** while sample content is enabled. Browser tests use a separate `.local/browser-tests` store and ports 4325/4326. They use a fixed catalog in `tests/fixtures/` and never write to your preview state or a live repository. Keep the unreferenced `sample-*` image files for these fixtures; the production build excludes them when no published entry uses them. The production Worker bundles for Cloudflare and has no local authentication bypass.
+The production build rejects preview mode, sample content and missing domain/contact settings. Browser tests use a separate `.local/browser-tests` store and ports 4325/4326. They use a fixed catalog in `tests/fixtures/` and never write to your preview state or a live repository. Keep the unreferenced `sample-*` image files for these fixtures; the production build excludes them when no published entry uses them. The production Worker bundles for Cloudflare and has no local authentication bypass.
 
 See [Film and Writing import acceptance](docs/FILM-IMPORT-TASK.md), [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), [Bio acceptance evidence](docs/BIO-TASK.md), [Bio editor acceptance](docs/BIO-EDITOR-TASK.md), [PDF upload acceptance](docs/PDF-UPLOAD-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.

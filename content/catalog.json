@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "demo": true,
+  "demo": false,
   "profile": {
     "name": "R. Barela",
     "intro": "R. Barela is a Hispanic artist and filmmaker based in Albuquerque, New Mexico, working in the traditional Spanish colonial arts.",
@@ -31,7 +31,7 @@
     "email": "barelarhiannon@gmail.com",
     "instagram": "https://www.instagram.com/r._barela/",
     "imdb": "https://www.imdb.com/name/nm15080135/",
-    "url": "",
+    "url": "https://rbarela.com",
     "portrait": ""
   },
   "categories": [

@@ -1,6 +1,6 @@
 # Hosting and release handoff
 
-The source repository is public by owner request. Publishing the repository does not deploy the website. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. GitHub Pages, the custom domain and hosted Access setup still require configuration. The existing Store and Pool releases are unchanged.
+The source repository is public by owner request. GitHub Pages uses the Actions workflow and the custom domain `rbarela.com`. The production catalog uses `https://rbarela.com` with preview mode disabled. Each successful deployment records its source commit in `/release.json`. The hosted editor remains disabled pending private draft storage and Access setup. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. The existing Store and Pool releases are unchanged.
 
 The current hosted editor stores drafts and staged uploads in its configured GitHub repository. It must not use this public repository for private drafts: excluding files from the Pages artifact does not hide them from repository visitors. Keep using the local editor until private draft storage and publication to this public repository are implemented and verified.
 
@@ -17,7 +17,7 @@ Do not copy the local preview session mechanism into production. It exists only 
 
 ## Prepare real content
 
-All sample projects and Writing pieces have been removed; twenty real projects and three supplied Writing pieces are included. Before production, verify roles and credits, review the imported content, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
+The production catalog includes twenty real projects and three supplied Writing pieces, with no sample or draft entries. Preview mode is disabled, the site URL is `https://rbarela.com`, and the public contact email is `barelarhiannon@gmail.com`. Future content updates should preserve verified roles and credits. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap.
 
 ## Publication behavior
 
