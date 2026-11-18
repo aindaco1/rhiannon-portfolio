@@ -25,6 +25,8 @@ import {
   bioBlocks,
   bioPdf,
   MAX_PDF_BYTES,
+  MAX_VIDEO_BYTES,
+  validateMp4,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
   api = new AdminApiClient({ baseUrl: location.origin + "/api" }),
@@ -629,28 +631,83 @@ function renderBody(card, b, index, e, snapshot, owner) {
     card.append(add);
     input("Gallery caption", "caption");
   } else if (b.type === "video") {
-    const wrap = document.createElement("label");
-    wrap.innerHTML = `YouTube or Vimeo URL<input type="url" value="${b.video_id ? esc(videoUrl(b)) : ""}" placeholder="https://www.youtube.com/watch?v=…"><span class="hint">YouTube and Vimeo links, including unlisted Vimeo share links.</span>`;
-    const control = wrap.querySelector("input");
-    control.dataset.contentField = "video-url";
-    control.dataset.contentIndex = index;
-    control.onchange = () => {
-      try {
-        snapshot();
-        Object.assign(
-          b,
-          { src: "" },
-          control.value ? parseVideo(control.value) : { video_id: "" },
-        );
-        control.setCustomValidity("");
-        notify();
-      } catch (error) {
-        control.setCustomValidity(error.message);
-        control.reportValidity();
-        feedback(error.message, true);
-      }
+    const source = document.createElement("label");
+    source.innerHTML = 'Video source<select aria-label="Video source"><option value="embed">YouTube / Vimeo</option><option value="local">MP4 loop</option></select>';
+    const select = source.querySelector("select");
+    select.value = b.provider === "local" ? "local" : "embed";
+    select.onchange = () => {
+      snapshot();
+      mediaGeneration.set(b, (mediaGeneration.get(b) || 0) + 1);
+      Object.assign(b, { provider: select.value === "local" ? "local" : "youtube", src: "", video_id: "", poster: "" });
+      notify();
+      composer.render();
     };
-    card.append(wrap);
+    card.append(source);
+    if (b.provider === "local") {
+      const wrap = document.createElement("label");
+      wrap.innerHTML = 'Upload or replace MP4<input aria-label="Upload or replace MP4" type="file" accept="video/mp4,.mp4"><span class="hint">Web-ready H.264 MP4, up to 10 MB. Playback starts on click and repeats. Audio is preserved.</span>';
+      const fileInput = wrap.querySelector("input");
+      fileInput.onchange = () => act(async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        if (file.size > MAX_VIDEO_BYTES) throw new Error("Prepare an MP4 no larger than 10 MB.");
+        const generation = (mediaGeneration.get(b) || 0) + 1;
+        mediaGeneration.set(b, generation);
+        const isCurrent = () => fileInput.isConnected && owner.isAttached() && owner.isCurrent() &&
+          e.blocks.includes(b) && b.provider === "local" && mediaGeneration.get(b) === generation;
+        pendingUploads++;
+        update();
+        try {
+          validateMp4(new Uint8Array(await file.arrayBuffer()));
+          if (!isCurrent()) return;
+          feedback("Uploading video…");
+          const result = await api.request("/videos", { method: "POST", body: file, headers: { "content-type": "video/mp4" } });
+          if (!isCurrent()) {
+            feedback("Video uploaded, but the original block changed. No content was replaced.");
+            return;
+          }
+          snapshot();
+          Object.assign(b, { src: result.src, poster: "" });
+          notify();
+          composer.render();
+          feedback("Video uploaded. Save your draft when ready.");
+        } finally {
+          pendingUploads--;
+          update();
+        }
+      });
+      card.append(wrap);
+      if (b.src) {
+        const preview = document.createElement("video");
+        Object.assign(preview, { src: b.src, poster: b.poster || "", controls: true, playsInline: true, loop: true, preload: "none" });
+        preview.style.width = "100%";
+        preview.setAttribute("aria-label", b.caption || "Video loop");
+        card.append(preview);
+      }
+    } else {
+      const wrap = document.createElement("label");
+      wrap.innerHTML = `YouTube or Vimeo URL<input type="url" value="${b.video_id ? esc(videoUrl(b)) : ""}" placeholder="https://www.youtube.com/watch?v=…"><span class="hint">YouTube and Vimeo links, including unlisted Vimeo share links.</span>`;
+      const control = wrap.querySelector("input");
+      control.dataset.contentField = "video-url";
+      control.dataset.contentIndex = index;
+      control.onchange = () => {
+        try {
+          snapshot();
+          Object.assign(
+            b,
+            { src: "" },
+            control.value ? parseVideo(control.value) : { video_id: "" },
+          );
+          control.setCustomValidity("");
+          notify();
+        } catch (error) {
+          control.setCustomValidity(error.message);
+          control.reportValidity();
+          feedback(error.message, true);
+        }
+      };
+      card.append(wrap);
+    }
     input("Video caption", "caption");
   } else {
     const hr = document.createElement("hr");

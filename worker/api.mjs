@@ -6,8 +6,11 @@ import {
   ContentError,
   validateCatalog,
   isPdfPath,
+  isVideoPath,
   validatePdf,
   MAX_PDF_BYTES,
+  MAX_VIDEO_BYTES,
+  validateMp4,
   entryPath,
 } from "../lib/content.mjs";
 import { shell, entryView, bio } from "../lib/views.mjs";
@@ -89,7 +92,7 @@ export async function handleApi(
           preview: true,
         }).replace(
           /(<a\b[^>]*\bhref=")(\/[^"]*)/g,
-          (match, prefix, path) => isPdfPath(path) ? match :
+          (match, prefix, path) => isPdfPath(path) || isVideoPath(path) ? match :
             prefix.replace(
               "<a",
               '<a target="_blank" rel="noopener noreferrer"',
@@ -99,16 +102,17 @@ export async function handleApi(
         ),
       });
     }
-    if (["/api/media", "/api/documents"].includes(url.pathname) && request.method === "POST") {
-      const document = url.pathname === "/api/documents";
-      const bytes = await readBoundedBytes(request, document ? MAX_PDF_BYTES : MAX_UPLOAD, document ? "PDF" : "Photo");
+    if (["/api/media", "/api/documents", "/api/videos"].includes(url.pathname) && request.method === "POST") {
+      const document = url.pathname === "/api/documents", video = url.pathname === "/api/videos";
+      const bytes = await readBoundedBytes(request, video ? MAX_VIDEO_BYTES : document ? MAX_PDF_BYTES : MAX_UPLOAD, video ? "Video" : document ? "PDF" : "Photo");
       if (document) validatePdf(bytes);
-      const type = document ? { ext: "pdf" } : imageType(bytes);
+      if (video) validateMp4(bytes);
+      const type = video ? { ext: "mp4" } : document ? { ext: "pdf" } : imageType(bytes);
       const digest = Array.from(
         new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
         (n) => n.toString(16).padStart(2, "0"),
       ).join("");
-      const path = `/assets/${document ? "documents" : "media"}/${digest}.${type.ext}`;
+      const path = `/assets/${video ? "videos" : document ? "documents" : "media"}/${digest}.${type.ext}`;
       await store.upload(path, bytes);
       return json({ src: path }, 201);
     }

@@ -191,7 +191,7 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
   };
   try {
     const store = await createGitHubStore(env);
-    await assert.rejects(store.publish("2".repeat(40), "1".repeat(40)), /image or PDF is missing/);
+    await assert.rejects(store.publish("2".repeat(40), "1".repeat(40)), /image, video or PDF is missing/);
     assert(calls.some((call) => call.url.includes(path.slice(1))));
     assert(!calls.some((call) => ["PUT", "PATCH"].includes(call.init.method)));
     const file = await store.media(path);
@@ -201,4 +201,30 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
   } finally {
     globalThis.fetch = original;
   }
+});
+
+test('GitHub publication checks local videos and protected video previews serve ranges', async () => {
+  const original = globalThis.fetch;
+  const catalog = structuredClone(seed);
+  Object.assign(catalog, { demo: false, entries: [] });
+  Object.assign(catalog.profile, { portrait: '', email: 'artist@example.com', url: 'https://portfolio.example' });
+  const path = `/assets/videos/${'a'.repeat(64)}.mp4`;
+  catalog.profile.bio = [{ type: 'video', provider: 'local', src: path }];
+  const bytes = await readFile('tests/fixtures/loop.mp4');
+  let writes = 0;
+  globalThis.fetch = async (url, init = {}) => {
+    if (['PUT', 'PATCH', 'POST'].includes(init.method) && !String(url).includes('/access_tokens')) writes++;
+    if (String(url).includes('/access_tokens')) return ok({ token: 'test-only-token' });
+    if (String(url).includes('assets/videos/')) return init.headers.accept === 'application/vnd.github.raw+json' ? new Response(bytes) : new Response('Missing', { status: 404 });
+    const draft = String(url).includes('_editor');
+    return ok({ sha: (draft ? '2' : '1').repeat(40), encoding: 'base64', content: Buffer.from(JSON.stringify(draft ? { catalog, basePublishedRevision: '1'.repeat(40) } : catalog)).toString('base64') });
+  };
+  try {
+    const store = await createGitHubStore(env);
+    await assert.rejects(store.publish('2'.repeat(40), '1'.repeat(40)), /video or PDF is missing/);
+    assert.equal(writes, 0);
+    const response = await store.media(path, new Request('https://editor.example' + path, { headers: { range: 'bytes=10-19' } }));
+    assert.equal(response.status, 206);
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), bytes.subarray(10,20));
+  } finally { globalThis.fetch = original; }
 });

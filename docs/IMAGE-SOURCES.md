@@ -12,3 +12,7 @@ All are stock reference imagery, not R. Barela’s work. Remove or replace befor
 - sample-face-study.jpg: [Amin Zand Miralvand — A portrait with red makeup and draped fabric](https://www.pexels.com/photo/18201759/)
 
 License: https://www.pexels.com/license/
+
+## November 17, 2026 — deep inside, Retablos panel and Bio headshot
+
+User-supplied media imported with source hashes, dimensions and output paths in [the import manifest](evidence/deep-inside/import-manifest.json). The three HEIC exhibition photographs were converted to WebP; the headshot PNG became a web-sized WebP; the supplied painted panel was copied byte-for-byte. Originals were retained. The explicitly attached dream-loop MP4 was prepared as a full-length 720p H.264/AAC web copy, with a poster extracted at 80 seconds. See [the task record](DEEP-INSIDE-TASK.md) for verification and local publication scope.

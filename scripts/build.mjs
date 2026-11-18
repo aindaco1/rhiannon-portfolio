@@ -10,6 +10,8 @@ import {
   validateCatalog,
   publicCatalog,
   mediaReferences,
+  videoReferences,
+  validateMp4,
   entryPath,
   termPath,
   esc,
@@ -65,6 +67,12 @@ export async function buildSite(
       .webp({ quality: 82 })
       .toFile(`${source}${thumb}`);
     metadata.set(path, { ...meta, thumb });
+  }
+  for (const path of videoReferences(catalog, true)) {
+    const bytes = await readAsset(path);
+    validateMp4(bytes);
+    await mkdir(dirname(`${source}${path}`), { recursive: true });
+    await writeFile(`${source}${path}`, bytes);
   }
   const imageDimensions = (html) =>
     html.replace(/<img\b[^>]*>/g, (tag) => {

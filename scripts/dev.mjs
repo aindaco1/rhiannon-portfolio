@@ -4,7 +4,8 @@ import { resolve, extname, sep } from "node:path";
 import { randomBytes, timingSafeEqual } from "node:crypto";
 import { createLocalStore } from "./local-store.mjs";
 import { handleApi, privateHeaders } from "../worker/api.mjs";
-import { isMediaPath, isPdfPath, PDF_DOWNLOAD_HEADERS } from "../lib/content.mjs";
+import { isMediaPath, isPdfPath, isVideoPath, PDF_DOWNLOAD_HEADERS } from "../lib/content.mjs";
+import { videoResponse } from "../lib/video-response.mjs";
 const port = Number(process.env.PORT || 4321),
   adminPort = Number(process.env.ADMIN_PORT || 4322);
 const store = await createLocalStore(process.env.DATA_DIR || ".local");
@@ -23,7 +24,7 @@ const types = {
   ".xml": "application/xml",
   ".pdf": "application/pdf",
 };
-async function staticFile(root, path) {
+async function staticFile(root, path, request) {
   const base = resolve(root);
   let file = resolve(base, "." + decodeURIComponent(path));
   if (!file.startsWith(base + sep) && file !== base)
@@ -31,6 +32,7 @@ async function staticFile(root, path) {
   try {
     if ((await stat(file)).isDirectory()) file += "/index.html";
     const body = await readFile(file);
+    if (isVideoPath(path)) return videoResponse(body, request);
     return new Response(body, {
       headers: {
         "content-type": types[extname(file)] || "application/octet-stream",
@@ -63,7 +65,7 @@ function serve(isAdmin) {
         if (!["GET", "HEAD"].includes(req.method))
           response = new Response("Method not allowed", { status: 405 });
         else {
-          response = await staticFile(`${store.root}/live`, url.pathname);
+          response = await staticFile(`${store.root}/live`, url.pathname, request);
           if (response.status === 404) {
             const missing = await staticFile(`${store.root}/live`, "/404.html");
             response = new Response(missing.body, {
@@ -102,10 +104,10 @@ function serve(isAdmin) {
           response = await handleApi(request, store, {
             publicOrigin: `http://127.0.0.1:${port}`,
           });
-        else if (isMediaPath(url.pathname) || isPdfPath(url.pathname)) {
-          response = await staticFile(store.root, url.pathname);
+        else if (isMediaPath(url.pathname) || isPdfPath(url.pathname) || isVideoPath(url.pathname)) {
+          response = await staticFile(store.root, url.pathname, request);
           if (response.status === 404)
-            response = await staticFile(".", url.pathname);
+            response = await staticFile(".", url.pathname, request);
         } else response = await staticFile(".admin-build", url.pathname);
         for (const [key, value] of Object.entries(privateHeaders))
           response.headers.set(key, value);

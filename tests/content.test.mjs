@@ -109,7 +109,7 @@ test("media and block inputs are validated at the server boundary", () => {
   d.entries[0].blocks.push({ type: "embed" });
   assert.throws(() => validateCatalog(d), /Unsupported/);
 });
-test("only safe YouTube/Vimeo videos can become players", () => {
+test("only safe YouTube/Vimeo links can become embedded players", () => {
   assert.deepEqual(parseVideo("https://youtu.be/dQw4w9WgXcQ"), {
     provider: "youtube",
     video_id: "dQw4w9WgXcQ",
@@ -126,8 +126,8 @@ test("only safe YouTube/Vimeo videos can become players", () => {
   ])
     assert.throws(() => parseVideo(url));
   const d = copy();
-  d.entries[0].blocks = [{ type: "video", provider: "local", video_id: "abc" }];
-  assert.throws(() => validateCatalog(d), /Only/);
+  d.entries[0].blocks = [{ type: "video", provider: "other", video_id: "abc" }];
+  assert.throws(() => validateCatalog(d), /Choose YouTube/);
 });
 test("public text and attributes cannot inject executable markup", () => {
   const d = copy();

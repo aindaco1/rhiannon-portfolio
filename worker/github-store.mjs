@@ -1,15 +1,19 @@
 import { SignJWT, importPKCS8 } from "jose";
 import { createGitHubClient } from "../shared/dust-wave-platform/packages/worker-core/src/github.js";
-import { readBoundedJson } from "../shared/dust-wave-platform/packages/worker-core/src/response-body.js";
+import { readBoundedJson, readBoundedBytes } from "../shared/dust-wave-platform/packages/worker-core/src/response-body.js";
 import {
   ContentError,
   publicCatalog,
   validateCatalog,
   mediaReferences,
+  videoReferences,
+  isVideoPath,
+  MAX_VIDEO_BYTES,
   bioPdf,
   isPdfPath,
   PDF_DOWNLOAD_HEADERS,
 } from "../lib/content.mjs";
+import { videoResponse } from "../lib/video-response.mjs";
 const livePath = "content/catalog.json",
   draftPath = "_editor/catalog.json";
 const stringify = (value) => JSON.stringify(value, null, 2) + "\n";
@@ -89,8 +93,8 @@ export async function createGitHubStore(env) {
     ref: branch,
     token,
     userAgent: "r-barela-portfolio",
-    maxContentBytes: 5 * 1024 * 1024,
-    maxResponseBytes: 8 * 1024 * 1024,
+    maxContentBytes: MAX_VIDEO_BYTES,
+    maxResponseBytes: 16 * 1024 * 1024,
   });
   async function state() {
     const [live, draft] = await Promise.all([
@@ -158,14 +162,14 @@ export async function createGitHubStore(env) {
         throw new ContentError("Save a draft before publishing.");
       const catalog = validateCatalog(s.catalog, { production: true });
       // Verify every referenced public file before creating the publication commit.
-      for (const path of [...mediaReferences(catalog, true), bioPdf(catalog.profile).src]) {
+      for (const path of [...mediaReferences(catalog, true), ...videoReferences(catalog, true), bioPdf(catalog.profile).src]) {
         const response = await fetch(
           `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
           { headers, signal: AbortSignal.timeout(15000) },
         );
         if (!response.ok)
           throw new ContentError(
-            "A referenced image or PDF is missing. Upload it again before publishing.",
+            "A referenced image, video or PDF is missing. Upload it again before publishing.",
           );
         await response.body?.cancel();
       }
@@ -199,7 +203,7 @@ export async function createGitHubStore(env) {
       const result = await client.putBase64File(
         path.slice(1),
         btoa(binary),
-        isPdfPath(path) ? "Stage portfolio PDF" : "Stage portfolio photo",
+        isVideoPath(path) ? "Stage portfolio video" : isPdfPath(path) ? "Stage portfolio PDF" : "Stage portfolio photo",
       );
       if (!result.ok) {
         const existing = await fetch(
@@ -210,7 +214,7 @@ export async function createGitHubStore(env) {
         await existing.body?.cancel();
       }
     },
-    media: async (path) => {
+    media: async (path, request) => {
       const response = await fetch(
         `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
         {
@@ -219,6 +223,7 @@ export async function createGitHubStore(env) {
         },
       );
       if (!response.ok) return new Response("Not found", { status: 404 });
+      if (isVideoPath(path)) return videoResponse(await readBoundedBytes(response, MAX_VIDEO_BYTES), request);
       return new Response(response.body, {
         headers: isPdfPath(path) ? PDF_DOWNLOAD_HEADERS : {
           "content-type": path.endsWith(".png")

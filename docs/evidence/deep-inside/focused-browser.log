@@ -1,0 +1,15 @@
+
+> rhiannon-portfolio@0.1.0 test:browser
+> playwright test --grep MP4
+
+[WebServer] (node:35853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:35928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/portfolio.spec.js:898:1 › MP4 blocks upload privately, save, preview, play, seek and publish (7.8s)
+  ✓  2 tests/browser/portfolio.spec.js:957:1 › late MP4 uploads cannot overwrite a changed block (771ms)
+
+  2 passed (12.2s)

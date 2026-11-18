@@ -141,8 +141,8 @@ main {
   text-decoration: none;
   white-space: nowrap;
 }
-.categories a[aria-current],
-.categories a:hover {
+.categories a[aria-current] span,
+.categories a:hover span {
   text-decoration: underline;
 }
 .categories sup {
@@ -1031,4 +1031,11 @@ footer small {
     grid-template-columns: minmax(0, 1fr);
     gap: 45px;
   }
+}
+
+.video-file {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #171717;
 }

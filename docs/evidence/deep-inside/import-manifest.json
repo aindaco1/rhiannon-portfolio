@@ -1,0 +1,89 @@
+[
+  {
+    "key": "cover",
+    "original": "/Users/aindaco1/Desktop/drive-download-20261118T005313Z-1-001/IMG_1963.HEIC",
+    "originalSha256": "faf0fae036444c03f530893ac8e045824e7183c7e6305f874dc261c1b164f18e",
+    "originalBytes": 1486190,
+    "path": "/assets/media/4781752cecada0487259a085c8468c90d561d48352d4f99f1846570fd286ef30.webp",
+    "sha256": "4781752cecada0487259a085c8468c90d561d48352d4f99f1846570fd286ef30",
+    "bytes": 266536,
+    "width": 1200,
+    "height": 1600,
+    "alt": "A carved pine angel with an open chest revealing ribs, a heart, and a small illuminated screen."
+  },
+  {
+    "key": "installation",
+    "original": "/Users/aindaco1/Desktop/drive-download-20261118T005313Z-1-001/IMG_2198.HEIC",
+    "originalSha256": "01934aadfd7249f6b1d5c3472b654b9993d075f14f43c79a15a489bc9cb6d629",
+    "originalBytes": 1695714,
+    "path": "/assets/media/d487d8243ac34b17629189484126e91fa32fda3da4e57bafdc396c482b5a5294.webp",
+    "sha256": "d487d8243ac34b17629189484126e91fa32fda3da4e57bafdc396c482b5a5294",
+    "bytes": 197848,
+    "width": 1600,
+    "height": 1200,
+    "alt": "The carved angel sculpture displayed on a white plinth beside its exhibition label."
+  },
+  {
+    "key": "exhibition",
+    "original": "/Users/aindaco1/Desktop/drive-download-20261118T005313Z-1-001/IMG_2441.HEIC",
+    "originalSha256": "68b4889da00925aaa4067bb861436433610996ef0c2c1cc1d4dba239694f4eb8",
+    "originalBytes": 2069854,
+    "path": "/assets/media/a2f6b5e93394209cf4570b04f5f190579f7b0535fe02fca0e5f7025c0bccb069.webp",
+    "sha256": "a2f6b5e93394209cf4570b04f5f190579f7b0535fe02fca0e5f7025c0bccb069",
+    "bytes": 314656,
+    "width": 1600,
+    "height": 1200,
+    "alt": "A person standing beside the carved angel sculpture in the exhibition."
+  },
+  {
+    "key": "poster",
+    "original": "/Users/aindaco1/Desktop/dream-loop.mp4",
+    "originalSha256": "d0232069b1d43c0fd3e62b75e0bdf9564340cef99ee0070be6efd24f71b5f1d0",
+    "originalBytes": 186500036,
+    "path": "/assets/media/81bc12a46eb137261a19c1ff08430dd2c8293c5dfb7e20120000d64ddf389e8c.webp",
+    "sha256": "81bc12a46eb137261a19c1ff08430dd2c8293c5dfb7e20120000d64ddf389e8c",
+    "bytes": 41432,
+    "width": 960,
+    "height": 540,
+    "alt": "Two rabbits in a blue-tinted scene from the dream loop."
+  },
+  {
+    "key": "retablo",
+    "original": "/Users/aindaco1/Desktop/IMG_5992_PORTFOLIO/01-webp/painted-panel-straightened.webp",
+    "originalSha256": "3f1bf9fe7d07d37dd49a830aefcc0b068236f93356e17b9b5aabdab537e9cacf",
+    "originalBytes": 1652414,
+    "path": "/assets/media/3f1bf9fe7d07d37dd49a830aefcc0b068236f93356e17b9b5aabdab537e9cacf.webp",
+    "sha256": "3f1bf9fe7d07d37dd49a830aefcc0b068236f93356e17b9b5aabdab537e9cacf",
+    "bytes": 1652414,
+    "width": 1222,
+    "height": 1600,
+    "alt": "A yellow-framed painted panel with costumed figures gathered beneath a bright star in a dark sky."
+  },
+  {
+    "key": "headshot",
+    "original": "/Users/aindaco1/Desktop/rnb_headshot2026.PNG",
+    "originalSha256": "a4627ec539452bd2463436a158bebfb1d7ffeda27fbb25aa57f4e0d9e2a4f477",
+    "originalBytes": 10951925,
+    "path": "/assets/media/c0f5e8010173c21cc84450044767d5c20f0010a0b7c62ca378eacfcb98f6f3ea.webp",
+    "sha256": "c0f5e8010173c21cc84450044767d5c20f0010a0b7c62ca378eacfcb98f6f3ea",
+    "bytes": 120720,
+    "width": 1600,
+    "height": 1280,
+    "alt": "R. Barela wearing a black leather jacket over a red and white shirt."
+  },
+  {
+    "key": "video",
+    "original": "/Users/aindaco1/Desktop/dream-loop.mp4",
+    "originalSha256": "d0232069b1d43c0fd3e62b75e0bdf9564340cef99ee0070be6efd24f71b5f1d0",
+    "originalBytes": 186500036,
+    "path": "/assets/videos/db6f3f3d3632a433467d4a8fac32b8ab56efdb6846eb06d1bf49e150636a2468.mp4",
+    "sha256": "db6f3f3d3632a433467d4a8fac32b8ab56efdb6846eb06d1bf49e150636a2468",
+    "bytes": 7805854,
+    "duration": 138.025333,
+    "width": 1280,
+    "height": 720,
+    "videoCodec": "H.264",
+    "audioCodec": "AAC",
+    "preparation": "720p, CRF 26, 480k peak video, 80k audio, fast start; full duration retained."
+  }
+]

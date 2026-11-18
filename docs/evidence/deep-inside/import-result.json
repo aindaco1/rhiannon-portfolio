@@ -1,0 +1,13 @@
+{
+  "time": "2026-11-18T01:14:39.500Z",
+  "beforeRevision": "53811d1327421bf548d9cbedb80b13695b1252d1314deb8ee63f8383612789e5",
+  "afterRevision": "0eeca93181e9c88d5c19b5ea1aa31dcd60062fde8941073231bb61e878f007db",
+  "publishedRevision": "0eeca93181e9c88d5c19b5ea1aa31dcd60062fde8941073231bb61e878f007db",
+  "status": "live",
+  "catalogSha256": "85909f4cf0faa8a71a12e924f265c67b78f824fabafd89858d7b5777eabce5e3",
+  "originalBioPreserved": true,
+  "unrelatedEntriesPreserved": true,
+  "retablosExistingImagesPreserved": true,
+  "uploadedAssets": 7,
+  "projectCount": 24
+}

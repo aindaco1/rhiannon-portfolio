@@ -1,0 +1,71 @@
+{
+  "time": "2026-11-18T01:16:15.399Z",
+  "pages": [
+    {
+      "route": "/work/deep-inside/",
+      "width": 1440,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/bio/",
+      "width": 1440,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/work/retablos/",
+      "width": 1440,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/work/deep-inside/",
+      "width": 390,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/bio/",
+      "width": 390,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/work/retablos/",
+      "width": 390,
+      "noOverflow": true,
+      "axeViolations": []
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "noOverflow": true,
+      "axeViolations": []
+    }
+  ],
+  "errors": [],
+  "video": {
+    "duration": 138.025333,
+    "play": true,
+    "seekTo80": true,
+    "repeatsAtEnd": true,
+    "autoplay": false,
+    "audioStreamPreserved": true,
+    "playbackCheckMuted": true
+  },
+  "bioAdmin": {
+    "replace": true,
+    "editDescription": true,
+    "remove": true,
+    "undo": true,
+    "privatePreview": true,
+    "savedStateUnchanged": true
+  }
+}
