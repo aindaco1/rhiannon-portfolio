@@ -2,11 +2,24 @@
   "name": "r-barela-editor",
   "main": "index.mjs",
   "compatibility_date": "2026-11-17",
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": false,
-  "assets": {"directory": "../.admin-build", "binding": "ASSETS", "run_worker_first": true},
   "vars": {
     "GITHUB_BRANCH": "main",
-    "EDITOR_EMAILS": "alonso@hey.com,barelarhiannon@gmail.com"
-  }
+    "EDITOR_EMAILS": "alonso@hey.com,barelarhiannon@gmail.com",
+    "ADMIN_ORIGIN": "https://rbarela.com",
+    "GITHUB_OWNER": "aindaco1",
+    "GITHUB_REPO": "rhiannon-portfolio",
+    "GITHUB_DRAFT_REPO": "rhiannon-portfolio-drafts",
+    "GITHUB_DRAFT_BRANCH": "main"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "r-barela-editor-sessions",
+      "database_id": "e272151f-0ca8-4c14-9446-0cb600644c43",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "account_id": "fee6147787ab9025e9fd8e6e8fd76910"
 }

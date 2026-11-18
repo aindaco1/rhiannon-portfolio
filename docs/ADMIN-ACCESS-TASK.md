@@ -1,3 +1,5 @@
+> Superseded for hosted deployment by the email-link/session implementation in [DEPLOYMENT.md](DEPLOYMENT.md). The two approved addresses remain unchanged. The Access JWT results below describe the earlier implementation only.
+
 # Approved portfolio admins
 
 November 17, 2026 (America/Denver), base `d403952`. Configured `alonso@hey.com` and `barelarhiannon@gmail.com` as the two approved admins in the deployment's `EDITOR_EMAILS` variable in `worker/wrangler.jsonc`. The example secrets file no longer contains a duplicate placeholder override. Deployment instructions require the Cloudflare Access policy to match this allowlist.

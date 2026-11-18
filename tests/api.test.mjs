@@ -46,8 +46,7 @@ test("Worker fails closed before serving API or static assets", async () => {
   await assert.rejects(
     authorize(request("/api/state"), {
       ADMIN_ORIGIN: "https://editor.example.com",
-      ACCESS_TEAM_DOMAIN: "https://team.cloudflareaccess.com",
-      ACCESS_AUD: "aud",
+      DB: {},
       EDITOR_EMAILS: "a@example.com",
     }),
     /Sign in/,

@@ -188,7 +188,24 @@ export async function buildSite(
     ],
     { stdio: "pipe", env: { ...process.env, JEKYLL_ENV: "production" } },
   );
-  if (admin) await buildAdmin();
+  if (admin) {
+    await buildAdmin();
+    const { apiBase } = JSON.parse(await readFile("admin/config.json", "utf8"));
+    const endpoint = new URL(apiBase);
+    if (endpoint.protocol !== "https:" || endpoint.origin !== apiBase) throw new Error("Configure an HTTPS editor API origin.");
+    const html = (await readFile(".admin-build/index.html", "utf8"))
+      .replace("<body>", `<body data-api-base="${esc(apiBase)}">`)
+      .replaceAll('/assets/css/admin.css', '/admin/assets/css/admin.css')
+      .replaceAll('/assets/js/admin.js', '/admin/assets/js/admin.js')
+      .replace('<div class="admin-layout">', '<div class="admin-layout" hidden>')
+      .replace('<div class="save-bar">', '<div class="save-bar" hidden>')
+      .replace('class="login-panel" hidden', 'class="login-panel"');
+    await mkdir(`${output}/admin/assets/css`, { recursive: true });
+    await mkdir(`${output}/admin/assets/js`, { recursive: true });
+    await writeFile(`${output}/admin/index.html`, html);
+    await cp(".admin-build/assets/css/admin.css", `${output}/admin/assets/css/admin.css`);
+    await cp(".admin-build/assets/js/admin.js", `${output}/admin/assets/js/admin.js`);
+  }
   console.log(
     `Built ${catalog.entries.length} entries, ${paths.length} pages → ${output}`,
   );

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Editor — R. Barela</title>
     <link rel="icon" href="/assets/favicon.svg" />
@@ -12,15 +13,22 @@
   <body>
     <a href="#view" class="skip-link">Skip to editor</a>
     <header class="admin-header">
+      <button id="sign-out" hidden>Sign out</button>
       <a href="/admin/" class="brand">R. Barela <span>/ Editor</span></a
       ><a
         id="public-link"
-        href="http://127.0.0.1:4321"
+        href="/"
         target="_blank"
         rel="noopener"
         >View portfolio ↗</a
       >
     </header>
+    <section id="login" class="login-panel" hidden aria-labelledby="login-title">
+      <h1 id="login-title">Sign in to your portfolio</h1>
+      <p>Enter your approved email address. We’ll send you a link to open the editor.</p>
+      <form id="login-form"><label>Email address<input id="login-email" type="email" autocomplete="email" required maxlength="254"></label><button class="primary">Email me a sign-in link</button></form>
+      <p id="login-message" role="status" aria-live="polite"></p>
+    </section>
     <div class="admin-layout">
       <aside class="sidebar">
         <nav aria-label="Editor">

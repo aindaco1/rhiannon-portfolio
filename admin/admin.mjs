@@ -1,4 +1,4 @@
-import { AdminApiClient } from "../shared/dust-wave-platform/packages/admin-shell/src/api-client.js";
+import { api, hosted, mediaAttribute, mediaURL, privatePreview, startSession } from "./session.mjs";
 import { createBlockEditor } from "../shared/dust-wave-platform/packages/admin-shell/src/block-editor.js";
 import {
   captureMediaTarget,
@@ -33,7 +33,6 @@ import {
   compareProjectYears,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
-  api = new AdminApiClient({ baseUrl: location.origin + "/api" }),
   key = "r-barela-recovery-v1";
 let data,
   revision,
@@ -65,7 +64,7 @@ function describeUpload(control, kind) {
   control.closest("label").after(hint);
 }
 const clone = (value) => structuredClone(value),
-  current = () => data.entries.find((e) => e.id === currentId),
+  current = () => data?.entries.find((e) => e.id === currentId),
   dirty = () => !!data && JSON.stringify(data) !== saved;
 const guard = mountUnsavedChangesGuard({
   hasUnsavedChanges: () => dirty() || pendingUploads > 0,
@@ -147,7 +146,7 @@ async function load() {
   feedback(
     result.conflict
       ? "A newer publication exists. Download a recovery copy and reconcile the saved draft before publishing."
-      : "Ready. Draft saves do not change the public portfolio.",
+      : result.pendingPublication ? "A publication was interrupted. Retry Publish before making more changes." : "Ready. Draft saves do not change the public portfolio.",
     !!result.conflict,
   );
   try {
@@ -207,7 +206,7 @@ function render() {
     root.innerHTML = `<div class="view-heading"><h1>${kind === "post" ? "Writing" : "Projects"}</h1><button class="primary" id="new-entry">New ${kind === "post" ? "piece" : "project"} +</button></div><p class="view-description">${kind === "post" ? "A place for essays, notes, or a thought in progress. Write freely with the same editor you use for projects. Published pieces appear newest first by publication date." : "Projects appear newest first, using the start year for ranges. Use the arrows to arrange projects within the same starting year. Changes go live only when you publish."}</p>${entries
       .map(
         (e, index) =>
-          `<article class="entry-row">${e.cover.src ? `<img src="${esc(e.cover.src)}" alt="" loading="lazy">` : "<span></span>"}<div><h2><button class="entry-link" data-edit="${e.id}">${esc(e.title)}</button></h2><p>${e.kind === "post" ? e.date : e.year} · ${
+          `<article class="entry-row">${e.cover.src ? `<img ${mediaAttribute(e.cover.src)} alt="" loading="lazy">` : "<span></span>"}<div><h2><button class="entry-link" data-edit="${e.id}">${esc(e.title)}</button></h2><p>${e.kind === "post" ? e.date : e.year} · ${
             data.categories
               .filter((t) => e.categories.includes(t.id))
               .map((t) => esc(t.label))
@@ -712,7 +711,9 @@ function renderBody(card, b, index, e, snapshot, owner) {
       card.append(remove.button);
       if (b.src) {
         const preview = document.createElement("video");
-        Object.assign(preview, { src: b.src, poster: b.poster || "", controls: true, playsInline: true, loop: true, preload: "none" });
+        if (hosted) { preview.dataset.privateSrc = b.src; if (b.poster) preview.dataset.privatePoster = b.poster; }
+        else { preview.src = b.src; preview.poster = b.poster || ""; }
+        Object.assign(preview, { controls: true, playsInline: true, loop: true, preload: "none" });
         preview.style.width = "100%";
         preview.setAttribute("aria-label", b.caption || "Video loop");
         card.append(preview);
@@ -768,7 +769,7 @@ function mediaField(
 ) {
   const wrap = document.createElement("div");
   wrap.className = "media-controls";
-  wrap.innerHTML = `${target.src ? `<img src="${esc(target.src)}" alt="${esc(target.alt)}">` : ""}<label>Choose photo<input type="file" accept="image/jpeg,image/png,image/webp"></label><div class="media-fields">${fieldHtml("Image description", target.alt || "")}${fieldHtml("Caption", target.caption || "")}</div><label class="check"><input type="checkbox" ${target.decorative ? "checked" : ""}>Decorative image (no description needed)</label>`;
+  wrap.innerHTML = `${target.src ? `<img ${mediaAttribute(target.src)} alt="${esc(target.alt)}">` : ""}<label>Choose photo<input type="file" accept="image/jpeg,image/png,image/webp"></label><div class="media-fields">${fieldHtml("Image description", target.alt || "")}${fieldHtml("Caption", target.caption || "")}</div><label class="check"><input type="checkbox" ${target.decorative ? "checked" : ""}>Decorative image (no description needed)</label>`;
   describeUpload(wrap.querySelector("[type=file]"), "photo");
   const fields = wrap.querySelectorAll(".media-fields input");
   fields[0].oninput = () => {
@@ -937,7 +938,8 @@ function renderProfile(root) {
   describeUpload(pdfInput, "pdf");
   const refreshPdf = () => {
     const pdf = bioPdf(p), link = root.querySelector("#bio-pdf-download");
-    link.href = pdf.src;
+    link.removeAttribute("href");
+    mediaURL(pdf.src).then(url => { if (bioPdf(p).src === pdf.src) link.href = url; }).catch(error => feedback(error.message, true));
     link.textContent = pdf.name;
   };
   refreshPdf();
@@ -1066,6 +1068,7 @@ $("#publish").onclick = () =>
       });
       publishedRevision = result.publishedRevision || publishedRevision;
       revision = result.revision || revision;
+      if (result.status === "unchanged") { feedback("No public changes to publish. Draft-only work remains saved."); return; }
       if (result.status === "live") {
         feedback(
           "Published to the local preview. The public pages now reflect this saved draft.",
@@ -1116,7 +1119,7 @@ $("#preview").onclick = () =>
             : "Project preview";
       $("#preview-title").textContent = previewTitle;
       $("#preview-dialog iframe").title = previewTitle;
-      $("#preview-dialog iframe").srcdoc = result.html;
+      $("#preview-dialog iframe").srcdoc = await privatePreview(result.html);
       $("#preview-dialog").showModal();
     } finally {
       busy = false;
@@ -1157,4 +1160,12 @@ for (const button of document.querySelectorAll("[data-view]"))
     history = [];
     render();
   };
-await act(load);
+await startSession(load, {
+  confirmSignOut: () => guard.confirmTransition("Sign out? Download a recovery copy first if you have unsaved edits."),
+  onSignOut: () => {
+    composer?.destroy(); composer = null; data = undefined; saved = "";
+    document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
+    $("#preview-dialog iframe").srcdoc = "";
+    $("#view").replaceChildren(); update();
+  },
+}).catch(error => feedback(error.message, true));

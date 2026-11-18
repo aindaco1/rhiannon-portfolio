@@ -1,9 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { generateKeyPair, exportPKCS8, exportJWK, SignJWT } from "jose";
+import { generateKeyPair, exportPKCS8 } from "jose";
 import { createGitHubStore } from "../worker/github-store.mjs";
-import { authorize } from "../worker/index.mjs";
 const seed = JSON.parse(
   await readFile(new URL("./fixtures/catalog.json", import.meta.url)),
 );
@@ -14,6 +13,7 @@ const pem = await exportPKCS8(privateKey);
 const env = {
   GITHUB_OWNER: "owner",
   GITHUB_REPO: "portfolio",
+  GITHUB_DRAFT_REPO: "portfolio-drafts",
   GITHUB_APP_CLIENT_ID: "app",
   GITHUB_APP_INSTALLATION_ID: "1",
   GITHUB_APP_PRIVATE_KEY: pem,
@@ -30,6 +30,7 @@ test("GitHub App tokens are repository-scoped; draft saves preserve expected SHA
     draft = "2".repeat(40);
   globalThis.fetch = async (url, init = {}) => {
     calls.push({ url: String(url), init });
+    if (String(url).endsWith("/portfolio-drafts")) return ok({ private: true });
     if (String(url).includes("/access_tokens"))
       return ok({ token: "test-only-token" });
     if (init.method === "PUT")
@@ -58,7 +59,8 @@ test("GitHub App tokens are repository-scoped; draft saves preserve expected SHA
     const saved = await store.save(next, draft, published);
     assert.equal(saved.revision, "3".repeat(40));
     const tokenBody = JSON.parse(calls[0].init.body);
-    assert.deepEqual(tokenBody.repositories, ["portfolio"]);
+    assert.deepEqual(tokenBody.repositories, ["portfolio", "portfolio-drafts"]);
+    assert(calls.filter(c => c.init.method === "PUT").every(c => c.url.includes("/portfolio-drafts/")));
     assert.deepEqual(tokenBody.permissions, {
       contents: "write",
       actions: "read",
@@ -79,6 +81,7 @@ test("GitHub App tokens are repository-scoped; draft saves preserve expected SHA
 test("a changed live file does not silently rebase an existing working draft", async () => {
   const original = globalThis.fetch;
   globalThis.fetch = async (url) => {
+    if (String(url).endsWith("/portfolio-drafts")) return ok({ private: true });
     if (String(url).includes("/access_tokens"))
       return ok({ token: "test-only-token" });
     const isDraft = String(url).includes("_editor");
@@ -107,58 +110,6 @@ test("a changed live file does not silently rebase an existing working draft", a
     globalThis.fetch = original;
   }
 });
-test("Cloudflare Access verifies signature, audience, expiry and the email allowlist", async () => {
-  const config = JSON.parse(await readFile(new URL("../worker/wrangler.jsonc", import.meta.url)));
-  const admins = ["alonso@hey.com", "barelarhiannon@gmail.com"];
-  assert.deepEqual(config.vars.EDITOR_EMAILS.split(","), admins);
-  const original = globalThis.fetch,
-    jwk = await exportJWK(publicKey);
-  jwk.kid = "test-key";
-  jwk.alg = "RS256";
-  globalThis.fetch = async () => ok({ keys: [jwk] });
-  const access = {
-    ADMIN_ORIGIN: "https://editor.example.com",
-    ACCESS_TEAM_DOMAIN: "https://portfolio-test.cloudflareaccess.com",
-    ACCESS_AUD: "portfolio-aud",
-    EDITOR_EMAILS: config.vars.EDITOR_EMAILS,
-  };
-  const token = async ({
-    email = admins[0],
-    aud = "portfolio-aud",
-    expires = "2m",
-  } = {}) =>
-    new SignJWT({ email })
-      .setProtectedHeader({ alg: "RS256", kid: "test-key" })
-      .setIssuer(access.ACCESS_TEAM_DOMAIN)
-      .setAudience(aud)
-      .setIssuedAt()
-      .setExpirationTime(expires)
-      .sign(privateKey);
-  const request = (jwt) =>
-    new Request("https://editor.example.com/api/state", {
-      headers: { "cf-access-jwt-assertion": jwt },
-    });
-  try {
-    for (const email of [...admins, admins[0].toUpperCase()])
-      assert.equal(await authorize(request(await token({ email })), access), email);
-    await assert.rejects(
-      authorize(request(await token({ aud: "other" })), access),
-      /invalid/,
-    );
-    await assert.rejects(
-      authorize(request(await token({ expires: "-1m" })), access),
-      /invalid/,
-    );
-    for (const email of ["stranger@example.com", "someone@gmail.com", "alonso@hey.com.evil.example"])
-      await assert.rejects(authorize(request(await token({ email })), access), /does not have/);
-    await assert.rejects(
-      authorize(new Request("https://alternate.example.com/api/state"), access),
-      /origin/,
-    );
-  } finally {
-    globalThis.fetch = original;
-  }
-});
 
 test("GitHub publication rejects a missing PDF and protected downloads retain PDF headers", async () => {
   const original = globalThis.fetch;
@@ -172,11 +123,16 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
   catalog.profile.bioPdf = { src: path, name: "Updated résumé.pdf" };
   const bytes = await readFile("assets/documents/r-barela-bio-resume.pdf");
   const calls = [];
+  let downloading = false;
   globalThis.fetch = async (url, init = {}) => {
     calls.push({ url: String(url), init });
+    if (String(url).endsWith("/portfolio-drafts")) return ok({ private: true });
     if (String(url).includes("/access_tokens")) return ok({ token: "test-only-token" });
+    if (String(url).includes("/git/trees/")) return ok({ tree: [], truncated: false });
+    if (String(url).includes("/git/ref/")) return ok({ object: { sha: "a".repeat(40) } });
+    if (String(url).includes("/git/commits/")) return ok({ tree: { sha: "b".repeat(40) } });
     if (String(url).includes("assets/documents/"))
-      return init.headers.accept === "application/vnd.github.raw+json"
+      return downloading && init.headers.accept === "application/vnd.github.raw+json"
         ? new Response(bytes)
         : new Response("Missing", { status: 404 });
     const draft = String(url).includes("_editor");
@@ -190,6 +146,7 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
     await assert.rejects(store.publish("2".repeat(40), "1".repeat(40)), /image, video or PDF is missing/);
     assert(calls.some((call) => call.url.includes(path.slice(1))));
     assert(!calls.some((call) => ["PUT", "PATCH"].includes(call.init.method)));
+    downloading = true;
     const file = await store.media(path);
     assert.equal(file.headers.get("content-type"), "application/pdf");
     assert.match(file.headers.get("content-disposition"), /^attachment;/);
@@ -207,11 +164,15 @@ test('GitHub publication checks local videos and protected video previews serve 
   const path = `/assets/videos/${'a'.repeat(64)}.mp4`;
   catalog.profile.bio = [{ type: 'video', provider: 'local', src: path }];
   const bytes = await readFile('tests/fixtures/loop.mp4');
-  let writes = 0;
+  let writes = 0, downloading = false;
   globalThis.fetch = async (url, init = {}) => {
     if (['PUT', 'PATCH', 'POST'].includes(init.method) && !String(url).includes('/access_tokens')) writes++;
+    if (String(url).endsWith('/portfolio-drafts')) return ok({ private: true });
     if (String(url).includes('/access_tokens')) return ok({ token: 'test-only-token' });
-    if (String(url).includes('assets/videos/')) return init.headers.accept === 'application/vnd.github.raw+json' ? new Response(bytes) : new Response('Missing', { status: 404 });
+    if (String(url).includes('/git/trees/')) return ok({ tree: [], truncated: false });
+    if (String(url).includes('/git/ref/')) return ok({ object: { sha: 'a'.repeat(40) } });
+    if (String(url).includes('/git/commits/')) return ok({ tree: { sha: 'b'.repeat(40) } });
+    if (String(url).includes('assets/videos/')) return downloading && init.headers.accept === 'application/vnd.github.raw+json' ? new Response(bytes) : new Response('Missing', { status: 404 });
     const draft = String(url).includes('_editor');
     return ok({ sha: (draft ? '2' : '1').repeat(40), encoding: 'base64', content: Buffer.from(JSON.stringify(draft ? { catalog, basePublishedRevision: '1'.repeat(40) } : catalog)).toString('base64') });
   };
@@ -219,8 +180,21 @@ test('GitHub publication checks local videos and protected video previews serve 
     const store = await createGitHubStore(env);
     await assert.rejects(store.publish('2'.repeat(40), '1'.repeat(40)), /video or PDF is missing/);
     assert.equal(writes, 0);
+    downloading = true;
     const response = await store.media(path, new Request('https://editor.example' + path, { headers: { range: 'bytes=10-19' } }));
     assert.equal(response.status, 206);
     assert.deepEqual(Buffer.from(await response.arrayBuffer()), bytes.subarray(10,20));
   } finally { globalThis.fetch = original; }
+});
+
+test("private repository is mandatory, including its actual GitHub visibility", async t => {
+  await assert.rejects(createGitHubStore({ ...env, GITHUB_DRAFT_REPO: env.GITHUB_REPO }), /separate private/);
+  let writes = 0;
+  t.mock.method(globalThis, "fetch", async (url, init = {}) => {
+    if (String(url).includes("access_tokens")) return ok({ token: "test-only-token" });
+    if (init.method && init.method !== "GET") writes++;
+    return ok({ private: false });
+  });
+  await assert.rejects(createGitHubStore(env), /must be private/);
+  assert.equal(writes, 0);
 });

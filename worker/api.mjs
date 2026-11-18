@@ -31,11 +31,11 @@ export const json = (data, status = 200) =>
       "content-type": "application/json; charset=utf-8",
     },
   });
-export function assertSameOrigin(request) {
+export function assertSameOrigin(request, editorOrigin = "") {
   const url = new URL(request.url);
   if (
-    request.headers.get("origin") !== url.origin ||
-    request.headers.get("sec-fetch-site") === "cross-site"
+    request.headers.get("origin") !== (editorOrigin || url.origin) ||
+    (!editorOrigin && request.headers.get("sec-fetch-site") === "cross-site")
   )
     throw new ContentError("This request must come from the editor.", 403);
 }
@@ -56,11 +56,11 @@ export function imageType(bytes) {
 export async function handleApi(
   request,
   store,
-  { production = false, publicOrigin = "" } = {},
+  { production = false, publicOrigin = "", editorOrigin = "" } = {},
 ) {
   const url = new URL(request.url);
   try {
-    if (!["GET", "HEAD"].includes(request.method)) assertSameOrigin(request);
+    if (!["GET", "HEAD"].includes(request.method)) assertSameOrigin(request, editorOrigin);
     if (url.pathname === "/api/state" && request.method === "GET")
       return json(await store.load());
     if (url.pathname === "/api/draft" && request.method === "PUT") {

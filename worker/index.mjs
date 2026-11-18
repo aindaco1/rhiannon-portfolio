@@ -1,84 +1,44 @@
-import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createGitHubStore } from "./github-store.mjs";
-import { handleApi, json, privateHeaders, assertSameOrigin } from "./api.mjs";
+import { handleApi, json, privateHeaders } from "./api.mjs";
+import { authorize, handleAuth } from "./auth.mjs";
 import { ContentError, isMediaPath, isPdfPath, isVideoPath } from "../lib/content.mjs";
-const keySets = new Map();
-export async function authorize(request, env) {
-  if (!env.ADMIN_ORIGIN || new URL(request.url).origin !== env.ADMIN_ORIGIN)
-    throw new ContentError("This editor origin is not configured.", 403);
-  if (
-    !/^https:\/\/[a-z0-9-]+\.cloudflareaccess\.com$/.test(
-      env.ACCESS_TEAM_DOMAIN || "",
-    ) ||
-    !env.ACCESS_AUD ||
-    !env.EDITOR_EMAILS
-  )
-    throw new ContentError("Editor access is not configured.", 403);
-  const token = request.headers.get("cf-access-jwt-assertion");
-  if (!token) throw new ContentError("Sign in to edit this portfolio.", 401);
-  if (!keySets.has(env.ACCESS_TEAM_DOMAIN))
-    keySets.set(
-      env.ACCESS_TEAM_DOMAIN,
-      createRemoteJWKSet(
-        new URL(`${env.ACCESS_TEAM_DOMAIN}/cdn-cgi/access/certs`),
-      ),
-    );
-  let payload;
+export { authorize } from "./auth.mjs";
+
+function allowedOrigin(request, env) {
   try {
-    ({ payload } = await jwtVerify(token, keySets.get(env.ACCESS_TEAM_DOMAIN), {
-      issuer: env.ACCESS_TEAM_DOMAIN,
-      audience: env.ACCESS_AUD,
-      algorithms: ["RS256"],
-    }));
-  } catch {
-    throw new ContentError("Your editor session is invalid or expired.", 401);
-  }
-  if (
-    typeof payload.email !== "string" ||
-    !env.EDITOR_EMAILS.split(",")
-      .map((v) => v.trim().toLowerCase())
-      .includes(payload.email.toLowerCase())
-  )
-    throw new ContentError("This account does not have editor access.", 403);
-  return payload.email;
+    const url = new URL(env.ADMIN_ORIGIN);
+    return url.protocol === "https:" && url.origin === env.ADMIN_ORIGIN && request.headers.get("origin") === url.origin ? url.origin : "";
+  } catch { return ""; }
 }
 export default {
   async fetch(request, env) {
+    const origin = allowedOrigin(request, env);
+    let response;
     try {
-      await authorize(request, env);
+      if (!origin) throw new ContentError("This request must come from the editor.", 403);
       const url = new URL(request.url);
-      if (!["GET", "HEAD"].includes(request.method)) assertSameOrigin(request);
-      let response;
-      if (url.pathname.startsWith("/api/"))
-        response = await handleApi(request, await createGitHubStore(env), {
-          production: true,
-        });
-      else if (isMediaPath(url.pathname) || isPdfPath(url.pathname) || isVideoPath(url.pathname))
-        response = await (await createGitHubStore(env)).media(url.pathname, request);
-      else if (["GET", "HEAD"].includes(request.method)) {
-        const assetURL = new URL(request.url);
-        if (["/", "/admin/"].includes(url.pathname))
-          assetURL.pathname = "/index.html";
-        response = await env.ASSETS.fetch(new Request(assetURL, request));
-      } else response = json({ error: "Method not allowed." }, 405);
-      response = new Response(response.body, response);
-      for (const [key, value] of Object.entries(privateHeaders))
-        response.headers.set(key, value);
-      response.headers.set(
-        "content-security-policy",
-        "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; frame-src 'self' https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
-      );
-      return response;
+      if (request.method === "OPTIONS") response = new Response(null, { status: 204 });
+      else if (url.pathname.startsWith("/api/auth/")) response = json(await handleAuth(request, env));
+      else {
+        await authorize(request, env);
+        if (url.pathname.startsWith("/api/"))
+          response = await handleApi(request, await createGitHubStore(env), { production: true, editorOrigin: origin, publicOrigin: origin });
+        else if (["GET", "HEAD"].includes(request.method) && (isMediaPath(url.pathname) || isPdfPath(url.pathname) || isVideoPath(url.pathname)))
+          response = await (await createGitHubStore(env)).media(url.pathname, request);
+        else response = json({ error: "Not found." }, 404);
+      }
     } catch (error) {
-      return json(
-        {
-          error:
-            error.status && error.status < 500
-              ? error.message
-              : "Editor service is not configured or is temporarily unavailable.",
-        },
-        error.status || 503,
-      );
+      response = json({ error: error.status && error.status < 500 ? error.message : "Editor service is not configured or is temporarily unavailable." }, error.status || 503);
     }
+    response = new Response(request.method === "HEAD" ? null : response.body, response);
+    for (const [key, value] of Object.entries(privateHeaders)) response.headers.set(key, value);
+    response.headers.set("vary", "Origin");
+    if (origin) {
+      response.headers.set("access-control-allow-origin", origin);
+      response.headers.set("access-control-allow-methods", "GET, HEAD, POST, PUT, OPTIONS");
+      response.headers.set("access-control-allow-headers", "Content-Type, Authorization, Range");
+      response.headers.set("access-control-expose-headers", "Content-Length, Content-Range, Accept-Ranges");
+    }
+    return response;
   },
 };

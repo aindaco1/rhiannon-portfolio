@@ -1,36 +1,51 @@
 # Hosting and release handoff
 
-The source repository is public by owner request. GitHub Pages uses the Actions workflow and the custom domain `rbarela.com`. The production catalog uses `https://rbarela.com` with preview mode disabled. Each successful deployment records its source commit in `/release.json`. The hosted editor remains disabled pending private draft storage and Access setup. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. The existing Store and Pool releases are unchanged.
+Keep DNS management at Wix. The public site and the `/admin/` editor interface use GitHub Pages at `https://rbarela.com`. The editor calls a separate authenticated API at `https://r-barela-editor.jogo.workers.dev`. This follows Chile Drop's static admin plus Worker pattern; it needs neither a Cloudflare zone for rbarela.com nor Cloudflare Access.
 
-The current hosted editor stores drafts and staged uploads in its configured GitHub repository. It must not use this public repository for private drafts: excluding files from the Pages artifact does not hide them from repository visitors. Keep using the local editor until private draft storage and publication to this public repository are implemented and verified.
+The approved editors are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc`. Both have full editing and publishing access. The public editor HTML/JavaScript contains no credentials, drafts or staged media. The API requires a valid bearer session and the exact `https://rbarela.com` Origin. CORS is an additional browser boundary, not authentication.
 
 ## Configure once
 
-1. Use `rbarela.com` for the public site and confirm the public contact email. Use the approved admin allowlist in `worker/wrangler.jsonc` for editor access.
-2. Use the public `aindaco1/rhiannon-portfolio` repository with its pinned Platform submodule. Local editor state, environment files and build output remain ignored. This public-repository decision supersedes the original private-repository plan; the hosted editor needs the storage change described above before deployment.
-3. The Platform submodule is public, so CI can use the standard Actions token; no `PLATFORM_READ_TOKEN` secret is needed for the current dependency. Enable GitHub Pages with Actions, set the custom domain to `rbarela.com`, and enable HTTPS when available. Before a production build, complete the content review below, set `profile.url` to `https://rbarela.com`, and set `demo` to `false` in `content/catalog.json`.
-4. Create a GitHub App installed **only on this portfolio repository**, with Contents read/write and Actions read. Keep its client ID, installation ID and PKCS#8 private key in Worker secrets. An App commit triggers the Pages workflow; it does not require a personal token.
-5. Create a Cloudflare Access application for the full editor hostname with an allow policy matching the two `EDITOR_EMAILS` addresses in `worker/wrangler.jsonc`. Configure `ADMIN_ORIGIN`, `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` and the GitHub values shown in `worker/.dev.vars.example` as Worker secrets/configuration. The email allowlist is already a Worker variable; do not replace it with a secret or duplicate override. Set the Worker’s custom domain/route only after Access covers it.
-6. Run `npm run build` to produce `.admin-build`. Deploy `worker/wrangler.jsonc` with an authenticated Wrangler installation. `workers_dev` and preview URLs are disabled; `run_worker_first` enforces JWT verification before **every** asset, media and API request. The Worker rejects missing configuration, unexpected origins, invalid audiences and unapproved emails.
+1. Keep the current Wix records, GitHub Pages custom domain and enforced HTTPS. No additional DNS records are needed for the editor when using an already verified email sender.
+2. Keep `aindaco1/rhiannon-portfolio` public. Use the separate **private** `aindaco1/rhiannon-portfolio-drafts` repository, initialized on `main`, for `_editor/catalog.json` and staged media. The Worker checks the repository's actual privacy before accessing drafts. Do not make that companion repository public.
+3. Create a private GitHub App for this account, with **Contents: read/write**, **Actions: read**, and mandatory **Metadata: read**. Disable webhooks and OAuth/user authorization; installation tokens handle server-side publication. Install it on only the two portfolio repositories. Put its client ID, installation ID and PKCS#8 private key in Worker secrets. Convert a downloaded PKCS#1 key with `openssl pkcs8 -topk8 -nocrypt -in downloaded.pem -out private-pkcs8.pem` if needed. Never put keys in Pages, source control or browser configuration.
+4. Use the dedicated `r-barela-editor-sessions` D1 database bound as `DB`; its ID is in `worker/wrangler.jsonc`. Run `wrangler d1 migrations apply DB --remote --config worker/wrangler.jsonc` before deployment. Do not use Chile Drop's database or secrets.
+5. Configure a separate sending-only `RESEND_API_KEY` restricted to a verified sender domain and an `EMAIL_FROM` sender on that domain. The existing verified `dustwave.xyz` sender can be used without changing rbarela.com DNS. If a rbarela.com sender is desired later, add the email provider's verification records at Wix; nameservers still stay at Wix.
+6. Set the three GitHub App values and the two email values from `worker/.dev.vars.example` using Worker secrets. Keep the approved email allowlist and origins in the checked-in configuration. `wrangler secret put NAME --config worker/wrangler.jsonc` accepts each value on stdin. Avoid credentials in command arguments or logs.
+7. Run `npm run check` and `npm run build:production`, then deploy `worker/wrangler.jsonc` using the authenticated Wrangler CLI. `workers_dev` is enabled and preview URLs are disabled. The Worker serves only API/private media; Pages serves the editor shell built into `dist/admin/`. `admin/config.json` contains only the public API origin.
+8. Complete hosted acceptance below, then publish the tested site revision to `main`. An App publication commit triggers the normal Pages workflow. The public Platform submodule needs no extra read secret.
 
-Do not copy the local preview session mechanism into production. It exists only in the Node loopback server; it is absent from the Worker bundle.
+The loopback editor retains its existing local cookie/session behavior and isolated `.local/` storage. That bypass does not exist in the Worker.
 
-## Prepare real content
+## Sign-in and private media
 
-The production catalog includes twenty real projects and three supplied Writing pieces, with no sample or draft entries. Preview mode is disabled, the site URL is `https://rbarela.com`, and the public contact email is `barelarhiannon@gmail.com`. Future content updates should preserve verified roles and credits. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap.
+An approved email receives a single-use sign-in link valid for 15 minutes, returning to `/admin/#token=...`. The editor immediately removes the fragment and exchanges the link for an eight-hour session stored in that browser tab's session storage. D1 stores token hashes. Logout revokes the session, and removing an email from `EDITOR_EMAILS` denies its existing sessions. Login requests have email and IP rate limits; unapproved addresses receive the same generic success message without an email.
+
+Private images, PDFs and videos are fetched using the session header, then shown with temporary browser blob URLs. Preview uses the public renderer with authenticated media substitutions. Logout clears the rendered content and blob URLs. An expired session preserves the browser recovery copy. No bearer tokens are placed in media URLs.
 
 ## Publication behavior
 
-A draft save writes `_editor/catalog.json` with the exact published content SHA it was based on. Uploaded files get immutable SHA-256 filenames. They are stored in the private repository but excluded from public output until referenced by published content. Publication validates the saved draft, verifies referenced media, checks both working and published revisions, and commits the published catalog and updated draft baseline atomically. A conflicting save returns 409 and keeps the browser’s edits available for download.
+Save writes the catalog and its published-file baseline only to the private repository. Uploads receive immutable SHA-256 paths in that private repository. An unpublished entry or upload is never copied to the public repository by Save or Upload.
 
-The Pages workflow validates/builds/tests before deploying. The admin reports the workflow for the exact publication commit as queued, publishing, live or failed. A failing build leaves the previous Pages artifact live. The exact deployed source commit is recorded in `/release.json`. Draft-only commits do not trigger Pages. Staged-media-only commits may rebuild the unchanged public content, but the staged media is never included in the artifact.
+Publish validates the saved draft and both revisions. It reads the public Git tree, copies only missing media referenced by included content, and prepares one public commit containing that media and the public catalog. Before advancing the public branch, it stores the publication intent using the private draft's expected SHA. The public ref update is non-forced. Concurrent saves or public changes return a conflict instead of silently overwriting content.
 
-If another person changes the published catalog directly while a draft is open, reconcile the content in Git after downloading the editor’s recovery copy. The editor deliberately refuses to silently rebase an old draft onto a newer publication.
+The two repositories cannot be updated in one transaction. The saved intent records the target commit and catalog SHA, allowing a lost response after publication to recover its baseline on reload. If publication was interrupted before the public update, reload and retry Publish before making more edits. If there are only private draft changes, Publish reports that there are no public changes and creates no release. A public build failure leaves the previous Pages artifact live.
+
+The editor reports the Pages workflow for the exact publication commit. `/release.json` records the actually deployed source revision; compare it during live acceptance. A successful workflow result alone does not replace that check. Direct edits to the public catalog require reconciling any older private draft, using a recovery copy as needed.
 
 ## First hosted acceptance
 
-Before calling the site live, verify anonymous requests and alternate hostnames are blocked for the editor; both approved editors can log in; an image/draft survives reload; draft URLs and media return 404 on the public origin; publish creates the expected commit; CI deploys that exact commit; the public page and `/release.json` agree; and failed publication preserves the prior live site. Check Safari and complete an owner editing rehearsal. These live provider steps have not been performed by the local build.
+The local test suite uses test email delivery, a local SQLite adapter for session SQL, mocked GitHub responses, and browser API fixtures. Those checks do not establish live email delivery, Cloudflare limits or GitHub App installation permissions.
+
+Before calling the hosted editor operational, verify:
+
+- Anonymous API and private-media requests fail; unapproved origins get no permissive CORS headers. Anonymous `/admin/` serves only the login screen.
+- Both approved editors can request and use an email link; expiry, reuse and logout are rejected. Do not send test emails without the owner's authorization.
+- A private image/PDF/video and saved draft survive reload, render in preview, and remain inaccessible from the public repository and Pages until publication.
+- Publish copies only included content; an interrupted publish can resume safely; the workflow and public `/release.json` match the resulting commit.
+- Maximum supported image/PDF (5 MB) and video (25 MB) uploads and a representative multi-file publication fit the actual Worker plan's memory, CPU and subrequest limits.
+- Safari and an owner editing rehearsal work. Existing Store, Pool and Chile Drop services remain unchanged.
 
 ## Rollback
 
-For a failed build, leave the prior Pages deployment in place and fix the saved draft. To roll back a successful release, revert its publication commit in Git and let the full Pages gate run again. Reverting the atomic commit restores both published content and its corresponding working baseline. Keep media: immutable files can be reused by either revision. Reopen the editor and reconcile any browser recovery copy against the restored revision.
+For a failed build, keep the prior Pages deployment and fix the saved draft. To roll back a successful release, revert its **public** publication commit and let Pages build again. That does not rewrite the private working draft: download a recovery copy and reconcile its baseline before further publication. Preserve immutable media so older revisions can still reference it. Worker code can be rolled back independently; do not roll back the session schema without checking its compatibility.

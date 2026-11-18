@@ -1,11 +1,7 @@
-# Copy outside tracked source and replace every value before deployment.
-# The Worker has no development authentication bypass.
-ADMIN_ORIGIN=https://editor.YOUR-DOMAIN.example
-ACCESS_TEAM_DOMAIN=https://YOUR-TEAM.cloudflareaccess.com
-ACCESS_AUD=YOUR-ACCESS-APPLICATION-AUDIENCE
-# EDITOR_EMAILS is configured in wrangler.jsonc; do not override it here.
-GITHUB_OWNER=aindaco1
-GITHUB_REPO=YOUR-PRIVATE-PORTFOLIO-REPOSITORY
+# Secrets only. Keep the real file outside tracked source.
+# Non-secret origins, repositories and approved emails are in wrangler.jsonc.
 GITHUB_APP_CLIENT_ID=YOUR-APP-CLIENT-ID
 GITHUB_APP_INSTALLATION_ID=YOUR-INSTALLATION-ID
-GITHUB_APP_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR-KEY\n-----END PRIVATE KEY-----"
+GITHUB_APP_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR-PKCS8-KEY\n-----END PRIVATE KEY-----"
+RESEND_API_KEY=YOUR-SENDING-ONLY-KEY
+EMAIL_FROM="R. Barela editor <editor@YOUR-VERIFIED-SENDER-DOMAIN>"

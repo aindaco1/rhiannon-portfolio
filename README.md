@@ -1,6 +1,6 @@
 # R. Barela
 
-The source repository is public. The public site uses GitHub Pages at [rbarela.com](https://rbarela.com). The hosted editor remains disabled; see [deployment](docs/DEPLOYMENT.md) for the private draft storage requirement.
+The source repository is public. The public site uses GitHub Pages at [rbarela.com](https://rbarela.com). The hosted editor implementation uses `/admin/` on Pages plus a separate authenticated Worker API, with Wix DNS unchanged. Provider credentials and live owner acceptance are still pending; see [deployment](docs/DEPLOYMENT.md).
 
 A static portfolio and a small browser editor. Twenty real projects are included: the four art collections/installations and sixteen projects imported from the supplied Film directory, including the unfinished Santa Bunny. All fictional projects and sample posts have been removed. Bio includes a headshot and director reel; Writing contains three supplied pieces with their original publication dates. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
 
@@ -47,10 +47,10 @@ Every media picker shows its limits and preparation guidance, also associated th
 - `lib/content.mjs`: one validation and block-rendering contract shared by preview, Worker and build.
 - `lib/views.mjs`: the common page templates. Jekyll’s small default layout emits prepared HTML without interpreting authored Liquid tags.
 - `admin/`: portfolio forms and thin shared-editor adapter.
-- `worker/`: Cloudflare Access authentication and GitHub App storage adapter.
+- `worker/`: email-link sessions, authenticated API and private/public GitHub App storage adapters.
 - `scripts/local-store.mjs`: local disk implementation of the same storage contract.
 
-Dust Wave Platform is pinned to **v0.50.0**, commit `fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d`. The app uses its shared block composer/model, rich-text codec and paste sanitization, media-target/removal controls, API client, unsaved-change guard, draft-baseline recovery, bounded request/response readers, GitHub transport, and asset minifier. No editor code was copied from Store or Pool. No React, Vite, database, or duplicate editor. Projects, Writing and Bio use one composer integration. Bio accepts existing Markdown and saves block content after its first editor change.
+Dust Wave Platform is pinned to **v0.50.0**, commit `fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d`. The app uses its shared block composer/model, rich-text codec and paste sanitization, media-target/removal controls, API client, unsaved-change guard, draft-baseline recovery, bounded request/response readers, GitHub transport, and asset minifier. No editor code was copied from Store or Pool. The hosted editor adds a dedicated D1 session database. There is no React, Vite, or duplicate content editor. Projects, Writing and Bio use one composer integration. Bio accepts existing Markdown and saves block content after its first editor change.
 
 The single catalog is deliberate: this is a small, two-editor portfolio. Saves use optimistic revisions and publish as an atomic multi-file Git commit; concurrent edits are rejected instead of merged silently. Download a recovery copy before reconciling a conflict.
 
