@@ -161,6 +161,10 @@ export async function createGitHubStore(env) {
       if (!s.draft.ok)
         throw new ContentError("Save a draft before publishing.");
       const catalog = validateCatalog(s.catalog, { production: true });
+      const content = stringify(publicCatalog(catalog)),
+        nextPublished = await blobSha(content);
+      if (nextPublished === published)
+        return { status: "unchanged", revision: s.revision, publishedRevision: published };
       // One inventory avoids a subrequest per photo on media-heavy portfolios.
       const response = await fetch(`${base}/git/trees/${encodeURIComponent(branch)}?recursive=1`, {
         headers, signal: AbortSignal.timeout(15000),
@@ -176,9 +180,7 @@ export async function createGitHubStore(env) {
             "A referenced image, video or PDF is missing. Upload it again before publishing.",
           );
       }
-      const content = stringify(publicCatalog(catalog)),
-        nextPublished = await blobSha(content),
-        draftContent = stringify({
+      const draftContent = stringify({
           catalog,
           basePublishedRevision: nextPublished,
         });

@@ -1068,6 +1068,10 @@ $("#publish").onclick = () =>
       });
       publishedRevision = result.publishedRevision || publishedRevision;
       revision = result.revision || revision;
+      if (result.status === "unchanged") {
+        feedback("No public changes to publish. Your saved draft is up to date.");
+        return;
+      }
       if (result.status === "live") {
         feedback(
           "Published to the local preview. The public pages now reflect this saved draft.",

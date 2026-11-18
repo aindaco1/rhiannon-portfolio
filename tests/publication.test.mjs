@@ -127,8 +127,22 @@ test("a media-heavy portfolio publishes within a bounded request budget and reje
   await store.publish(draft.revision, draft.publishedRevision);
   assert(mock.requests.length - before < 20);
   const state = await store.load();
+  const changed = structuredClone(state.catalog);
+  changed.profile.intro = "Another public change.";
+  const next = await store.save(changed, state.revision, state.publishedRevision);
   mock.truncateInventory();
   const writesBefore = mock.requests.filter(r => r.method !== "GET").length;
-  await assert.rejects(store.publish(state.revision, state.publishedRevision), /inventory is incomplete/);
+  await assert.rejects(store.publish(next.revision, next.publishedRevision), /inventory is incomplete/);
   assert.equal(mock.requests.filter(r => r.method !== "GET").length, writesBefore);
+});
+
+test("publishing unchanged public content creates no commit or queued deployment", async t => {
+  const { catalog, mock, store } = await fixture(t);
+  const initial = await store.load();
+  const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
+  const before = mock.requests.filter(r => r.method !== "GET").length;
+  const result = await store.publish(draft.revision, draft.publishedRevision);
+  assert.equal(result.status, "unchanged");
+  assert.equal(result.revision, draft.revision);
+  assert.equal(mock.requests.filter(r => r.method !== "GET").length, before);
 });

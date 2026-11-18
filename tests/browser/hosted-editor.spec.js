@@ -6,7 +6,7 @@ const seed = JSON.parse(await readFile("tests/fixtures/catalog.json"));
 const token = "s".repeat(43), link = "l".repeat(43);
 async function hostedEditor(page) {
   const errors = [], calls = [], assets = new Map();
-  let catalog = structuredClone(seed), revision = "draft-1", denied = false;
+  let catalog = structuredClone(seed), revision = "draft-1", denied = false, unchanged = false;
   page.on("pageerror", e => errors.push(e.message));
   await page.route(origin + "/**", async route => {
     const path = new URL(route.request().url()).pathname;
@@ -35,12 +35,12 @@ async function hostedEditor(page) {
       load: async () => ({ catalog, revision, publishedRevision: "public-1", mode: "github" }),
       save: async next => { catalog = next; revision = "draft-2"; return { catalog, revision, publishedRevision: "public-1" }; },
       upload: async (path, bytes) => assets.set(path, bytes),
-      publish: async () => ({ status: "queued", commit: "c".repeat(40) }),
+      publish: async () => unchanged ? ({ status: "unchanged" }) : ({ status: "queued", commit: "c".repeat(40) }),
       status: async () => ({ status: "live" }),
     }, { editorOrigin: origin, publicOrigin: origin });
     return route.fulfill({ status: response.status, headers, contentType: "application/json", body: await response.text() });
   });
-  return { calls, errors, expire() { denied = true; } };
+  return { calls, errors, expire() { denied = true; }, unchanged() { unchanged = true; } };
 }
 test("hosted /admin signs in, keeps private media authenticated, saves and previews without DNS proxying", async ({ page }) => {
   const state = await hostedEditor(page);
@@ -65,6 +65,12 @@ test("hosted /admin signs in, keeps private media authenticated, saves and previ
   await expect(page.getByRole("dialog", { name: "Bio preview" })).toBeVisible();
   await expect(page.frameLocator("#preview-dialog iframe").getByRole("heading", { name: "Bio", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close preview" }).click();
+  page.on("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "Publish changes", exact: true }).click();
+  await expect(page.locator("#feedback")).toContainText("Live — commit", { timeout: 10000 });
+  state.unchanged();
+  await page.getByRole("button", { name: "Publish changes", exact: true }).click();
+  await expect(page.locator("#feedback")).toContainText("No public changes to publish");
   for (const call of state.calls.filter(c => !c.path.startsWith("/api/auth/") && c.method !== "OPTIONS")) {
     expect(call.headers.authorization).toBe(`Bearer ${token}`);
     expect(call.headers.cookie).toBeUndefined();

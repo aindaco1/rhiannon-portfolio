@@ -115,7 +115,7 @@ test('masonry galleries preserve image proportions and open a complete, scoped a
       await page.keyboard.press('Escape');
       await expect(dialog).not.toBeVisible();
       await expect(links.nth(2)).toBeFocused();
-      expect(await page.locator('body').evaluate(e=>getComputedStyle(e).overflow)).not.toBe('hidden');
+      await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
       await page.locator('.gallery-images').nth(1).locator('.gallery-image').click();
       await expect(dialog.getByRole('status')).toHaveText('1 / 1');
       await expect(dialog.getByRole('button',{name:'Next image'})).toBeHidden();
