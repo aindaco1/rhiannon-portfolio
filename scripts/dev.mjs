@@ -4,7 +4,7 @@ import { resolve, extname, sep } from "node:path";
 import { randomBytes, timingSafeEqual } from "node:crypto";
 import { createLocalStore } from "./local-store.mjs";
 import { handleApi, privateHeaders } from "../worker/api.mjs";
-import { isMediaPath } from "../lib/content.mjs";
+import { isMediaPath, isPdfPath, PDF_DOWNLOAD_HEADERS } from "../lib/content.mjs";
 const port = Number(process.env.PORT || 4321),
   adminPort = Number(process.env.ADMIN_PORT || 4322);
 const store = await createLocalStore(process.env.DATA_DIR || ".local");
@@ -35,6 +35,7 @@ async function staticFile(root, path) {
       headers: {
         "content-type": types[extname(file)] || "application/octet-stream",
         "x-content-type-options": "nosniff",
+        ...(isPdfPath(path) ? PDF_DOWNLOAD_HEADERS : {}),
       },
     });
   } catch {
@@ -101,7 +102,7 @@ function serve(isAdmin) {
           response = await handleApi(request, store, {
             publicOrigin: `http://127.0.0.1:${port}`,
           });
-        else if (isMediaPath(url.pathname)) {
+        else if (isMediaPath(url.pathname) || isPdfPath(url.pathname)) {
           response = await staticFile(store.root, url.pathname);
           if (response.status === 404)
             response = await staticFile(".", url.pathname);

@@ -1,0 +1,42 @@
+
+> rhiannon-portfolio@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ Worker fails closed before serving API or static assets (14.984458ms)
+✔ cross-origin mutations and missing Origin fail (3.879583ms)
+✔ request body budgets and unsupported images fail before writes (0.601083ms)
+✔ bounded photo upload uses immutable hash paths (4.662459ms)
+✔ previews use the same block rendering and never cache private content (2.518583ms)
+✔ production publishing is blocked for sample material (0.447666ms)
+✔ Bio preview uses the public renderer and stays private (1.806458ms)
+✔ PDF uploads validate bytes, enforce limits and reuse immutable paths (4.693041ms)
+✔ legacy Bio loads without rewriting its text, headings or links (3.09175ms)
+✔ Bio blocks share validation and media publication boundaries with entries (1.573541ms)
+✔ legacy PDF links survive and replacements require an uploaded document (2.315584ms)
+✔ 20 sample projects span all five disciplines; Writing is discoverable when empty (2.820125ms)
+✔ category renames preserve their URL and referenced terms cannot be deleted (1.3795ms)
+✔ entry URLs remain stable and duplicate URLs fail (0.562875ms)
+✔ private draft entries and their photos are absent from published data (0.406167ms)
+✔ production rejects the preview and sample project flags, then requires a domain/contact (1.724583ms)
+✔ media and block inputs are validated at the server boundary (2.06625ms)
+✔ only safe YouTube/Vimeo videos can become players (2.434125ms)
+✔ public text and attributes cannot inject executable markup (1.039584ms)
+✔ all supported blocks render without remote embeds until an explicit play (0.163375ms)
+✔ unlisted Vimeo share links preserve the playback hash (0.68825ms)
+✔ GitHub App tokens are repository-scoped; draft saves preserve expected SHA and baseline (36.6255ms)
+✔ a changed live file does not silently rebase an existing working draft (13.841709ms)
+✔ Cloudflare Access verifies signature, audience, expiry and the email allowlist (10.020959ms)
+✔ GitHub publication rejects a missing PDF and protected downloads retain PDF headers (3.517584ms)
+✔ Writing has an empty state and a permanent navigation link (0.650458ms)
+✔ free-form writing needs no image, introduction, role or taxonomy (16.564834ms)
+✔ writing archives are newest first and never list private drafts (0.963417ms)
+✔ writing previews share the article renderer, preserve formatting and escape authored text (1.1335ms)
+✔ writing sharing metadata never borrows an unrelated project cover (0.691542ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 220.642125

@@ -754,3 +754,118 @@ test("Bio supports the shared WYSIWYG editor, recovery, private preview and publ
     publishedRevision: restored.publishedRevision,
   });
 });
+
+test("Bio PDF replacement is private until publication and survives save/reload", async ({ page, request }) => {
+  test.setTimeout(120000);
+  const originalPath = "/assets/documents/r-barela-bio-resume.pdf";
+  const original = await readFile("." + originalPath);
+  const replacement = Buffer.concat([original, Buffer.from("\n\n")]);
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  let state = (await api(page, "/state")).body;
+  expect((await api(page, "/publish", "POST", { revision: state.revision, publishedRevision: state.publishedRevision })).status).toBe(200);
+  await page.reload();
+  await page.getByRole("button", { name: "Bio & contact", exact: true }).click();
+  await expect(page.locator("#bio-pdf-download")).toHaveAttribute("href", originalPath);
+  await expect(page.locator("#save")).toBeDisabled();
+  await page.getByLabel("Upload or replace PDF", { exact: true }).setInputFiles({ name: "Updated bio and résumé.pdf", mimeType: "application/pdf", buffer: replacement });
+  await expect(page.locator("#feedback")).toContainText("PDF uploaded. Save");
+  const path = await page.locator("#bio-pdf-download").getAttribute("href");
+  expect(path).toMatch(/^\/assets\/documents\/[a-f0-9]{64}\.pdf$/);
+  expect((await request.get(path)).status()).toBe(404);
+  expect((await request.get(admin + path)).status()).toBe(401);
+  expect(await (await request.get(originalPath)).body()).toEqual(original);
+  const protectedFile = await page.context().request.get(admin + path);
+  expect(protectedFile.headers()["content-type"]).toBe("application/pdf");
+  expect(protectedFile.headers()["cache-control"]).toContain("no-store");
+  expect(protectedFile.headers()["content-disposition"]).toContain("attachment");
+  expect(await protectedFile.body()).toEqual(replacement);
+  await page.locator("#save").click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await page.reload();
+  await page.getByRole("button", { name: "Bio & contact", exact: true }).click();
+  await expect(page.locator("#bio-pdf-download")).toHaveAttribute("href", path);
+  await expect(page.locator("#bio-pdf-download")).toHaveText("Updated bio and résumé.pdf");
+  await page.locator("#preview").click();
+  const preview = page.frameLocator("#preview-dialog iframe");
+  await expect(preview.locator(".bio-download a")).toHaveAttribute("href", path);
+  const downloadEvent = page.waitForEvent("download");
+  await preview.locator(".bio-download a").click();
+  const download = await downloadEvent;
+  expect(await readFile(await download.path())).toEqual(replacement);
+  await page.getByRole("button", { name: "Close preview", exact: true }).click();
+  // A renamed non-PDF must not replace the saved document or dirty the draft.
+  await page.getByLabel("Upload or replace PDF", { exact: true }).setInputFiles({ name: "Invalid.pdf", mimeType: "application/pdf", buffer: Buffer.from("<html>not a PDF</html>") });
+  await expect(page.locator("#feedback")).toContainText("Choose a complete PDF");
+  await expect(page.locator("#bio-pdf-download")).toHaveAttribute("href", path);
+  await expect(page.locator("#save")).toBeDisabled();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze()).violations).toEqual([]);
+  await page.locator("#bio-pdf-upload").scrollIntoViewIfNeeded();
+  await page.screenshot({ path: "docs/evidence/pdf-upload/editor-mobile.png" });
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.locator("#publish").click();
+  await expect(page.locator("#feedback")).toContainText("Published to the local preview", { timeout: 30000 });
+  expect(await (await request.get("/bio/")).text()).toContain(`href="${path}"`);
+  expect(await (await request.get(path)).body()).toEqual(replacement);
+  expect((await request.get(originalPath)).status()).toBe(404);
+  // A second file leaves the live download alone until another publication.
+  await page.getByLabel("Upload or replace PDF", { exact: true }).setInputFiles({ name: "Second revision.pdf", mimeType: "application/pdf", buffer: original });
+  await expect(page.locator("#feedback")).toContainText("PDF uploaded. Save");
+  const nextPath = await page.locator("#bio-pdf-download").getAttribute("href");
+  expect(nextPath).not.toBe(path);
+  expect((await request.get(nextPath)).status()).toBe(404);
+  expect(await (await request.get(path)).body()).toEqual(replacement);
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.locator("#publish").click();
+  await expect(page.locator("#feedback")).toContainText("Published to the local preview", { timeout: 30000 });
+  expect(await (await request.get(nextPath)).body()).toEqual(original);
+  expect((await request.get(path)).status()).toBe(404);
+  // A missing document causes a failed build without replacing the live site.
+  const release = await (await request.get("/release.json")).text();
+  state = (await api(page, "/state")).body;
+  state.catalog.profile.bioPdf.src = `/assets/documents/${"f".repeat(64)}.pdf`;
+  expect((await api(page, "/draft", "PUT", { catalog: state.catalog, revision: state.revision, publishedRevision: state.publishedRevision })).status).toBe(200);
+  state = (await api(page, "/state")).body;
+  expect((await api(page, "/publish", "POST", { revision: state.revision, publishedRevision: state.publishedRevision })).status).toBe(500);
+  expect(await (await request.get("/release.json")).text()).toBe(release);
+  expect(await (await request.get(nextPath)).body()).toEqual(original);
+  await resetDraft(page);
+  state = (await api(page, "/state")).body;
+  await api(page, "/publish", "POST", { revision: state.revision, publishedRevision: state.publishedRevision });
+});
+
+test("a late PDF upload cannot replace a newer selection or a remounted Bio editor", async ({ page }) => {
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  await page.getByRole("button", { name: "Bio & contact", exact: true }).click();
+  const bytes = await readFile("assets/documents/r-barela-bio-resume.pdf");
+  let release;
+  await page.route("**/api/documents", async (route) => {
+    if (route.request().postDataBuffer().equals(bytes))
+      await new Promise((resolve) => (release = resolve));
+    await route.continue();
+  });
+  const upload = page.getByLabel("Upload or replace PDF", { exact: true });
+  await upload.setInputFiles({ name: "Older.pdf", mimeType: "application/pdf", buffer: bytes });
+  await expect.poll(() => !!release).toBe(true);
+  await expect(page.locator("#save")).toBeDisabled();
+  await expect(page.locator("#publish")).toBeDisabled();
+  await upload.setInputFiles({ name: "Newer.pdf", mimeType: "application/pdf", buffer: Buffer.concat([bytes, Buffer.from("\n")]) });
+  await expect(page.locator("#bio-pdf-download")).toHaveText("Newer.pdf");
+  release();
+  await expect(page.locator("#feedback")).toContainText("selection changed");
+  await expect(page.locator("#bio-pdf-download")).toHaveText("Newer.pdf");
+  release = undefined;
+  await upload.setInputFiles({ name: "Late.pdf", mimeType: "application/pdf", buffer: bytes });
+  await expect.poll(() => !!release).toBe(true);
+  await page.getByRole("button", { name: /^Writing/ }).click();
+  await page.getByRole("button", { name: "Bio & contact", exact: true }).click();
+  release();
+  await expect(page.locator("#feedback")).toContainText("selection changed");
+  await expect(page.locator("#bio-pdf-download")).toHaveText("Newer.pdf");
+  await page.locator("#save").click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await resetDraft(page);
+});

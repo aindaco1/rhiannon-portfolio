@@ -5,7 +5,9 @@ import {
 import {
   ContentError,
   validateCatalog,
-  mediaReferences,
+  isPdfPath,
+  validatePdf,
+  MAX_PDF_BYTES,
   entryPath,
 } from "../lib/content.mjs";
 import { shell, entryView, bio } from "../lib/views.mjs";
@@ -86,25 +88,27 @@ export async function handleApi(
           path: isBio ? "/bio/" : entryPath(entry),
           preview: true,
         }).replace(
-          /(<a\b[^>]*\bhref=")\//g,
-          (_, prefix) =>
+          /(<a\b[^>]*\bhref=")(\/[^"]*)/g,
+          (match, prefix, path) => isPdfPath(path) ? match :
             prefix.replace(
               "<a",
               '<a target="_blank" rel="noopener noreferrer"',
             ) +
             (publicOrigin || catalog.profile.url) +
-            "/",
+            path,
         ),
       });
     }
-    if (url.pathname === "/api/media" && request.method === "POST") {
-      const bytes = await readBoundedBytes(request, MAX_UPLOAD, "Photo"),
-        type = imageType(bytes);
+    if (["/api/media", "/api/documents"].includes(url.pathname) && request.method === "POST") {
+      const document = url.pathname === "/api/documents";
+      const bytes = await readBoundedBytes(request, document ? MAX_PDF_BYTES : MAX_UPLOAD, document ? "PDF" : "Photo");
+      if (document) validatePdf(bytes);
+      const type = document ? { ext: "pdf" } : imageType(bytes);
       const digest = Array.from(
         new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
         (n) => n.toString(16).padStart(2, "0"),
       ).join("");
-      const path = `/assets/media/${digest}.${type.ext}`;
+      const path = `/assets/${document ? "documents" : "media"}/${digest}.${type.ext}`;
       await store.upload(path, bytes);
       return json({ src: path }, 201);
     }

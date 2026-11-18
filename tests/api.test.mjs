@@ -159,9 +159,32 @@ test("Bio preview uses the public renderer and stays private", async () => {
   assert(html.includes("<strong>private</strong>"));
   assert(
     html.includes(
-      "https://portfolio.example/assets/documents/r-barela-bio-resume.pdf",
+      'href="/assets/documents/r-barela-bio-resume.pdf"',
     ),
   );
+  assert(html.includes('href="https://portfolio.example/bio/"'));
   assert(!html.includes("/assets/js/site.js"));
   assert(!html.includes("masthead-bottom"));
+});
+
+
+test("PDF uploads validate bytes, enforce limits and reuse immutable paths", async () => {
+  const bytes = await readFile("assets/documents/r-barela-bio-resume.pdf");
+  const writes = [];
+  const adapter = { ...store, upload: async (path, body) => writes.push({ path, body }) };
+  const upload = (body, headers = {}) => handleApi(new Request("https://editor.example.com/api/documents", {
+    method: "POST", headers: { origin: "https://editor.example.com", ...headers }, body,
+  }), adapter);
+  const first = await upload(bytes), second = await upload(bytes);
+  assert.equal(first.status, 201);
+  assert.deepEqual(await first.json(), await second.json());
+  assert.match(writes[0].path, /^\/assets\/documents\/[a-f0-9]{64}\.pdf$/);
+  assert.deepEqual(Buffer.from(writes[0].body), bytes);
+  for (const body of ["<html>not a PDF</html>", bytes.subarray(0, 1024)])
+    assert.equal((await upload(body, { "content-type": "application/pdf" })).status, 400);
+  assert.equal((await upload("a", { "content-length": String(MAX_UPLOAD + 1) })).status, 413);
+  assert.equal((await upload(new Uint8Array(MAX_UPLOAD + 1))).status, 413);
+  assert.equal((await upload(bytes, { origin: "https://other.example" })).status, 403);
+  assert.equal(writes.length, 2);
+  assert.equal((await worker.fetch(request(writes[0].path), {})).status, 403);
 });

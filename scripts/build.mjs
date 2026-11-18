@@ -13,7 +13,8 @@ import {
   entryPath,
   termPath,
   esc,
-  BIO_PDF_PATH,
+  bioPdf,
+  validatePdf,
 } from "../lib/content.mjs";
 import {
   archive,
@@ -37,17 +38,20 @@ export async function buildSite(
   await rm(source, { recursive: true, force: true });
   await mkdir(source, { recursive: true });
   await cp("_layouts", `${source}/_layouts`, { recursive: true });
+  const readAsset = async (path) => {
+    try {
+      return await readFile(`${mediaRoot}${path}`);
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+      return readFile(`.${path}`);
+    }
+  };
   const metadata = new Map();
   for (const path of mediaReferences(catalog, true)) {
     const target = `${source}${path}`;
     await mkdir(dirname(target), { recursive: true });
     // Development uploads live outside source control; fixture images remain in assets/media.
-    let buffer;
-    try {
-      buffer = await readFile(`${mediaRoot}${path}`);
-    } catch {
-      buffer = await readFile(`.${path}`);
-    }
+    const buffer = await readAsset(path);
     const meta = await sharp(buffer, {
       limitInputPixels: 40_000_000,
     }).metadata();
@@ -132,8 +136,10 @@ export async function buildSite(
     );
   }
   await cp("assets/favicon.svg", `${source}/assets/favicon.svg`);
-  await mkdir(dirname(`${source}${BIO_PDF_PATH}`), { recursive: true });
-  await cp(`.${BIO_PDF_PATH}`, `${source}${BIO_PDF_PATH}`);
+  const pdf = bioPdf(catalog.profile), pdfBytes = await readAsset(pdf.src);
+  validatePdf(pdfBytes);
+  await mkdir(dirname(`${source}${pdf.src}`), { recursive: true });
+  await writeFile(`${source}${pdf.src}`, pdfBytes);
   await writeFile(
     `${source}/robots.txt`,
     catalog.demo

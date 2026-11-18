@@ -4,6 +4,8 @@ import { readFile } from "node:fs/promises";
 import {
   validateCatalog,
   bioBlocks,
+  bioPdf,
+  BIO_PDF_PATH,
   mediaReferences,
   rich,
 } from "../lib/content.mjs";
@@ -45,4 +47,22 @@ test("Bio blocks share validation and media publication boundaries with entries"
     body: "Text",
   }));
   assert.throws(() => validateCatalog(catalog), /At most 100 blocks/);
+});
+
+
+test("legacy PDF links survive and replacements require an uploaded document", () => {
+  assert.equal(bioPdf(validateCatalog(seed).profile).src, BIO_PDF_PATH);
+  assert(bio(seed).includes(`href="${BIO_PDF_PATH}"`));
+  const catalog = structuredClone(seed);
+  const src = `/assets/documents/${"a".repeat(64)}.pdf`;
+  catalog.profile.bioPdf = { src, name: "Updated résumé.pdf" };
+  assert.deepEqual(validateCatalog(catalog).profile.bioPdf, catalog.profile.bioPdf);
+  assert(bio(catalog).includes(`href="${src}"`));
+  assert(!mediaReferences(catalog).includes(src));
+  for (const path of ["https://example.com/bio.pdf", "/assets/documents/../../secret.pdf", "/assets/media/photo.jpg", "/assets/documents/unuploaded.pdf"]) {
+    catalog.profile.bioPdf.src = path;
+    assert.throws(() => validateCatalog(catalog), /uploaded bio and résumé PDF/);
+  }
+  catalog.profile.bioPdf = { src, name: "" };
+  assert.throws(() => validateCatalog(catalog), /PDF filename/);
 });

@@ -737,3 +737,10 @@ dialog::backdrop {
 .entry-visibility {
   margin: 25px 0;
 }
+
+.pdf-upload {
+  margin-bottom: 32px;
+}
+.pdf-upload a {
+  overflow-wrap: anywhere;
+}

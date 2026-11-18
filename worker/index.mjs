@@ -1,7 +1,7 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createGitHubStore } from "./github-store.mjs";
 import { handleApi, json, privateHeaders, assertSameOrigin } from "./api.mjs";
-import { ContentError, isMediaPath } from "../lib/content.mjs";
+import { ContentError, isMediaPath, isPdfPath } from "../lib/content.mjs";
 const keySets = new Map();
 export async function authorize(request, env) {
   if (!env.ADMIN_ORIGIN || new URL(request.url).origin !== env.ADMIN_ORIGIN)
@@ -53,7 +53,7 @@ export default {
         response = await handleApi(request, await createGitHubStore(env), {
           production: true,
         });
-      else if (isMediaPath(url.pathname))
+      else if (isMediaPath(url.pathname) || isPdfPath(url.pathname))
         response = await (await createGitHubStore(env)).media(url.pathname);
       else if (["GET", "HEAD"].includes(request.method)) {
         const assetURL = new URL(request.url);

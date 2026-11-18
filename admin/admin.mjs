@@ -23,6 +23,8 @@ import {
   videoUrl,
   entryPath,
   bioBlocks,
+  bioPdf,
+  MAX_PDF_BYTES,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
   api = new AdminApiClient({ baseUrl: location.origin + "/api" }),
@@ -57,7 +59,7 @@ function update() {
   $("#save-state").textContent = busy
     ? "Working…"
     : pendingUploads
-      ? "Uploading photo…"
+      ? "Uploading file…"
       : dirty()
         ? "Unsaved changes"
         : "Draft saved";
@@ -836,6 +838,46 @@ function renderTaxonomy(root) {
 function renderProfile(root) {
   const p = data.profile;
   root.innerHTML = `<h1>Bio & contact</h1><p class="view-description">Introduce your practice and give people a direct way to reach you.</p><div class="fields">${field("Name", p.name, 'data-profile="name"', { full: true })}${field("Short introduction", p.intro, 'data-profile="intro"', { full: true, area: true })}</div>`;
+  root.insertAdjacentHTML(
+    "beforeend",
+    '<section class="pdf-upload" aria-labelledby="pdf-title"><h2 id="pdf-title">Downloadable bio & résumé PDF</h2><p><a id="bio-pdf-download" download="R-Barela-Bio-and-Resume.pdf"></a></p><label>Upload or replace PDF<input id="bio-pdf-upload" type="file" accept="application/pdf,.pdf" aria-describedby="pdf-hint"></label><p id="pdf-hint" class="hint">PDF, up to 5 MB. Save your draft, then publish to update the public download. Editing the page text does not change the PDF.</p></section>',
+  );
+  const pdfInput = root.querySelector("#bio-pdf-upload");
+  const refreshPdf = () => {
+    const pdf = bioPdf(p), link = root.querySelector("#bio-pdf-download");
+    link.href = pdf.src;
+    link.textContent = pdf.name;
+  };
+  refreshPdf();
+  let uploadGeneration = 0;
+  pdfInput.onchange = () => act(async () => {
+    const file = pdfInput.files[0], generation = ++uploadGeneration;
+    pdfInput.value = "";
+    if (!file) return;
+    if (file.size > MAX_PDF_BYTES)
+      throw new Error("Choose a PDF no larger than 5 MB.");
+    pendingUploads++;
+    update();
+    feedback("Uploading PDF…");
+    try {
+      const result = await api.request("/documents", {
+        method: "POST",
+        body: file,
+        headers: { "content-type": "application/pdf" },
+      });
+      if (!pdfInput.isConnected || data.profile !== p || generation !== uploadGeneration) {
+        feedback("PDF uploaded, but the selection changed. No document was replaced.");
+        return;
+      }
+      p.bioPdf = { src: result.src, name: file.name.slice(0, 200) };
+      refreshPdf();
+      changed();
+      feedback("PDF uploaded. Save your draft, then publish to update the public download.");
+    } finally {
+      pendingUploads--;
+      update();
+    }
+  });
   const editor = { blocks: bioBlocks(p) };
   root.insertAdjacentHTML(
     "beforeend",
@@ -843,10 +885,6 @@ function renderProfile(root) {
       "Biography & résumé",
       "Edit the text and formatting directly. ",
     ),
-  );
-  root.insertAdjacentHTML(
-    "beforeend",
-    '<p class="hint">The downloadable PDF remains a separate document; editing this page does not change it.</p>',
   );
   root.insertAdjacentHTML(
     "beforeend",

@@ -163,3 +163,42 @@ test("Cloudflare Access verifies signature, audience, expiry and the email allow
     globalThis.fetch = original;
   }
 });
+
+test("GitHub publication rejects a missing PDF and protected downloads retain PDF headers", async () => {
+  const original = globalThis.fetch;
+  const catalog = structuredClone(seed);
+  catalog.demo = false;
+  catalog.entries = [];
+  catalog.profile.portrait = "";
+  catalog.profile.email = "artist@example.com";
+  catalog.profile.url = "https://portfolio.example.com";
+  const path = `/assets/documents/${"a".repeat(64)}.pdf`;
+  catalog.profile.bioPdf = { src: path, name: "Updated résumé.pdf" };
+  const bytes = await readFile("assets/documents/r-barela-bio-resume.pdf");
+  const calls = [];
+  globalThis.fetch = async (url, init = {}) => {
+    calls.push({ url: String(url), init });
+    if (String(url).includes("/access_tokens")) return ok({ token: "test-only-token" });
+    if (String(url).includes("assets/documents/"))
+      return init.headers.accept === "application/vnd.github.raw+json"
+        ? new Response(bytes)
+        : new Response("Missing", { status: 404 });
+    const draft = String(url).includes("_editor");
+    return ok({
+      sha: (draft ? "2" : "1").repeat(40), encoding: "base64",
+      content: Buffer.from(JSON.stringify(draft ? { catalog, basePublishedRevision: "1".repeat(40) } : catalog)).toString("base64"),
+    });
+  };
+  try {
+    const store = await createGitHubStore(env);
+    await assert.rejects(store.publish("2".repeat(40), "1".repeat(40)), /image or PDF is missing/);
+    assert(calls.some((call) => call.url.includes(path.slice(1))));
+    assert(!calls.some((call) => ["PUT", "PATCH"].includes(call.init.method)));
+    const file = await store.media(path);
+    assert.equal(file.headers.get("content-type"), "application/pdf");
+    assert.match(file.headers.get("content-disposition"), /^attachment;/);
+    assert.deepEqual(Buffer.from(await file.arrayBuffer()), bytes);
+  } finally {
+    globalThis.fetch = original;
+  }
+});

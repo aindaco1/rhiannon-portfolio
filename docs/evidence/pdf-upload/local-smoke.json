@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-18T00:16:36.390Z",
+  "page": "http://127.0.0.1:4322/admin/",
+  "selected": "/assets/documents/r-barela-bio-resume.pdf",
+  "errors": [],
+  "pdfStatus": 200,
+  "pdfType": "application/pdf",
+  "pdfSha256": "b6a5378aa6929746a16c39495af8f1dbbb5341323a252b011699b4d860f64af1",
+  "saveDisabled": true,
+  "stateBefore": "213813a4f61073364a276ebb8ed51f8776f75df006c3667a4a5d9415e13e25d0",
+  "stateAfter": "213813a4f61073364a276ebb8ed51f8776f75df006c3667a4a5d9415e13e25d0",
+  "stateUnchanged": true
+}

@@ -6,6 +6,9 @@ import {
   publicCatalog,
   validateCatalog,
   mediaReferences,
+  bioPdf,
+  isPdfPath,
+  PDF_DOWNLOAD_HEADERS,
 } from "../lib/content.mjs";
 const livePath = "content/catalog.json",
   draftPath = "_editor/catalog.json";
@@ -154,15 +157,15 @@ export async function createGitHubStore(env) {
       if (!s.draft.ok)
         throw new ContentError("Save a draft before publishing.");
       const catalog = validateCatalog(s.catalog, { production: true });
-      // Verify every referenced public image before creating the publication commit.
-      for (const path of mediaReferences(catalog, true)) {
+      // Verify every referenced public file before creating the publication commit.
+      for (const path of [...mediaReferences(catalog, true), bioPdf(catalog.profile).src]) {
         const response = await fetch(
           `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
           { headers, signal: AbortSignal.timeout(15000) },
         );
         if (!response.ok)
           throw new ContentError(
-            "A referenced image is missing. Upload it again before publishing.",
+            "A referenced image or PDF is missing. Upload it again before publishing.",
           );
         await response.body?.cancel();
       }
@@ -192,11 +195,11 @@ export async function createGitHubStore(env) {
       let binary = "";
       for (let i = 0; i < bytes.length; i += 32768)
         binary += String.fromCharCode(...bytes.subarray(i, i + 32768));
-      // Immutable content hashes make retries safe; media is emitted only if a published entry references it.
+      // Immutable content hashes make retries safe; files are emitted only when the published catalog references them.
       const result = await client.putBase64File(
         path.slice(1),
         btoa(binary),
-        "Stage portfolio photo",
+        isPdfPath(path) ? "Stage portfolio PDF" : "Stage portfolio photo",
       );
       if (!result.ok) {
         const existing = await fetch(
@@ -217,7 +220,7 @@ export async function createGitHubStore(env) {
       );
       if (!response.ok) return new Response("Not found", { status: 404 });
       return new Response(response.body, {
-        headers: {
+        headers: isPdfPath(path) ? PDF_DOWNLOAD_HEADERS : {
           "content-type": path.endsWith(".png")
             ? "image/png"
             : path.endsWith(".webp")
