@@ -8,10 +8,10 @@ import { publicCatalog } from "../lib/content.mjs";
 const stringify = value => JSON.stringify(value, null, 2) + "\n";
 const sha = bytes => createHash("sha1").update(`blob ${Buffer.byteLength(bytes)}\0`).update(bytes).digest("hex");
 const { privateKey } = await generateKeyPair("RS256", { extractable: true });
-const env = { GITHUB_OWNER: "owner", GITHUB_REPO: "public", GITHUB_DRAFT_REPO: "private", GITHUB_APP_CLIENT_ID: "app", GITHUB_APP_INSTALLATION_ID: "1", GITHUB_APP_PRIVATE_KEY: await exportPKCS8(privateKey) };
+const env = { GITHUB_OWNER: "owner", GITHUB_REPO: "portfolio", GITHUB_APP_CLIENT_ID: "app", GITHUB_APP_INSTALLATION_ID: "1", GITHUB_APP_PRIVATE_KEY: await exportPKCS8(privateKey) };
 function provider(catalog) {
   const publicFiles = new Map([["content/catalog.json", stringify(publicCatalog(catalog))], ["assets/documents/r-barela-bio-resume.pdf", "existing PDF"]]);
-  const privateFiles = new Map(), blobs = new Map(), commits = new Map(), trees = new Map(), requests = [];
+  const blobs = new Map(), commits = new Map(), trees = new Map(), requests = [];
   let seq = 1, head = "a".repeat(40), loseResponse = false, conflict = false;
   const id = () => (++seq).toString(16).padStart(40, "0");
   const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -19,9 +19,9 @@ function provider(catalog) {
     const u = new URL(url), method = init.method || "GET", body = init.body ? JSON.parse(init.body) : null;
     requests.push({ path: u.pathname, method, body });
     if (u.pathname.endsWith("access_tokens")) return json({ token: "test-only-token" });
-    const priv = u.pathname.startsWith("/repos/owner/private"), files = priv ? privateFiles : publicFiles;
-    const path = u.pathname.replace(/^\/repos\/owner\/(private|public)/, "");
-    if (!path) return json({ private: priv });
+    const files = publicFiles;
+    assert(u.pathname.startsWith("/repos/owner/portfolio/"));
+    const path = u.pathname.replace("/repos/owner/portfolio", "");
     if (path.startsWith("/contents/")) {
       const name = decodeURIComponent(path.slice(10)), current = files.get(name);
       if (method === "PUT") {
@@ -36,7 +36,7 @@ function provider(catalog) {
     if (path.startsWith("/git/ref/")) return json({ object: { sha: head } });
     if (path.startsWith("/git/commits/")) return json({ tree: { sha: "b".repeat(40) } });
     if (path.startsWith("/git/trees/")) return json({ truncated: false, tree: [...publicFiles.keys()].map(path => ({ path, type: "blob" })) });
-    if (path === "/git/blobs") { const bytes = Buffer.from(body.content, "base64"), key = sha(bytes); blobs.set(key, bytes); return json({ sha: key }); }
+    if (path === "/git/blobs") { const bytes = Buffer.from(body.content, body.encoding === "utf-8" ? "utf8" : "base64"), key = sha(bytes); blobs.set(key, bytes); return json({ sha: key }); }
     if (path === "/git/trees") { const key = id(); trees.set(key, body.tree); return json({ sha: key }); }
     if (path === "/git/commits") { const key = id(); commits.set(key, body); return json({ sha: key }); }
     if (path.startsWith("/git/refs/") && method === "PATCH") {
@@ -50,7 +50,7 @@ function provider(catalog) {
     }
     throw new Error(`Unexpected test request ${method} ${path}`);
   }
-  return { fetch, publicFiles, privateFiles, requests, loseNextResponse() { loseResponse = true; }, conflictNextPublish() { conflict = true; } };
+  return { fetch, publicFiles, requests, loseNextResponse() { loseResponse = true; }, conflictNextPublish() { conflict = true; } };
 }
 async function fixture(t) {
   const catalog = JSON.parse(await readFile("tests/fixtures/catalog.json"));
@@ -60,63 +60,55 @@ async function fixture(t) {
   const store = await createGitHubStore(env);
   return { catalog, mock, store };
 }
-test("uploads and draft-only content stay private; publication commits only selected content/media", async t => {
+test("same-repository save retains drafts and uploads; publication atomically updates the public catalog and draft baseline", async t => {
   const { catalog, mock, store } = await fixture(t);
   const visible = `/assets/media/${"c".repeat(64)}.jpg`, hidden = `/assets/media/${"d".repeat(64)}.jpg`;
   await store.upload(visible, new Uint8Array([1, 2, 3]));
   await store.upload(hidden, new Uint8Array([4, 5, 6]));
   const initial = await store.load();
   catalog.profile.bio = [{ type: "image", src: visible, alt: "Published photo" }];
-  catalog.entries = [{ id: "private-note", kind: "post", slug: "private-note", status: "draft", title: "Secret draft", intro: "", year: 2026, role: "", credits: "", sample: false, date: "2026-11-17", categories: [], tags: [], cover: { src: hidden, alt: "Hidden image" }, blocks: [{ type: "text", body: "Private words" }] }];
+  catalog.entries = [{ id: "draft-note", kind: "post", slug: "draft-note", status: "draft", title: "Unpublished draft", intro: "", year: 2026, role: "", credits: "", sample: false, date: "2026-11-17", categories: [], tags: [], cover: { src: hidden, alt: "Unpublished image" }, blocks: [{ type: "text", body: "Draft words" }] }];
   const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
-  assert(!mock.publicFiles.has(visible.slice(1)));
-  assert(!mock.publicFiles.has("_editor/catalog.json"));
-  assert.match(mock.privateFiles.get("_editor/catalog.json").toString(), /Secret draft/);
-  const result = await store.publish(draft.revision, draft.publishedRevision);
   assert(mock.publicFiles.has(visible.slice(1)));
-  assert(!mock.publicFiles.has(hidden.slice(1)));
-  assert(!mock.publicFiles.has("_editor/catalog.json"));
-  assert(!mock.publicFiles.get("content/catalog.json").toString().includes("Secret draft"));
+  assert(mock.publicFiles.has(hidden.slice(1)));
+  assert.match(mock.publicFiles.get("_editor/catalog.json").toString(), /Unpublished draft/);
+  assert(!mock.publicFiles.get("content/catalog.json").toString().includes("Published photo"));
+  const result = await store.publish(draft.revision, draft.publishedRevision);
+  assert.match(mock.publicFiles.get("content/catalog.json").toString(), /Published photo/);
+  assert(!mock.publicFiles.get("content/catalog.json").toString().includes("Unpublished draft"));
   const state = await store.load();
   assert.equal(state.conflict, false);
   assert.equal(state.publishedRevision, result.publishedRevision);
-  assert.equal(state.catalog.entries[0].title, "Secret draft");
+  assert.equal(state.revision, result.revision);
+  assert.equal(state.catalog.entries[0].title, "Unpublished draft");
+  const updates = mock.requests.filter(r => r.method === "PATCH");
+  assert.equal(updates.length, 1);
+  assert.equal(updates[0].body.force, false);
   await store.save({ ...catalog, profile: { ...catalog.profile, intro: "A later draft" } }, state.revision, state.publishedRevision);
-  assert(mock.requests.filter(r => r.method === "PUT").every(r => r.path.startsWith("/repos/owner/private/")));
 });
-test("lost publication response recovers its baseline and retries without a duplicate public commit", async t => {
+test("a lost publication response leaves the published file and draft baseline consistent on reload", async t => {
   const { catalog, mock, store } = await fixture(t);
   const initial = await store.load(); catalog.profile.bio = "The next biography.";
   const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
   mock.loseNextResponse();
-  await assert.rejects(store.publish(draft.revision, draft.publishedRevision), /lost response/);
+  await assert.rejects(store.publish(draft.revision, draft.publishedRevision), e => e.status === 502);
   const reloaded = await store.load();
   assert.equal(reloaded.conflict, false);
-  const commitsBefore = mock.requests.filter(r => r.path.endsWith("/git/commits") && r.method === "POST").length;
-  const retry = await store.publish(reloaded.revision, reloaded.publishedRevision);
-  assert.equal(retry.commit, reloaded.publicationCommit);
-  assert.equal(mock.requests.filter(r => r.path.endsWith("/git/commits") && r.method === "POST").length, commitsBefore);
+  assert.equal(reloaded.publishedRevision, sha(mock.publicFiles.get("content/catalog.json")));
+  assert.equal(reloaded.catalog.profile.bio, "The next biography.");
+  await assert.rejects(store.publish(draft.revision, draft.publishedRevision), e => e.status === 409);
 });
-test("public ref conflicts preserve the draft and retry after reload without overwriting other changes", async t => {
+test("a concurrent branch advance preserves both catalogs and allows a fresh retry", async t => {
   const { catalog, mock, store } = await fixture(t);
   const initial = await store.load(); catalog.profile.bio = "The next biography.";
   const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
+  const before = mock.publicFiles.get("content/catalog.json");
   mock.conflictNextPublish();
   await assert.rejects(store.publish(draft.revision, draft.publishedRevision), e => e.status === 409);
   const pending = await store.load();
-  assert.equal(pending.pendingPublication, true);
+  assert.equal(mock.publicFiles.get("content/catalog.json"), before);
   assert.equal(pending.catalog.profile.bio, "The next biography.");
-  await assert.rejects(store.save(catalog, pending.revision, pending.publishedRevision), /publication is pending/);
+  assert.equal(pending.conflict, false);
   await store.publish(pending.revision, pending.publishedRevision);
   assert.equal((await store.load()).conflict, false);
-});
-
-test("publishing only private draft changes does not create a spurious public release", async t => {
-  const { catalog, mock, store } = await fixture(t);
-  const initial = await store.load();
-  const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
-  const result = await store.publish(draft.revision, draft.publishedRevision);
-  assert.equal(result.status, "unchanged");
-  assert(!mock.requests.some(r => r.path.startsWith("/repos/owner/public/git/") && r.method !== "GET"));
-  assert.equal((await store.load()).pendingPublication, undefined);
 });

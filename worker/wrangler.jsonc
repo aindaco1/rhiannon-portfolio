@@ -9,9 +9,7 @@
     "EDITOR_EMAILS": "alonso@hey.com,barelarhiannon@gmail.com",
     "ADMIN_ORIGIN": "https://rbarela.com",
     "GITHUB_OWNER": "aindaco1",
-    "GITHUB_REPO": "rhiannon-portfolio",
-    "GITHUB_DRAFT_REPO": "rhiannon-portfolio-drafts",
-    "GITHUB_DRAFT_BRANCH": "main"
+    "GITHUB_REPO": "rhiannon-portfolio"
   },
   "d1_databases": [
     {

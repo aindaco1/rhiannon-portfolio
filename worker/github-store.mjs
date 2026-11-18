@@ -42,14 +42,12 @@ export async function createGitHubStore(env) {
   for (const name of [
     "GITHUB_OWNER",
     "GITHUB_REPO",
-    "GITHUB_DRAFT_REPO",
     "GITHUB_APP_CLIENT_ID",
     "GITHUB_APP_INSTALLATION_ID",
     "GITHUB_APP_PRIVATE_KEY",
   ])
     if (!env[name])
       throw new ContentError("Repository publishing is not configured.", 503);
-  if (env.GITHUB_DRAFT_REPO === env.GITHUB_REPO) throw new ContentError("Draft storage must be a separate private repository.", 503);
   const issuer = env.GITHUB_APP_CLIENT_ID,
     now = Math.floor(Date.now() / 1000),
     key = await importPKCS8(env.GITHUB_APP_PRIVATE_KEY, "RS256");
@@ -70,7 +68,7 @@ export async function createGitHubStore(env) {
         "user-agent": "r-barela-portfolio",
       },
       body: JSON.stringify({
-        repositories: [env.GITHUB_REPO, env.GITHUB_DRAFT_REPO],
+        repositories: [env.GITHUB_REPO],
         permissions: { contents: "write", actions: "read" },
       }),
       signal: AbortSignal.timeout(15000),
@@ -88,30 +86,20 @@ export async function createGitHubStore(env) {
     accept: "application/vnd.github+json",
     "user-agent": "r-barela-portfolio",
     "x-github-api-version": "2022-11-28",
-    "content-type": "application/json",
   };
-  const privateBranch = env.GITHUB_DRAFT_BRANCH || "main";
-  const privateBase = `https://api.github.com/repos/${encodeURIComponent(env.GITHUB_OWNER)}/${encodeURIComponent(env.GITHUB_DRAFT_REPO)}`;
-  async function github(root, path, { method = "GET", body } = {}) {
-    const response = await fetch(root + path, { method, headers, ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(30000) });
-    checked(response);
-    return readBoundedJson(response, 16 * 1024 * 1024);
-  }
-  // Excluding files from Pages does not hide them from a public Git repository.
-  if ((await github(privateBase, "")).private !== true) throw new ContentError("Draft storage must be private.", 503);
-  const makeClient = (repo, ref) => createGitHubClient({ owner: env.GITHUB_OWNER, repo, ref, token, userAgent: "r-barela-portfolio", maxContentBytes: MAX_VIDEO_BYTES, maxResponseBytes: 16 * 1024 * 1024 });
-  const client = makeClient(env.GITHUB_REPO, branch);
-  const drafts = makeClient(env.GITHUB_DRAFT_REPO, privateBranch);
-  const contents = (path, ref) => `/contents/${path.replace(/^\//, "")}?ref=${encodeURIComponent(ref)}`;
-  const encodeBytes = (bytes) => {
-    let binary = "";
-    for (let i = 0; i < bytes.length; i += 32768) binary += String.fromCharCode(...bytes.subarray(i, i + 32768));
-    return btoa(binary);
-  };
+  const client = createGitHubClient({
+    owner: env.GITHUB_OWNER,
+    repo: env.GITHUB_REPO,
+    ref: branch,
+    token,
+    userAgent: "r-barela-portfolio",
+    maxContentBytes: MAX_VIDEO_BYTES,
+    maxResponseBytes: 16 * 1024 * 1024,
+  });
   async function state() {
     const [live, draft] = await Promise.all([
       client.getTextFile(livePath),
-      drafts.getTextFile(draftPath),
+      client.getTextFile(draftPath),
     ]);
     checked(live);
     if (!draft.ok && draft.status !== 404) checked(draft);
@@ -119,8 +107,7 @@ export async function createGitHubStore(env) {
     return {
       catalog: stored?.catalog || JSON.parse(live.content),
       revision: draft.ok ? draft.sha : "none:" + live.sha,
-      publishedRevision: stored?.pending?.catalogSha === live.sha ? live.sha : stored?.basePublishedRevision || live.sha,
-      pending: stored?.pending,
+      publishedRevision: stored?.basePublishedRevision || live.sha,
       currentPublishedRevision: live.sha,
       mode: "github",
       live,
@@ -134,8 +121,6 @@ export async function createGitHubStore(env) {
     currentPublishedRevision: s.currentPublishedRevision,
     conflict: s.publishedRevision !== s.currentPublishedRevision,
     mode: s.mode,
-    pendingPublication: s.pending && s.pending.catalogSha !== s.live.sha,
-    publicationCommit: s.pending?.catalogSha === s.live.sha ? s.pending.commit : null,
   });
   const compare = (s, revision, published) => {
     if (
@@ -154,10 +139,9 @@ export async function createGitHubStore(env) {
       const s = await state();
       compare(s, revision, published);
       validateCatalog(catalog, { previous: s.catalog });
-      if (s.pending && s.pending.catalogSha !== s.live.sha) throw new ContentError("A publication is pending. Reload, then retry Publish before saving new edits.", 409);
       const payload = stringify({ catalog, basePublishedRevision: published });
       const result = checked(
-        await drafts.putTextFile(
+        await client.putTextFile(
           draftPath,
           payload,
           "Save portfolio draft",
@@ -177,56 +161,78 @@ export async function createGitHubStore(env) {
       if (!s.draft.ok)
         throw new ContentError("Save a draft before publishing.");
       const catalog = validateCatalog(s.catalog, { production: true });
-      const content = stringify(publicCatalog(catalog)), nextPublished = await blobSha(content);
-      if (s.pending?.catalogSha === s.live.sha) return { commit: s.pending.commit, status: "queued", revision: s.revision, publishedRevision: s.live.sha };
-      if (nextPublished === published && !s.pending) return { status: "unchanged", revision, publishedRevision: published };
-      const head = await github(base, `/git/ref/heads/${encodeURIComponent(branch)}`);
-      const parent = head.object.sha;
-      const commit = await github(base, `/git/commits/${parent}`);
-      const live = checked(await client.getTextFile(livePath, parent));
-      if (live.sha !== published) throw new ContentError("The published portfolio changed. Reload before publishing.", 409);
-      const inventory = await github(base, `/git/trees/${commit.tree.sha}?recursive=1`);
-      if (inventory.truncated || !Array.isArray(inventory.tree)) throw new ContentError("The public media inventory could not be read completely.", 502);
-      const existingPaths = new Set(inventory.tree.filter(file => file.type === "blob").map(file => file.path));
-      const tree = [];
-      // Only copy media referenced by published content, never the whole private tree.
-      for (const path of new Set([...mediaReferences(catalog, true), ...videoReferences(catalog, true), bioPdf(catalog.profile).src])) {
-        if (existingPaths.has(path.slice(1))) continue;
-        const source = await fetch(privateBase + contents(path, privateBranch), { headers: { ...headers, accept: "application/vnd.github.raw+json" }, signal: AbortSignal.timeout(30000) });
-        if (source.status === 404) throw new ContentError("A referenced image, video or PDF is missing. Upload it again before publishing.");
-        checked(source);
-        const bytes = await readBoundedBytes(source, MAX_VIDEO_BYTES);
-        const blob = await github(base, "/git/blobs", { method: "POST", body: { content: encodeBytes(bytes), encoding: "base64" } });
-        tree.push({ path: path.slice(1), mode: "100644", type: "blob", sha: blob.sha });
+      // Verify every referenced public file before creating the publication commit.
+      for (const path of [...mediaReferences(catalog, true), ...videoReferences(catalog, true), bioPdf(catalog.profile).src]) {
+        const response = await fetch(
+          `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
+          { headers, signal: AbortSignal.timeout(15000) },
+        );
+        if (!response.ok)
+          throw new ContentError(
+            "A referenced image, video or PDF is missing. Upload it again before publishing.",
+          );
+        await response.body?.cancel();
       }
-      tree.push({ path: livePath, mode: "100644", type: "blob", content });
-      const nextTree = await github(base, "/git/trees", { method: "POST", body: { base_tree: commit.tree.sha, tree } });
-      const nextCommit = await github(base, "/git/commits", { method: "POST", body: { message: "Publish portfolio changes", tree: nextTree.sha, parents: [parent] } });
-      // Persist intent with a private compare-and-swap BEFORE advancing the public ref.
-      // A lost response or interrupted final write is recoverable by comparing catalogSha.
-      const draftContent = stringify({ catalog, basePublishedRevision: published, pending: { commit: nextCommit.sha, catalogSha: nextPublished } });
-      const intent = checked(await drafts.putTextFile(draftPath, draftContent, "Prepare portfolio publication", revision));
-      await github(base, `/git/refs/heads/${encodeURIComponent(branch)}`, { method: "PATCH", body: { sha: nextCommit.sha, force: false } });
-      return { commit: nextCommit.sha, status: "queued", revision: intent.contentSha, publishedRevision: nextPublished };
+      const content = stringify(publicCatalog(catalog)),
+        nextPublished = await blobSha(content),
+        draftContent = stringify({
+          catalog,
+          basePublishedRevision: nextPublished,
+        });
+      const result = checked(
+        await client.putTextFiles(
+          [
+            { path: livePath, content, expectedSha: published },
+            { path: draftPath, content: draftContent, expectedSha: revision },
+          ],
+          "Publish portfolio changes",
+        ),
+      );
+      return {
+        commit: result.commitSha,
+        status: "queued",
+        revision: await blobSha(draftContent),
+        publishedRevision: nextPublished,
+      };
     },
     upload: async (path, bytes) => {
-      const result = await drafts.putBase64File(path.slice(1), encodeBytes(bytes), "Stage private portfolio media");
+      let binary = "";
+      for (let i = 0; i < bytes.length; i += 32768)
+        binary += String.fromCharCode(...bytes.subarray(i, i + 32768));
+      // Immutable content hashes make retries safe; files are emitted only when the published catalog references them.
+      const result = await client.putBase64File(
+        path.slice(1),
+        btoa(binary),
+        isVideoPath(path) ? "Stage portfolio video" : isPdfPath(path) ? "Stage portfolio PDF" : "Stage portfolio photo",
+      );
       if (!result.ok) {
-        const existing = await fetch(privateBase + contents(path, privateBranch), { headers, signal: AbortSignal.timeout(15000) });
-        await existing.body?.cancel();
+        const existing = await fetch(
+          `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
+          { headers, signal: AbortSignal.timeout(15000) },
+        );
         if (!existing.ok) checked(result);
+        await existing.body?.cancel();
       }
     },
     media: async (path, request) => {
-      let response = await fetch(privateBase + contents(path, privateBranch), { headers: { ...headers, accept: "application/vnd.github.raw+json" }, signal: AbortSignal.timeout(30000) });
-      if (response.status === 404) {
-        await response.body?.cancel();
-        response = await fetch(base + contents(path, branch), { headers: { ...headers, accept: "application/vnd.github.raw+json" }, signal: AbortSignal.timeout(30000) });
-      }
-      if (response.status === 404) return new Response("Not found", { status: 404 });
-      checked(response);
+      const response = await fetch(
+        `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
+        {
+          headers: { ...headers, accept: "application/vnd.github.raw+json" },
+          signal: AbortSignal.timeout(15000),
+        },
+      );
+      if (!response.ok) return new Response("Not found", { status: 404 });
       if (isVideoPath(path)) return videoResponse(await readBoundedBytes(response, MAX_VIDEO_BYTES), request);
-      return new Response(response.body, { headers: isPdfPath(path) ? PDF_DOWNLOAD_HEADERS : { "content-type": path.endsWith(".png") ? "image/png" : path.endsWith(".webp") ? "image/webp" : "image/jpeg" } });
+      return new Response(response.body, {
+        headers: isPdfPath(path) ? PDF_DOWNLOAD_HEADERS : {
+          "content-type": path.endsWith(".png")
+            ? "image/png"
+            : path.endsWith(".webp")
+              ? "image/webp"
+              : "image/jpeg",
+        },
+      });
     },
     status: async (revision) => {
       if (!/^[a-f0-9]{40}$/.test(revision || ""))

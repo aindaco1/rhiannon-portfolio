@@ -52,7 +52,7 @@ export async function mediaURL(path) {
     const currentGeneration = generation;
     const result = (async () => {
       const response = await authorizedFetch(apiOrigin + path, { signal: AbortSignal.timeout(60000) });
-      if (!response.ok) throw new Error("Private media could not load. Sign in again or retry.");
+      if (!response.ok) throw new Error("Media could not load. Sign in again or retry.");
       const blob = await response.blob();
       if (currentGeneration !== generation) throw new Error("The editor session changed.");
       const url = URL.createObjectURL(blob);
@@ -73,7 +73,7 @@ async function hydrate(node) {
       const url = await mediaURL(path);
       if (node.isConnected && node.getAttribute(marker) === path) node.setAttribute(attribute, url);
     } catch {
-      node.setAttribute("title", "Private media could not load. Reload the saved version to retry.");
+      node.setAttribute("title", "Media could not load. Reload the saved version to retry.");
     } finally { node.removeAttribute(`data-loading-${attribute}`); }
   }
 }

@@ -146,7 +146,7 @@ async function load() {
   feedback(
     result.conflict
       ? "A newer publication exists. Download a recovery copy and reconcile the saved draft before publishing."
-      : result.pendingPublication ? "A publication was interrupted. Retry Publish before making more changes." : "Ready. Draft saves do not change the public portfolio.",
+      : hosted ? "Ready. Drafts stay off the website; saved source and uploads are visible on GitHub." : "Ready. Draft saves do not change the public portfolio.",
     !!result.conflict,
   );
   try {
@@ -1054,7 +1054,7 @@ $("#publish").onclick = () =>
     const included = data.entries.filter((e) => e.status === "published");
     if (
       !confirm(
-        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} pieces of writing? Draft-only entries stay private. Categories, tags and profile changes are included.`,
+        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} pieces of writing? Draft-only entries stay off the website; saved source and uploads are visible on GitHub. Categories, tags and profile changes are included.`,
       )
     )
       return;
@@ -1068,7 +1068,6 @@ $("#publish").onclick = () =>
       });
       publishedRevision = result.publishedRevision || publishedRevision;
       revision = result.revision || revision;
-      if (result.status === "unchanged") { feedback("No public changes to publish. Draft-only work remains saved."); return; }
       if (result.status === "live") {
         feedback(
           "Published to the local preview. The public pages now reflect this saved draft.",
