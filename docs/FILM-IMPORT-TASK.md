@@ -55,3 +55,5 @@ The committed catalog and actual local editor were updated separately. A fresh A
 Actual content checks and capture inventory: [preview-review.json](evidence/film-import/preview-review.json). Representative captures: [home](evidence/film-import/home-1440.png), [mobile home](evidence/film-import/home-390.png), [Writing](evidence/film-import/writing-1440.png), [mobile poem](evidence/film-import/initials-on-the-chamber-walls-390.png), [prose](evidence/film-import/the-intimacy-of-touching-knees-in-a-theatre-1440.png), [Writing editor](evidence/film-import/admin-the-intimacy-of-touching-knees-in-a-theatre.png).
 
 Public local preview: `http://127.0.0.1:4321/`; editor: `http://127.0.0.1:4322/admin/`. Hosted access, deployment and physical Safari/iOS checks remain unperformed. This task did not change Store, Pool or the pinned shared Platform.
+
+Concurrent changes to README, deployment documentation and CI were detected during the final review. Those working-tree files were left intact and excluded from this task’s commit; the tested application/content/media hashes still match.
