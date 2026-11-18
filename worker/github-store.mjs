@@ -161,17 +161,20 @@ export async function createGitHubStore(env) {
       if (!s.draft.ok)
         throw new ContentError("Save a draft before publishing.");
       const catalog = validateCatalog(s.catalog, { production: true });
-      // Verify every referenced public file before creating the publication commit.
+      // One inventory avoids a subrequest per photo on media-heavy portfolios.
+      const response = await fetch(`${base}/git/trees/${encodeURIComponent(branch)}?recursive=1`, {
+        headers, signal: AbortSignal.timeout(15000),
+      });
+      if (!response.ok) throw new ContentError("Repository media could not be checked. Try again.", 502);
+      const inventory = await readBoundedJson(response, 16 * 1024 * 1024);
+      if (inventory.truncated || !Array.isArray(inventory.tree))
+        throw new ContentError("Repository media inventory is incomplete. Publication was not changed.", 502);
+      const files = new Set(inventory.tree.filter(file => file.type === "blob").map(file => file.path));
       for (const path of [...mediaReferences(catalog, true), ...videoReferences(catalog, true), bioPdf(catalog.profile).src]) {
-        const response = await fetch(
-          `${base}/contents/${path.slice(1)}?ref=${encodeURIComponent(branch)}`,
-          { headers, signal: AbortSignal.timeout(15000) },
-        );
-        if (!response.ok)
+        if (!files.has(path.slice(1)))
           throw new ContentError(
             "A referenced image, video or PDF is missing. Upload it again before publishing.",
           );
-        await response.body?.cancel();
       }
       const content = stringify(publicCatalog(catalog)),
         nextPublished = await blobSha(content),

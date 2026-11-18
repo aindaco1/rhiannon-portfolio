@@ -12,7 +12,7 @@ const env = { GITHUB_OWNER: "owner", GITHUB_REPO: "portfolio", GITHUB_APP_CLIENT
 function provider(catalog) {
   const publicFiles = new Map([["content/catalog.json", stringify(publicCatalog(catalog))], ["assets/documents/r-barela-bio-resume.pdf", "existing PDF"]]);
   const blobs = new Map(), commits = new Map(), trees = new Map(), requests = [];
-  let seq = 1, head = "a".repeat(40), loseResponse = false, conflict = false;
+  let seq = 1, head = "a".repeat(40), loseResponse = false, conflict = false, truncated = false;
   const id = () => (++seq).toString(16).padStart(40, "0");
   const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
   async function fetch(url, init = {}) {
@@ -35,7 +35,7 @@ function provider(catalog) {
     }
     if (path.startsWith("/git/ref/")) return json({ object: { sha: head } });
     if (path.startsWith("/git/commits/")) return json({ tree: { sha: "b".repeat(40) } });
-    if (path.startsWith("/git/trees/")) return json({ truncated: false, tree: [...publicFiles.keys()].map(path => ({ path, type: "blob" })) });
+    if (path.startsWith("/git/trees/")) return json({ truncated, tree: [...publicFiles.keys()].map(path => ({ path, type: "blob" })) });
     if (path === "/git/blobs") { const bytes = Buffer.from(body.content, body.encoding === "utf-8" ? "utf8" : "base64"), key = sha(bytes); blobs.set(key, bytes); return json({ sha: key }); }
     if (path === "/git/trees") { const key = id(); trees.set(key, body.tree); return json({ sha: key }); }
     if (path === "/git/commits") { const key = id(); commits.set(key, body); return json({ sha: key }); }
@@ -50,7 +50,7 @@ function provider(catalog) {
     }
     throw new Error(`Unexpected test request ${method} ${path}`);
   }
-  return { fetch, publicFiles, requests, loseNextResponse() { loseResponse = true; }, conflictNextPublish() { conflict = true; } };
+  return { fetch, publicFiles, requests, loseNextResponse() { loseResponse = true; }, conflictNextPublish() { conflict = true; }, truncateInventory() { truncated = true; } };
 }
 async function fixture(t) {
   const catalog = JSON.parse(await readFile("tests/fixtures/catalog.json"));
@@ -111,4 +111,24 @@ test("a concurrent branch advance preserves both catalogs and allows a fresh ret
   assert.equal(pending.conflict, false);
   await store.publish(pending.revision, pending.publishedRevision);
   assert.equal((await store.load()).conflict, false);
+});
+
+test("a media-heavy portfolio publishes within a bounded request budget and rejects an incomplete inventory", async t => {
+  const { catalog, mock, store } = await fixture(t);
+  const images = Array.from({ length: 200 }, (_, i) => {
+    const src = `/assets/media/${i.toString(16).padStart(64, "0")}.jpg`;
+    mock.publicFiles.set(src.slice(1), "existing image");
+    return { src, alt: `Photo ${i}` };
+  });
+  catalog.profile.bio = Array.from({ length: 10 }, (_, i) => ({ type: "gallery", layout: "grid", images: images.slice(i * 20, (i + 1) * 20) }));
+  const initial = await store.load();
+  const draft = await store.save(catalog, initial.revision, initial.publishedRevision);
+  const before = mock.requests.length;
+  await store.publish(draft.revision, draft.publishedRevision);
+  assert(mock.requests.length - before < 20);
+  const state = await store.load();
+  mock.truncateInventory();
+  const writesBefore = mock.requests.filter(r => r.method !== "GET").length;
+  await assert.rejects(store.publish(state.revision, state.publishedRevision), /inventory is incomplete/);
+  assert.equal(mock.requests.filter(r => r.method !== "GET").length, writesBefore);
 });

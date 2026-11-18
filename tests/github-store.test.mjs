@@ -122,6 +122,7 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
   globalThis.fetch = async (url, init = {}) => {
     calls.push({ url: String(url), init });
     if (String(url).includes("/access_tokens")) return ok({ token: "test-only-token" });
+    if (String(url).includes("/git/trees/")) return ok({ truncated: false, tree: [] });
     if (String(url).includes("assets/documents/"))
       return init.headers.accept === "application/vnd.github.raw+json"
         ? new Response(bytes)
@@ -135,7 +136,7 @@ test("GitHub publication rejects a missing PDF and protected downloads retain PD
   try {
     const store = await createGitHubStore(env);
     await assert.rejects(store.publish("2".repeat(40), "1".repeat(40)), /image, video or PDF is missing/);
-    assert(calls.some((call) => call.url.includes(path.slice(1))));
+    assert(calls.some((call) => call.url.includes("/git/trees/")));
     assert(!calls.some((call) => ["PUT", "PATCH"].includes(call.init.method)));
     const file = await store.media(path);
     assert.equal(file.headers.get("content-type"), "application/pdf");
@@ -158,6 +159,7 @@ test('GitHub publication checks local videos and protected video previews serve 
   globalThis.fetch = async (url, init = {}) => {
     if (['PUT', 'PATCH', 'POST'].includes(init.method) && !String(url).includes('/access_tokens')) writes++;
     if (String(url).includes('/access_tokens')) return ok({ token: 'test-only-token' });
+    if (String(url).includes('/git/trees/')) return ok({ truncated: false, tree: [] });
     if (String(url).includes('assets/videos/')) return init.headers.accept === 'application/vnd.github.raw+json' ? new Response(bytes) : new Response('Missing', { status: 404 });
     const draft = String(url).includes('_editor');
     return ok({ sha: (draft ? '2' : '1').repeat(40), encoding: 'base64', content: Buffer.from(JSON.stringify(draft ? { catalog, basePublishedRevision: '1'.repeat(40) } : catalog)).toString('base64') });
