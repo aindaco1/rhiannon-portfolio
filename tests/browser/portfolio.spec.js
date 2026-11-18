@@ -542,7 +542,10 @@ test("Writing is text-led, responsive, accessible and uses the same WYSIWYG prev
   ).toBe(200);
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 950 });
+    await page.goto("http://127.0.0.1:4325/");
+    const identitySize = await page.locator(".identity").evaluate(e => getComputedStyle(e).fontSize);
     await page.goto("http://127.0.0.1:4325/writing/");
+    expect(await page.locator(".identity").evaluate(e => getComputedStyle(e).fontSize)).toBe(identitySize);
     await expect(page.locator(".writing-list-item")).toHaveCount(2);
     await expect(page.locator(".writing-list img")).toHaveCount(0);
     expect(
@@ -551,6 +554,7 @@ test("Writing is text-led, responsive, accessible and uses the same WYSIWYG prev
       ),
     ).toBe(true);
     await page.getByRole("link", { name: /A room before the scene/ }).click();
+    expect(await page.locator(".identity").evaluate(e => getComputedStyle(e).fontSize)).toBe(identitySize);
     await expect(page.locator("h1")).toHaveText("A room before the scene");
     await expect(page.locator(".writing-body h2").first()).toHaveText(
       "The things left behind",

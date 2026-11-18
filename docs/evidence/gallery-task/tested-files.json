@@ -1,0 +1,18 @@
+{
+  "time": "2026-11-18T02:25:20.074Z",
+  "baseCommit": "32b0f25",
+  "files": {
+    "admin/admin.mjs": "d81c85f79786cc4cbe3c203c7f45128d86f6615a4fd5a6f3528977df02ec1994",
+    "assets/css/site.css": "2bb7b5e9a8cff3acdd4ac822546686551304c0870aab606358c40c1d3deb1571",
+    "assets/js/site.js": "f3625cd1f6aac7fadbdba4b080584f439d1b4393f09d63ddadb0de6b2a23d05b",
+    "lib/content.mjs": "f7ddce6e786ca2cc92ea93d93551d4e4bbb1b323486d3d3a4e84f9038fe50fbc",
+    "worker/api.mjs": "1b6681fca869a7d5cf44439db563e9b575d4e8b5d2ebb467d2bd727e61348166",
+    "tests/browser/gallery-taxonomy.spec.js": "3d9c5e2ffdc23be7ad851dc34e7a0969a52e1ab0883c44f51fa67661e818df0b",
+    "tests/browser/portfolio.spec.js": "dc1c701db534c6df0dc94d1184ae40e02663d419329736b034a2f0ddce94b6dd"
+  },
+  "productionRelease": {
+    "revision": "local-preview",
+    "catalogHash": "caeff38e983403ba53e5b2274f5d2c053a5e74dbb8d5de53af28ebdc6987f61c",
+    "demo": false
+  }
+}

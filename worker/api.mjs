@@ -6,6 +6,7 @@ import {
   ContentError,
   validateCatalog,
   isPdfPath,
+  isMediaPath,
   isVideoPath,
   validatePdf,
   MAX_PDF_BYTES,
@@ -93,7 +94,7 @@ export async function handleApi(
           preview: true,
         }).replace(
           /(<a\b[^>]*\bhref=")(\/[^"]*)/g,
-          (match, prefix, path) => isPdfPath(path) || isVideoPath(path) ? match :
+          (match, prefix, path) => isPdfPath(path) || isVideoPath(path) || isMediaPath(path) ? match :
             prefix.replace(
               "<a",
               '<a target="_blank" rel="noopener noreferrer"',

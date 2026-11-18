@@ -1005,7 +1005,8 @@ function renderProfile(root) {
 function assertValidFields() {
   const invalid = [
     ...$("#view").querySelectorAll("input,textarea,select"),
-  ].find((field) => !field.checkValidity());
+  // Creation forms validate on Add; their empty fields aren't catalog edits.
+  ].find((field) => !field.closest("[data-new-term]") && !field.checkValidity());
   if (invalid) {
     invalid.reportValidity();
     throw new Error(
@@ -1051,7 +1052,7 @@ $("#publish").onclick = () =>
     const included = data.entries.filter((e) => e.status === "published");
     if (
       !confirm(
-        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} pieces of writing? Draft-only entries stay private. Categories and profile changes are included.`,
+        `Publish all saved changes, including ${included.filter((e) => e.kind === "project").length} projects and ${included.filter((e) => e.kind === "post").length} pieces of writing? Draft-only entries stay private. Categories, tags and profile changes are included.`,
       )
     )
       return;

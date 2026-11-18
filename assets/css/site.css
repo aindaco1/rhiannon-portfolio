@@ -363,15 +363,20 @@ figcaption {
   margin: 40px 0;
 }
 .gallery-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  --gallery-gap: 18px;
+  columns: 2;
+  column-gap: var(--gallery-gap);
 }
-.gallery-images img {
-  aspect-ratio: 4/5;
-  object-fit: contain;
+.gallery-images > figure {
+  break-inside: avoid;
+  margin-bottom: var(--gallery-gap);
+}
+.gallery-image {
+  display: block;
+  cursor: zoom-in;
 }
 .gallery--carousel .gallery-images {
+  columns: auto;
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -380,7 +385,86 @@ figcaption {
 }
 .gallery--carousel .gallery-images > figure {
   min-width: 80%;
+  margin-bottom: 0;
   scroll-snap-align: start;
+}
+.gallery--carousel .gallery-images img {
+  aspect-ratio: 4/5;
+  object-fit: contain;
+}
+.gallery-open {
+  overflow: hidden;
+}
+.gallery-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: clamp(16px, 3vw, 36px);
+  background: #101010;
+  color: white;
+}
+.gallery-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 16px;
+}
+.gallery-dialog::backdrop {
+  background: #101010;
+}
+.gallery-dialog button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 14px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid #777;
+}
+.gallery-dialog button:hover {
+  background: #333;
+}
+.gallery-dialog button:focus-visible {
+  outline-color: white;
+}
+.gallery-close {
+  justify-self: end;
+}
+.gallery-stage {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+.gallery-stage img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+.gallery-stage figcaption {
+  color: inherit;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 70ch;
+  max-height: 20dvh;
+  overflow-y: auto;
+}
+.gallery-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.gallery-status {
+  min-width: 5ch;
+  text-align: center;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
 }
 .video {
   aspect-ratio: 16/9;
@@ -618,6 +702,8 @@ footer small {
     font-size: 18px;
   }
   .gallery-images {
+    columns: 1;
+    --gallery-gap: 14px;
     gap: 10px;
   }
   .about-body {
@@ -687,9 +773,6 @@ footer small {
 .page-writing .masthead {
   padding-top: 30px;
   padding-bottom: 30px;
-}
-.page-writing .identity {
-  font-size: clamp(48px, 6vw, 82px);
 }
 .writing-archive,
 .writing-article {
@@ -909,9 +992,6 @@ footer small {
   .page-writing .masthead {
     padding-top: 24px;
     padding-bottom: 24px;
-  }
-  .page-writing .identity {
-    font-size: 60px;
   }
   .writing-index-heading {
     padding: 40px 0;
