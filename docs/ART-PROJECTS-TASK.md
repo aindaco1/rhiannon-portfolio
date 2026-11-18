@@ -26,3 +26,7 @@ Local pages: <http://127.0.0.1:4321/work/retablos/> and <http://127.0.0.1:4321/w
 ## Selection update — November 17, 2026
 
 After comparing the three spoon-holding San Pasqual images, retained `12-san-pasqual-studio.webp`, the lightest version, as the Retablos cover. Removed `07-san-pasqual-workshop.webp` and `08a-san-pasqual-tray.webp` from the project and removed the duplicate gallery occurrence of image 12. Retablos now displays nine unique images; Woodcarvings still displays eleven. The original files remain available. The local save/publish build succeeded; browser inspection confirmed all nine images loaded in the intended order and the archive uses the updated cover. All other source and local catalog content was preserved. Backups and a review capture are in ignored `.local/retablos-cleanup/`.
+
+## Woodcarvings cover update — November 17, 2026
+
+Set the supplied praying-skull image (`36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp`, source image 14) as the Woodcarvings cover. Moved the former fish cover into the gallery and removed the skull’s duplicate gallery occurrence, retaining all eleven unique images. Updated its image description to mention the clasped hands. Source and local admin/published content match this selection. The local publication build succeeded; browser verification confirmed the new project/archive cover and all eleven loaded images. Other content was preserved. Backups and a visual capture are in ignored `.local/woodcarvings-cover/`.

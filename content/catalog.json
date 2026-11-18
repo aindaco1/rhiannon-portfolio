@@ -169,10 +169,10 @@
       ],
       "tags": [],
       "cover": {
-        "src": "/assets/media/4e8588085bb07fb908f3673562cbf2f86f48d7ccf1bb146282a7874a3c22dca7.webp",
-        "alt": "Painted wooden fish with a yellow-green back, black spots and a striped tail.",
-        "caption": "",
-        "decorative": false
+        "src": "/assets/media/36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp",
+        "alt": "A praying skull with clasped hands, surrounded by roses on a wooden panel.",
+        "decorative": false,
+        "caption": ""
       },
       "credits": "",
       "blocks": [
@@ -181,6 +181,12 @@
           "layout": "grid",
           "caption_style": "inline",
           "images": [
+            {
+              "src": "/assets/media/4e8588085bb07fb908f3673562cbf2f86f48d7ccf1bb146282a7874a3c22dca7.webp",
+              "alt": "Painted wooden fish with a yellow-green back, black spots and a striped tail.",
+              "caption": "",
+              "decorative": false
+            },
             {
               "src": "/assets/media/b56e328d2e62f6587eeaf62e8bb5b6df1a6c2718e78110204d11702f927b4390.webp",
               "alt": "Opposite side of a painted wooden fish, with pink shading and black spots.",
@@ -226,12 +232,6 @@
             {
               "src": "/assets/media/18ad0b2a79e7898a75aad278f776381c86a8b32380723b6c00ef93d567046080.webp",
               "alt": "Back of a golden wooden praying figure, with dark stars decorating the cloak.",
-              "decorative": false,
-              "caption": ""
-            },
-            {
-              "src": "/assets/media/36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp",
-              "alt": "A skull surrounded by roses, drawn in dark lines on a wooden panel.",
               "decorative": false,
               "caption": ""
             },
