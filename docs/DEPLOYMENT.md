@@ -1,21 +1,21 @@
 # Hosting and release handoff
 
-This checkout is a working local build, not a public deployment. Domain, editor email addresses and approved real content are still required. The existing Store and Pool releases are unchanged.
+This checkout is a working local build, not a public deployment. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. The domain and hosted Access setup are still required. The existing Store and Pool releases are unchanged.
 
 ## Configure once
 
-1. Choose the existing domain and confirm the public contact email and the two editor emails.
+1. Choose the existing domain and confirm the public contact email. Use the approved admin allowlist in `worker/wrangler.jsonc` for editor access.
 2. Create/use a **private** GitHub repository. Push this checkout with its pinned Platform submodule. Unpublished content and staged photos/PDFs must not live in a public repository. GitHub Pages for private repositories requires an eligible account plan; verify this before enabling it. If unavailable, retain the build and use private-repository Cloudflare Pages hosting instead.
 3. Give CI a read-only `PLATFORM_READ_TOKEN` for the Platform submodule, unless the repository’s Actions token already has access. Never put tokens in Git URLs. Enable GitHub Pages with Actions and configure the existing domain and HTTPS.
 4. Create a GitHub App installed **only on this portfolio repository**, with Contents read/write and Actions read. Keep its client ID, installation ID and PKCS#8 private key in Worker secrets. An App commit triggers the Pages workflow; it does not require a personal token.
-5. Create a Cloudflare Access application for the full editor hostname with an allow policy for the two approved email addresses. Configure `ADMIN_ORIGIN`, `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`, `EDITOR_EMAILS` and the GitHub values shown in `worker/.dev.vars.example` as Worker secrets/configuration. Set the Worker’s custom domain/route only after Access covers it.
+5. Create a Cloudflare Access application for the full editor hostname with an allow policy matching the two `EDITOR_EMAILS` addresses in `worker/wrangler.jsonc`. Configure `ADMIN_ORIGIN`, `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` and the GitHub values shown in `worker/.dev.vars.example` as Worker secrets/configuration. The email allowlist is already a Worker variable; do not replace it with a secret or duplicate override. Set the Worker’s custom domain/route only after Access covers it.
 6. Run `npm run build` to produce `.admin-build`. Deploy `worker/wrangler.jsonc` with an authenticated Wrangler installation. `workers_dev` and preview URLs are disabled; `run_worker_first` enforces JWT verification before **every** asset, media and API request. The Worker rejects missing configuration, unexpected origins, invalid audiences and unapproved emails.
 
 Do not copy the local preview session mechanism into production. It exists only in the Node loopback server; it is absent from the Worker bundle.
 
 ## Prepare real content
 
-Replace all 20 sample projects/photos with approved material, remove or replace the two sample Writing pieces, verify roles and credits, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
+The twenty sample projects have been removed; four real projects remain. Before production, remove or replace the two sample Writing pieces, verify roles and credits, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
 
 ## Publication behavior
 

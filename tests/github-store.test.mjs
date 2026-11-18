@@ -108,6 +108,9 @@ test("a changed live file does not silently rebase an existing working draft", a
   }
 });
 test("Cloudflare Access verifies signature, audience, expiry and the email allowlist", async () => {
+  const config = JSON.parse(await readFile(new URL("../worker/wrangler.jsonc", import.meta.url)));
+  const admins = ["alonso@hey.com", "barelarhiannon@gmail.com"];
+  assert.deepEqual(config.vars.EDITOR_EMAILS.split(","), admins);
   const original = globalThis.fetch,
     jwk = await exportJWK(publicKey);
   jwk.kid = "test-key";
@@ -117,10 +120,10 @@ test("Cloudflare Access verifies signature, audience, expiry and the email allow
     ADMIN_ORIGIN: "https://editor.example.com",
     ACCESS_TEAM_DOMAIN: "https://portfolio-test.cloudflareaccess.com",
     ACCESS_AUD: "portfolio-aud",
-    EDITOR_EMAILS: "artist@example.com",
+    EDITOR_EMAILS: config.vars.EDITOR_EMAILS,
   };
   const token = async ({
-    email = "artist@example.com",
+    email = admins[0],
     aud = "portfolio-aud",
     expires = "2m",
   } = {}) =>
@@ -136,10 +139,8 @@ test("Cloudflare Access verifies signature, audience, expiry and the email allow
       headers: { "cf-access-jwt-assertion": jwt },
     });
   try {
-    assert.equal(
-      await authorize(request(await token()), access),
-      "artist@example.com",
-    );
+    for (const email of [...admins, admins[0].toUpperCase()])
+      assert.equal(await authorize(request(await token({ email })), access), email);
     await assert.rejects(
       authorize(request(await token({ aud: "other" })), access),
       /invalid/,
@@ -148,13 +149,8 @@ test("Cloudflare Access verifies signature, audience, expiry and the email allow
       authorize(request(await token({ expires: "-1m" })), access),
       /invalid/,
     );
-    await assert.rejects(
-      authorize(
-        request(await token({ email: "stranger@example.com" })),
-        access,
-      ),
-      /does not have/,
-    );
+    for (const email of ["stranger@example.com", "someone@gmail.com", "alonso@hey.com.evil.example"])
+      await assert.rejects(authorize(request(await token({ email })), access), /does not have/);
     await assert.rejects(
       authorize(new Request("https://alternate.example.com/api/state"), access),
       /origin/,

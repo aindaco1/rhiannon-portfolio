@@ -1,0 +1,47 @@
+
+> rhiannon-portfolio@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ Worker fails closed before serving API or static assets (15.171334ms)
+✔ cross-origin mutations and missing Origin fail (4.225541ms)
+✔ request body budgets and unsupported images fail before writes (0.671583ms)
+✔ bounded photo upload uses immutable hash paths (4.477833ms)
+✔ previews use the same block rendering and never cache private content (2.621416ms)
+✔ production publishing is blocked for sample material (0.449709ms)
+✔ Bio preview uses the public renderer and stays private (1.62125ms)
+✔ PDF uploads validate bytes, enforce limits and reuse immutable paths (4.415375ms)
+✔ legacy Bio loads without rewriting its text, headings or links (3.606083ms)
+✔ Bio blocks share validation and media publication boundaries with entries (1.634583ms)
+✔ legacy PDF links survive and replacements require an uploaded document (4.548ms)
+✔ 20 sample projects span all five disciplines; Writing is discoverable when empty (2.9875ms)
+✔ category renames preserve their URL and referenced terms cannot be deleted (1.369875ms)
+✔ entry URLs remain stable and duplicate URLs fail (0.590041ms)
+✔ project years accept an editable range while preserving single years (5.40025ms)
+✔ private draft entries and their photos are absent from published data (0.4045ms)
+✔ production rejects the preview and sample project flags, then requires a domain/contact (2.159416ms)
+✔ media and block inputs are validated at the server boundary (2.1275ms)
+✔ only safe YouTube/Vimeo links can become embedded players (0.967792ms)
+✔ public text and attributes cannot inject executable markup (0.64975ms)
+✔ all supported blocks render without remote embeds until an explicit play (0.203042ms)
+✔ unlisted Vimeo share links preserve the playback hash (0.671166ms)
+✔ GitHub App tokens are repository-scoped; draft saves preserve expected SHA and baseline (34.622459ms)
+✔ a changed live file does not silently rebase an existing working draft (11.325167ms)
+✔ Cloudflare Access verifies signature, audience, expiry and the email allowlist (11.475333ms)
+✔ GitHub publication rejects a missing PDF and protected downloads retain PDF headers (3.046333ms)
+✔ GitHub publication checks local videos and protected video previews serve ranges (2.584625ms)
+✔ MP4 uploads validate bounded complete containers and use immutable paths (21.708ms)
+✔ local video paths, publication references and native player stay constrained (4.067875ms)
+✔ MP4 delivery supports byte ranges and HEAD without sending extra bytes (1.039833ms)
+✔ Writing has an empty state and a permanent navigation link (1.265917ms)
+✔ free-form writing needs no image, introduction, role or taxonomy (17.904375ms)
+✔ writing archives are newest first and never list private drafts (0.972791ms)
+✔ writing previews share the article renderer, preserve formatting and escape authored text (0.670125ms)
+✔ writing sharing metadata never borrows an unrelated project cover (0.629167ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.710042
