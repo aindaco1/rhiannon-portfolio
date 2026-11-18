@@ -22,3 +22,7 @@ Status: **verified within local scope**. Environment: macOS, Node 26.12.1, Jekyl
 - Worker bundling and `git diff --check` passed. Production remains unconfigured; sample projects remain and the portfolio-wide preview flag is still enabled.
 
 Local pages: <http://127.0.0.1:4321/work/retablos/> and <http://127.0.0.1:4321/work/woodcarvings/>. Edit under Projects at <http://127.0.0.1:4322/admin/>.
+
+## Selection update — November 17, 2026
+
+After comparing the three spoon-holding San Pasqual images, retained `12-san-pasqual-studio.webp`, the lightest version, as the Retablos cover. Removed `07-san-pasqual-workshop.webp` and `08a-san-pasqual-tray.webp` from the project and removed the duplicate gallery occurrence of image 12. Retablos now displays nine unique images; Woodcarvings still displays eleven. The original files remain available. The local save/publish build succeeded; browser inspection confirmed all nine images loaded in the intended order and the archive uses the updated cover. All other source and local catalog content was preserved. Backups and a review capture are in ignored `.local/retablos-cleanup/`.

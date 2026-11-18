@@ -1,6 +1,6 @@
 # R. Barela
 
-A static portfolio and a small browser editor. Retablos and Woodcarvings contain 22 supplied artwork images from 2014–2026. Twenty fictional projects still demonstrate art, makeup, props, sets and film; two clearly labeled sample pieces demonstrate free-form Writing. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
+A static portfolio and a small browser editor. Retablos and Woodcarvings contain 20 selected artwork images from 2014–2026. Twenty fictional projects still demonstrate art, makeup, props, sets and film; two clearly labeled sample pieces demonstrate free-form Writing. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
 
 ## Run locally
 

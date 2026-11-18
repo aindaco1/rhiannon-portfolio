@@ -87,10 +87,10 @@
       ],
       "tags": [],
       "cover": {
-        "src": "/assets/media/ed6a039732b162dd184d3f392af782eceefddb9a32d4edc21d79ca7962d8a29a.webp",
-        "alt": "San Pasqual holding a long wooden spoon beside a hanging red chile ristra, painted on a wood panel.",
-        "caption": "",
-        "decorative": false
+        "src": "/assets/media/09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713.webp",
+        "alt": "San Pasqual holding a spoon, with a red chile ristra and a bowl beside him on a pale wood panel.",
+        "decorative": false,
+        "caption": ""
       },
       "credits": "",
       "blocks": [
@@ -100,20 +100,8 @@
           "caption_style": "inline",
           "images": [
             {
-              "src": "/assets/media/260713e02b84dee99d8511d776cf58f0cd7a7fd51db89243acf27710ba40e001.webp",
-              "alt": "San Pasqual in a blue-gray robe, holding a spoon beside a red chile ristra and a bowl.",
-              "decorative": false,
-              "caption": ""
-            },
-            {
               "src": "/assets/media/efd24b0dfafc7deacdf53580c1ada532d69aa119ec37de2904d29b6a04d38d2d.webp",
               "alt": "Our Lady of Guadalupe in pink and blue, surrounded by golden rays on a shaped wooden panel.",
-              "decorative": false,
-              "caption": ""
-            },
-            {
-              "src": "/assets/media/09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713.webp",
-              "alt": "San Pasqual holding a spoon, with a red chile ristra and a bowl beside him on a pale wood panel.",
               "decorative": false,
               "caption": ""
             },
