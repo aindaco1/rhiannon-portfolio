@@ -57,6 +57,7 @@ These records retain their original revision-specific claims. Earlier dummy-cont
 | Writing | [Writing implementation](WRITING-TASK.md), [real Film and Writing import](FILM-IMPORT-TASK.md) |
 | Bio | [Bio text](BIO-TASK.md), [WYSIWYG](BIO-EDITOR-TASK.md), [PDF upload](PDF-UPLOAD-TASK.md), [director reel](DIRECTOR-REEL-TASK.md), [media layout](BIO-MEDIA-LAYOUT.md) |
 | Art collections | [Retablos/Woodcarvings](ART-PROJECTS-TASK.md), [Sketches](SKETCHES-TASK.md), [deep inside](DEEP-INSIDE-TASK.md) |
+| Prop projects | [Big Sword](BIG-SWORD-TASK.md) |
 | Taxonomy and galleries | [Tag assignments](PROJECT-TAGS.md), [masonry and publication](GALLERY-TAXONOMY-TASK.md) |
 | Other evidence | [Admin access history](ADMIN-ACCESS-TASK.md), [sample photo provenance](IMAGE-SOURCES.md), [documentation review](DOCUMENTATION-TASK.md), [evidence directory](evidence) |
 

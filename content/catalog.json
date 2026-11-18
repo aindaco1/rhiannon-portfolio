@@ -88,6 +88,11 @@
       "label": "Drawing"
     },
     {
+      "id": "feature-film",
+      "slug": "feature-film",
+      "label": "Feature film"
+    },
+    {
       "id": "interiors",
       "slug": "interiors",
       "label": "Interiors"
@@ -111,6 +116,11 @@
       "id": "painting",
       "slug": "painting",
       "label": "Painting"
+    },
+    {
+      "id": "prop-fabrication",
+      "slug": "prop-fabrication",
+      "label": "Prop fabrication"
     },
     {
       "id": "prosthetics",
@@ -154,6 +164,54 @@
     }
   ],
   "entries": [
+    {
+      "id": "big-sword",
+      "slug": "big-sword",
+      "kind": "project",
+      "status": "published",
+      "sample": false,
+      "title": "Big Sword",
+      "intro": "An eight-foot sword prop for an upcoming fantasy-horror feature.",
+      "year": 2026,
+      "date": "2026-11-17",
+      "role": "Prop fabrication",
+      "categories": [
+        "props"
+      ],
+      "tags": [
+        "feature-film",
+        "prop-fabrication"
+      ],
+      "cover": {
+        "src": "/assets/media/1cefc1b70ebcfdcfcbd556deef8b940cb8d10634e3678927dbb3f216867eaa12.webp",
+        "alt": "The oversized sword prop displayed beside a life-size cardboard figure and shelves of televisions.",
+        "caption": "",
+        "decorative": false
+      },
+      "credits": "R. Barela — prop fabrication, in collaboration with writer/director Adrian Pijoan.",
+      "blocks": [
+        {
+          "type": "text",
+          "body": "R. Barela helped build the eight-foot-tall sword prop for *Big Sword*, in collaboration with writer and director Adrian Pijoan.\n\nThe upcoming fantasy-horror feature follows two party girls who steal a cursed sword and spend the weekend trying to stay alive.\n\n[More about Big Sword on Dust Wave](https://dustwave.xyz/project/big-sword.html).",
+          "align": "left"
+        },
+        {
+          "type": "gallery",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/238fb8270193d16cd2d7a4b56d4a0961977ff17a36889da1ed01fb30e7bff024.webp",
+              "alt": "The full sword prop with a broad silver-colored blade, gold guard, long dark handle, and heart-shaped gold pommel.",
+              "decorative": false,
+              "caption": "Eight-foot sword prop."
+            }
+          ],
+          "caption": "",
+          "align": "left"
+        }
+      ]
+    },
     {
       "id": "deep-inside",
       "slug": "deep-inside",

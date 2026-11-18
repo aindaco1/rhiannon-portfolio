@@ -1,0 +1,28 @@
+[
+  {
+    "name": "installation",
+    "src": "/assets/media/1cefc1b70ebcfdcfcbd556deef8b940cb8d10634e3678927dbb3f216867eaa12.webp",
+    "width": 1800,
+    "height": 2400,
+    "hasAlpha": false,
+    "bytes": 719660,
+    "sha256": "1cefc1b70ebcfdcfcbd556deef8b940cb8d10634e3678927dbb3f216867eaa12",
+    "original": {
+      "name": "IMG_0326 2.HEIC",
+      "sha256": "4df13e628a150f8c0ca248780c64dcc20dce6ead5461b7319ec06933e224b689"
+    }
+  },
+  {
+    "name": "sword-cutout",
+    "src": "/assets/media/238fb8270193d16cd2d7a4b56d4a0961977ff17a36889da1ed01fb30e7bff024.webp",
+    "width": 724,
+    "height": 2172,
+    "hasAlpha": true,
+    "bytes": 103200,
+    "sha256": "238fb8270193d16cd2d7a4b56d4a0961977ff17a36889da1ed01fb30e7bff024",
+    "original": {
+      "name": "IMG_3892.HEIC",
+      "sha256": "32e87db2836aba8cf607a683e6eca99ff80c68e9f336327777cdcfb8d093ecc7"
+    }
+  }
+]
