@@ -1,0 +1,25 @@
+{
+  "time": "2026-11-18T02:14:49.124Z",
+  "beforeRevision": "818b9dda6a31a883c4528dcad83ed180e71f9d24f74f5dd22dc10ea0398083b8",
+  "afterRevision": "6f6bd4679b71d2f740eeb673bb7558e35fc05ec0f82cc02cbb2267f7a3b541f1",
+  "publishedRevision": "6f6bd4679b71d2f740eeb673bb7558e35fc05ec0f82cc02cbb2267f7a3b541f1",
+  "status": "live",
+  "sourceCatalogSha256": "342dc4c996ab21cfa3c4c72dac9b058b66a4a79df00086f108c1e17ae3deacbb",
+  "localCatalogSha256": "6f6bd4679b71d2f740eeb673bb7558e35fc05ec0f82cc02cbb2267f7a3b541f1",
+  "onlyProjectTagsAndTaxonomyChanged": true,
+  "projectCount": 20,
+  "tagCount": 18,
+  "removedUnusedTags": [
+    "Character study",
+    "Texture",
+    "Color",
+    "Objects"
+  ],
+  "normalizedLabels": [
+    {
+      "from": "Music Video",
+      "to": "Music video",
+      "slug": "music-video"
+    }
+  ]
+}

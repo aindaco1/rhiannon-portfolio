@@ -63,19 +63,69 @@
   ],
   "tags": [
     {
-      "id": "character-study",
-      "slug": "character-study",
-      "label": "Character study"
+      "id": "beauty-makeup",
+      "slug": "beauty-makeup",
+      "label": "Beauty makeup"
     },
     {
-      "id": "texture",
-      "slug": "texture",
-      "label": "Texture"
+      "id": "behind-the-scenes",
+      "slug": "behind-the-scenes",
+      "label": "Behind the scenes"
     },
     {
-      "id": "color",
-      "slug": "color",
-      "label": "Color"
+      "id": "character-makeup",
+      "slug": "character-makeup",
+      "label": "Character makeup"
+    },
+    {
+      "id": "devotional-art",
+      "slug": "devotional-art",
+      "label": "Devotional art"
+    },
+    {
+      "id": "drawing",
+      "slug": "drawing",
+      "label": "Drawing"
+    },
+    {
+      "id": "interiors",
+      "slug": "interiors",
+      "label": "Interiors"
+    },
+    {
+      "id": "miniatures",
+      "slug": "miniatures",
+      "label": "Miniatures"
+    },
+    {
+      "id": "mixed-media",
+      "slug": "mixed-media",
+      "label": "Mixed media"
+    },
+    {
+      "id": "music-video",
+      "slug": "music-video",
+      "label": "Music video"
+    },
+    {
+      "id": "painting",
+      "slug": "painting",
+      "label": "Painting"
+    },
+    {
+      "id": "prosthetics",
+      "slug": "prosthetics",
+      "label": "Prosthetics"
+    },
+    {
+      "id": "sculpture",
+      "slug": "sculpture",
+      "label": "Sculpture"
+    },
+    {
+      "id": "set-dressing",
+      "slug": "set-dressing",
+      "label": "Set dressing"
     },
     {
       "id": "short-film",
@@ -83,14 +133,24 @@
       "label": "Short film"
     },
     {
-      "id": "objects",
-      "slug": "objects",
-      "label": "Objects"
+      "id": "special-effects-makeup",
+      "slug": "special-effects-makeup",
+      "label": "Special effects makeup"
     },
     {
-      "id": "interiors",
-      "slug": "interiors",
-      "label": "Interiors"
+      "id": "stop-motion",
+      "slug": "stop-motion",
+      "label": "Stop-motion"
+    },
+    {
+      "id": "theatre",
+      "slug": "theatre",
+      "label": "Theatre"
+    },
+    {
+      "id": "woodcarving",
+      "slug": "woodcarving",
+      "label": "Woodcarving"
     }
   ],
   "entries": [
@@ -108,7 +168,12 @@
       "categories": [
         "art"
       ],
-      "tags": [],
+      "tags": [
+        "devotional-art",
+        "mixed-media",
+        "sculpture",
+        "woodcarving"
+      ],
       "cover": {
         "src": "/assets/media/4781752cecada0487259a085c8468c90d561d48352d4f99f1846570fd286ef30.webp",
         "alt": "A carved pine angel with an open chest revealing ribs, a heart, and a small illuminated screen.",
@@ -168,7 +233,9 @@
       "categories": [
         "art"
       ],
-      "tags": [],
+      "tags": [
+        "drawing"
+      ],
       "cover": {
         "src": "/assets/media/7ec830f1edbc93eb7f796552d151e7fa68f40be2e49fdd02bf5786bc02d18f5d.webp",
         "alt": "Black ink skull study with large eyes and intricate swirling linework.",
@@ -322,7 +389,10 @@
       "categories": [
         "art"
       ],
-      "tags": [],
+      "tags": [
+        "devotional-art",
+        "painting"
+      ],
       "cover": {
         "src": "/assets/media/09e833bda004887ece033bce7625d5d477ddfc8a5a7801b32dfef3a5a143c713.webp",
         "alt": "San Pasqual holding a spoon, with a red chile ristra and a bowl beside him on a pale wood panel.",
@@ -410,7 +480,12 @@
       "categories": [
         "art"
       ],
-      "tags": [],
+      "tags": [
+        "devotional-art",
+        "painting",
+        "sculpture",
+        "woodcarving"
+      ],
       "cover": {
         "src": "/assets/media/36aa1578c18f81dcc461402b3987f718617f29b588e256340a22874b59ef4865.webp",
         "alt": "A praying skull with clasped hands, surrounded by roses on a wooden panel.",
@@ -507,7 +582,11 @@
         "props",
         "film"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "character-makeup",
+        "theatre"
+      ],
       "cover": {
         "src": "/assets/media/388d550ac47b526d3116f3d67dc8baf1433bfce7a4e3a24169a40afa7840bcf2.webp",
         "alt": "A performer in a red suit stands under warm stage lights.",
@@ -571,7 +650,11 @@
       "categories": [
         "sets"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "interiors",
+        "set-dressing"
+      ],
       "cover": {
         "src": "/assets/media/271941c727e16cd225fcb426d474707c531b34801a05a5ce8d8df682c4591652.webp",
         "alt": "A brown couch dressed with a green-and-yellow blanket and a butterfly cushion.",
@@ -728,7 +811,11 @@
       "categories": [
         "film"
       ],
-      "tags": [],
+      "tags": [
+        "miniatures",
+        "short-film",
+        "stop-motion"
+      ],
       "cover": {
         "src": "/assets/media/91a278af3d1c0c49a35583e50c04ab91d05fd5152aea8428dc33aa33fdcb872d.webp",
         "alt": "Two clay characters beside a green armchair in the furnished miniature room.",
@@ -801,7 +888,11 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "character-makeup",
+        "special-effects-makeup"
+      ],
       "cover": {
         "src": "/assets/media/c472e5b9801af38ba821ff71a59d6de7a87b6f8e96d3e0c242c95c479dc2a01f.webp",
         "alt": "A performer in camouflage with green-and-black face makeup beside a tree.",
@@ -859,7 +950,10 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "beauty-makeup",
+        "behind-the-scenes"
+      ],
       "cover": {
         "src": "/assets/media/c9d426a336cede514dc00db5d658e722d56686dccbb2da11f5b5906b71ad1991.webp",
         "alt": "A makeup artist works on a seated performer while crew prepare the shot.",
@@ -911,7 +1005,11 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "music-video",
+        "prosthetics",
+        "special-effects-makeup"
+      ],
       "cover": {
         "src": "/assets/media/b32d62adbee7374be4856b7ae43c35767d0925d40abfa916fd1b459640c604d2.webp",
         "alt": "A camera monitor shows a performer lying among oranges on a geometric floor.",
@@ -969,7 +1067,10 @@
       "categories": [
         "film"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "short-film"
+      ],
       "cover": {
         "src": "/assets/media/2c31727b76d49c8974f08b456d1fdb948c934c1016f69f0c23d3b6e0f1fffe9f.webp",
         "alt": "Cast and crew gather around a hotel bed between shots.",
@@ -1082,7 +1183,11 @@
         "makeup",
         "props"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "prosthetics",
+        "special-effects-makeup"
+      ],
       "cover": {
         "src": "/assets/media/a52ad2d433a9aba3830c6fb9cd21f739cb7937ff0347d69327264c9e0c183201.webp",
         "alt": "A close view of a makeup artist applying a cheek effect to a bearded performer.",
@@ -1279,7 +1384,11 @@
         "props",
         "sets"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "interiors",
+        "set-dressing"
+      ],
       "cover": {
         "src": "/assets/media/94c56d1acbd405bf5acde121c53f5eb35c209f1e00e148b08fb8f11ecac8f939.webp",
         "alt": "A room with a black-and-white tiled floor, a table and two folding chairs.",
@@ -1349,7 +1458,11 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "character-makeup",
+        "prosthetics",
+        "special-effects-makeup"
+      ],
       "cover": {
         "src": "/assets/media/f1d7a03840700e80dd7bad92d1915dff5c076ecebe83677a220c675fe999dffc.webp",
         "alt": "A performer with pale green facial makeup and plant details on a blue shirt.",
@@ -1455,7 +1568,10 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "beauty-makeup",
+        "character-makeup"
+      ],
       "cover": {
         "src": "/assets/media/526aa44409de6eb7fe3edca8d7cbef40025e27ea76b1a6f85707701504ca2455.webp",
         "alt": "A film still showing a close-up of a performer’s eyes and stylized eye makeup.",
@@ -1495,7 +1611,11 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "character-makeup",
+        "prosthetics",
+        "short-film"
+      ],
       "cover": {
         "src": "/assets/media/c4ffec5fcba81119b328baeb094833d5995b64ed5c325a30be07f1d204c3624a.webp",
         "alt": "A performer in a black costume with pointed ears and pale facial makeup.",
@@ -1547,7 +1667,10 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "character-makeup",
+        "special-effects-makeup"
+      ],
       "cover": {
         "src": "/assets/media/48b9dc00e6e1954f9e14590029ce256031aa2894f59ddded61da73e49d07b734.webp",
         "alt": "Four makeup continuity portraits of a performer with long hair and a white beard.",
@@ -1587,7 +1710,10 @@
       "categories": [
         "makeup"
       ],
-      "tags": [],
+      "tags": [
+        "beauty-makeup",
+        "character-makeup"
+      ],
       "cover": {
         "src": "/assets/media/8da8e7414e4eefa0d26ee0315a92318a2efb1aca5e50047fd8b2170ae7444855.webp",
         "alt": "A front-facing portrait of a performer with dark lips and shimmering eye makeup.",
@@ -1670,7 +1796,11 @@
         "sets",
         "props"
       ],
-      "tags": [],
+      "tags": [
+        "behind-the-scenes",
+        "interiors",
+        "set-dressing"
+      ],
       "cover": {
         "src": "/assets/media/9bc37c635a3a17443cf7f2cf95e9b68764306f72ad2f20348bfed7b9ede0ab6e.webp",
         "alt": "The completed teal bedroom set with a made bed and curtained window.",
@@ -1746,7 +1876,10 @@
       "categories": [
         "film"
       ],
-      "tags": [],
+      "tags": [
+        "short-film",
+        "stop-motion"
+      ],
       "cover": {
         "src": "/assets/media/fc78e8184938d4ed24ddfc0dab126e2915783e22ec1047d417f59902a0496660.webp",
         "alt": "Felt rabbit characters, including a rabbit dressed as Santa, against an orange background.",
