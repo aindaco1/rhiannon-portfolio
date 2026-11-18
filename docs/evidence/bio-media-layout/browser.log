@@ -1,0 +1,38 @@
+
+> rhiannon-portfolio@0.1.0 test:browser
+> playwright test
+
+[WebServer] (node:63462) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 25 tests using 1 worker
+
+(node:63522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/portfolio.spec.js:31:3 › public archive at 320px has visible categories, loaded photos and no overflow (388ms)
+  ✓   2 tests/browser/portfolio.spec.js:31:3 › public archive at 390px has visible categories, loaded photos and no overflow (261ms)
+  ✓   3 tests/browser/portfolio.spec.js:31:3 › public archive at 768px has visible categories, loaded photos and no overflow (260ms)
+  ✓   4 tests/browser/portfolio.spec.js:31:3 › public archive at 1440px has visible categories, loaded photos and no overflow (403ms)
+  ✓   5 tests/browser/portfolio.spec.js:62:1 › category, tag, project and contact links work without JavaScript (482ms)
+  ✓   6 tests/browser/portfolio.spec.js:88:1 › public archive, project and bio pass automated accessibility checks (1.3s)
+  ✓   7 tests/browser/portfolio.spec.js:104:1 › video loads only after deliberate activation (254ms)
+  ✓   8 tests/browser/portfolio.spec.js:121:1 › admin and API reject anonymous and cross-origin requests (239ms)
+  ✓   9 tests/browser/portfolio.spec.js:137:1 › owner creates taxonomy, authors blocks, uploads, saves, reloads, previews and publishes (6.2s)
+  ✓  10 tests/browser/portfolio.spec.js:284:1 › stale saves return a conflict and preserve the winning draft (217ms)
+  ✓  11 tests/browser/portfolio.spec.js:315:1 › failed publication leaves the previous live artifact intact (212ms)
+  ✓  12 tests/browser/portfolio.spec.js:360:1 › admin sorts by the starting year and reorders only within that year (738ms)
+  ✓  13 tests/browser/portfolio.spec.js:391:1 › mobile editor remains usable and accessible (886ms)
+  ✓  14 tests/browser/portfolio.spec.js:411:1 › browser recovery restores edits only against their saved baseline (572ms)
+  ✓  15 tests/browser/portfolio.spec.js:436:3 › a pending project photo cannot return to a block that was removed (553ms)
+  ✓  16 tests/browser/portfolio.spec.js:436:3 › a pending bio photo cannot return to a block that was removed (512ms)
+  ✓  17 tests/browser/portfolio.spec.js:469:1 › writing uses the shared editor; only published pieces appear (5.0s)
+  ✓  18 tests/browser/portfolio.spec.js:516:1 › Writing is text-led, responsive, accessible and uses the same WYSIWYG preview (6.2s)
+  ✓  19 tests/browser/portfolio.spec.js:642:1 › Bio supports the shared WYSIWYG editor, recovery, private preview and publication (6.4s)
+  ✓  20 tests/browser/portfolio.spec.js:789:1 › Bio PDF replacement is private until publication and survives save/reload (11.5s)
+  ✓  21 tests/browser/portfolio.spec.js:870:1 › a late PDF upload cannot replace a newer selection or a remounted Bio editor (674ms)
+  ✓  22 tests/browser/portfolio.spec.js:904:1 › project year ranges save, reload and appear in preview (952ms)
+  ✓  23 tests/browser/portfolio.spec.js:929:1 › MP4 blocks upload privately, save, preview, play, seek and publish (7.2s)
+  ✓  24 tests/browser/portfolio.spec.js:988:1 › late MP4 uploads cannot overwrite a changed block (620ms)
+  ✓  25 tests/browser/portfolio.spec.js:1013:1 › all media pickers explain limits and preparation; Bio videos can be removed and restored (999ms)
+
+  25 passed (56.7s)

@@ -1,0 +1,120 @@
+{
+  "checkedAt": "2026-11-18T02:07:15.764Z",
+  "results": [
+    {
+      "width": 1440,
+      "order": "PDF → headshot → reel → contact",
+      "rects": {
+        ".bio-download": {
+          "x": 57.59375,
+          "y": 619.46875,
+          "width": 487.53125,
+          "height": 57.5,
+          "bottom": 676.96875,
+          "right": 545.125
+        },
+        ".bio-media img": {
+          "x": 57.59375,
+          "y": 708.96875,
+          "width": 487.53125,
+          "height": 390.015625,
+          "bottom": 1098.984375,
+          "right": 545.125
+        },
+        ".bio-media video": {
+          "x": 57.59375,
+          "y": 1136.984375,
+          "width": 487.53125,
+          "height": 274.234375,
+          "bottom": 1411.21875,
+          "right": 545.125
+        },
+        "#contact": {
+          "x": 57.59375,
+          "y": 1489.21875,
+          "width": 487.53125,
+          "height": 145,
+          "bottom": 1634.21875,
+          "right": 545.125
+        },
+        ".bio-reading": {
+          "x": 651.109375,
+          "y": 448.90625,
+          "width": 700,
+          "height": 2679.546875,
+          "bottom": 3128.453125,
+          "right": 1351.109375
+        },
+        ".bio-summary": {
+          "x": 57.59375,
+          "y": 448.90625,
+          "width": 487.53125,
+          "height": 2679.546875,
+          "bottom": 3128.453125,
+          "right": 545.125
+        }
+      },
+      "overflow": false,
+      "axeViolations": 0
+    },
+    {
+      "width": 390,
+      "order": "PDF → headshot → reel → contact",
+      "rects": {
+        ".bio-download": {
+          "x": 20,
+          "y": 487.8125,
+          "width": 350,
+          "height": 57.5,
+          "bottom": 545.3125,
+          "right": 370
+        },
+        ".bio-media img": {
+          "x": 20,
+          "y": 577.3125,
+          "width": 350,
+          "height": 280,
+          "bottom": 857.3125,
+          "right": 370
+        },
+        ".bio-media video": {
+          "x": 20,
+          "y": 895.3125,
+          "width": 350,
+          "height": 196.875,
+          "bottom": 1092.1875,
+          "right": 370
+        },
+        "#contact": {
+          "x": 20,
+          "y": 1170.1875,
+          "width": 350,
+          "height": 142,
+          "bottom": 1312.1875,
+          "right": 370
+        },
+        ".bio-reading": {
+          "x": 20,
+          "y": 1357.1875,
+          "width": 350,
+          "height": 3433.890625,
+          "bottom": 4791.078125,
+          "right": 370
+        },
+        ".bio-summary": {
+          "x": 20,
+          "y": 312.0625,
+          "width": 350,
+          "height": 1000.125,
+          "bottom": 1312.1875,
+          "right": 370
+        }
+      },
+      "overflow": false,
+      "axeViolations": 0
+    }
+  ],
+  "adminPreviewMatches": true,
+  "removalControlsRetained": true,
+  "draftAndPublishedBioUnchanged": true
+}

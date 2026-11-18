@@ -1006,6 +1006,9 @@ footer small {
   font-size: 13px;
   align-self: center;
 }
+.bio-media {
+  margin-top: 32px;
+}
 .bio .contact h2 {
   font-size: 25px;
   margin-bottom: 18px;
@@ -1028,6 +1031,7 @@ footer small {
 }
 @media (max-width: 700px) {
   .bio .about-body {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 45px;
   }

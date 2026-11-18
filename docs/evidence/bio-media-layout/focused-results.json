@@ -1,0 +1,220 @@
+{
+  "config": {
+    "argv": [
+      "/Users/aindaco1/.local/share/dustwave/node-v26.12.1-darwin-arm64/bin/node",
+      "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/node_modules/.bin/playwright",
+      "test",
+      "--grep",
+      "Bio supports|public archive, project and bio|mobile editor"
+    ],
+    "configFile": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/playwright.config.js",
+    "rootDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/tests/browser",
+        "snapshotDir": "/Users/aindaco1/Library/Mobile Documents/com~apple~CloudDocs/rhiannon-portfolio/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4325",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/evidence/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node scripts/test-server.mjs",
+      "url": "http://127.0.0.1:4325",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "portfolio.spec.js",
+      "file": "portfolio.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "public archive, project and bio pass automated accessibility checks",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1209,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T02:06:51.106Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-964fed0f12593e25d48c",
+          "file": "portfolio.spec.js",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "mobile editor remains usable and accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 885,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T02:06:52.507Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-c7e25cba1e5b2da92e8e",
+          "file": "portfolio.spec.js",
+          "line": 391,
+          "column": 1
+        },
+        {
+          "title": "Bio supports the shared WYSIWYG editor, recovery, private preview and publication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6416,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T02:06:53.399Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-bd4ebf6ac4c0ceb2ffbe",
+          "file": "portfolio.spec.js",
+          "line": 642,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-18T02:06:47.879Z",
+    "duration": 11999.945,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

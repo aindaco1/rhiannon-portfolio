@@ -975,7 +975,7 @@ function renderProfile(root) {
     "beforeend",
     contentEditorMarkup(
       "Biography & résumé",
-      "Edit the text and formatting directly. ",
+      "Edit the text and formatting directly. Keep the headshot and director reel before the text to show them below the résumé download in the left column. ",
     ),
   );
   root.insertAdjacentHTML(
