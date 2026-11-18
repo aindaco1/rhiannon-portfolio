@@ -72,6 +72,160 @@
   ],
   "entries": [
     {
+      "id": "sketches",
+      "slug": "sketches",
+      "kind": "project",
+      "status": "published",
+      "sample": false,
+      "title": "Sketches",
+      "intro": "Sketchbook studies, portraits, and illustrations.",
+      "year": "2021–2026",
+      "date": "2026-11-17",
+      "role": "Artist",
+      "categories": [
+        "art"
+      ],
+      "tags": [],
+      "cover": {
+        "src": "/assets/media/7ec830f1edbc93eb7f796552d151e7fa68f40be2e49fdd02bf5786bc02d18f5d.webp",
+        "alt": "Black ink skull study with large eyes and intricate swirling linework.",
+        "caption": "",
+        "decorative": false
+      },
+      "credits": "",
+      "blocks": [
+        {
+          "type": "gallery",
+          "layout": "grid",
+          "caption_style": "inline",
+          "images": [
+            {
+              "src": "/assets/media/724a19671436906d5753b8b73e6693259723cd30be8c7b26e4a28dba8e680fb0.webp",
+              "alt": "Spiral-bound sketchbook page with portraits of a person wearing dark sunglasses and smaller drawing studies.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/8427a7c36a59a9a9dc1781463ceb9e59eed439e6b92bd140ebaad93b78403fb0.webp",
+              "alt": "Annotated sketchbook concept drawing of a mechanical sculpture with an eye-shaped head and articulated parts.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/3154de792672db1a121f516ca62d58e9fd2106bc0175544ae1765182f47bab97.webp",
+              "alt": "Colorful caricature of a hollow-eyed skeletal figure with swept brown hair and a blue-striped shirt.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/d0d7858689f471324a8632bb5dc0b50611d922e9706adb3e2073a359f92585a0.webp",
+              "alt": "A figure in sunglasses and a checked jacket rests their chin on one hand beside an illustrated thought bubble.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/ebca42cc98d4488777cc70ffa2b7e63d55cafd08faf9e9bd9dd52796bb9c80d9.webp",
+              "alt": "Caricature of a wide-eyed figure in a red shirt, looking back over one shoulder.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/dc22ae5db43382c24b6ce1dfefed2759e455e2826102c0eb6de6d60fe1ccad0e.webp",
+              "alt": "Black ink portrait of a dark-haired person resting their cheek on one hand.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/20fb61029ea3bf3c4cc28516c5a8f48a37d448f6d34b302aca618be67da8883b.webp",
+              "alt": "Pen portrait of a smiling person with large glasses and tousled hair, drawn on a sketchbook page.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/eb6b8b4cc8a08ab857f8b55258ed7ce128425b236c9c6b5cd6613af6c6b35c70.webp",
+              "alt": "Four illustrated musicians inside an ornate circular border, with the word gish beneath.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/0fbc656f11cd162db544954a21da2a19d8b3681f80b6b9b133d3ff6a990cb5b3.webp",
+              "alt": "A colorful ray gun beside the word ZAP on a red and green starburst background.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/88205e107ca0cc8320c2e4182242d93583c4aa98da0de196921f9beb9e0b5b49.webp",
+              "alt": "Black-and-white drawing of a long-necked, skull-like alien wearing a patterned sombrero.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/fb96b3c9356a68ba84772765ca63077ef91140c6e93fdc6283879041b246d6c1.webp",
+              "alt": "A figure in a white science-fiction costume looks over their shoulder while holding a blaster.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/ca350f32e766f1afbf5c1724ccaa6c70189dd6fe37fdab7eeb291fa7c79dc8ad.webp",
+              "alt": "Portrait of a short-haired person in a black shirt bearing the word ZERO.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/37a9d7106cd392ad76999f9464b25a420c450a655474835dde5135e041b4d891.webp",
+              "alt": "A colorful skeletal figure in a red jacket beside a speech bubble reading Just allergies.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/d69d40d27143af4a119ba92314cf2403e0f615791556a36aa0ed70d42a5800af.webp",
+              "alt": "Portrait of a person with dark glasses, brown hair, a brown jacket and a green checked shirt.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/b05c88ea95f66643bec297e67841024c7255861153108b1140441bf9c85803fa.webp",
+              "alt": "Ink portrait of a dark-haired person wearing a jacket over a light shirt.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/0f84cb2282c52a129a60a3f640128a67094f5b6411776c68ceb98cf0e5dc24b5.webp",
+              "alt": "Portrait of a long-haired person in a dark jacket, with blue-gray shading in the hair.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/b84b504810034e8c9a51e17352e613d1d65899cb6fddfc55d2d1bc8c64882cc3.webp",
+              "alt": "Illustrated figure in a white shirt and red tie holding a cricket bat.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/0565c01229eb2cdb717254c6eeb7a5548997a5dbd59ddd7252e743fe0b4a7f6c.webp",
+              "alt": "A helmeted figure with a red cape against bold black-and-white lightning shapes.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/98c451dd5917f31ea8dced37766e7fc823c931445aed8564ba0b8ae9401ca009.webp",
+              "alt": "Side view of a helmeted figure in a black costume and red cape, with one gloved fist raised.",
+              "decorative": false,
+              "caption": ""
+            },
+            {
+              "src": "/assets/media/21224e29460666cfd5b036b1a1587dd39734c15fd402c53dcd6581639d463f8d.webp",
+              "alt": "Portrait of a smiling person with large glasses, brown hair and a blue shirt.",
+              "decorative": false,
+              "caption": ""
+            }
+          ],
+          "caption": "",
+          "align": "left"
+        }
+      ]
+    },
+    {
       "id": "retablos",
       "slug": "retablos",
       "kind": "project",

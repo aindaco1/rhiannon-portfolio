@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-18T00:54:00.177Z",
+  "checks": [
+    {
+      "width": 1440,
+      "images": 21,
+      "allImagesLoaded": true,
+      "orderMatches": true,
+      "year": "2021–2026",
+      "overflow": false,
+      "accessibilityViolations": 0,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "images": 21,
+      "allImagesLoaded": true,
+      "orderMatches": true,
+      "year": "2021–2026",
+      "overflow": false,
+      "accessibilityViolations": 0,
+      "errors": []
+    }
+  ],
+  "archiveProjects": 23,
+  "admin": {
+    "project": "Sketches",
+    "year": "2021–2026",
+    "galleryImages": 20,
+    "editable": true
+  },
+  "inspectionPreservedState": true
+}
