@@ -180,7 +180,6 @@ main {
 }
 .card-image {
   position: relative;
-  background: #eee;
   overflow: hidden;
   aspect-ratio: 4/5;
 }
