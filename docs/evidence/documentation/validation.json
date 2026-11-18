@@ -1,0 +1,71 @@
+{
+  "reviewedAt": "2026-11-18T04:03:21.137Z",
+  "sourceBaseline": "d85bed2",
+  "environment": {
+    "node": "v26.12.1",
+    "ruby": "ruby 3.0.0p0 (2020-12-25 revision 95aff21468) [arm64-darwin21]",
+    "bundler": "Bundler version 2.3.6"
+  },
+  "checks": {
+    "documentationGuides": 13,
+    "checkerFixtures": {
+      "valid": 0,
+      "missingLink": 1,
+      "missingAnchor": 1,
+      "duplicateHeading": 1,
+      "fencedExample": 0
+    },
+    "unitTests": 43,
+    "browserTests": {
+      "startTime": "2026-11-18T03:56:19.919Z",
+      "duration": 77676.34999999999,
+      "expected": 30,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionBuild": {
+      "entries": 23,
+      "pages": 50,
+      "documentationAndWorkingStateExcluded": true
+    },
+    "platformPin": "v0.50.0 / fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d",
+    "installedDependencies": "npm ls --depth=0 passed",
+    "rubyDependencies": "bundle check passed",
+    "ffprobeExample": "passed on tests/fixtures/loop.mp4"
+  },
+  "recovery": {
+    "time": "2026-11-18T04:02:09.481Z",
+    "draftAndPublishedPreserved": true,
+    "uploadedMediaBytesPreserved": true,
+    "adminLoadedSavedDraft": true,
+    "publicPagesUsePublishedSnapshot": true,
+    "bioWritingPdfReturn200": true,
+    "ownerStateUnchanged": true
+  },
+  "limits": [
+    "No clean-machine bootstrap",
+    "Local Ruby 3.0.0; CI specifies 3.3",
+    "No external URL availability audit",
+    "No live email, Worker deployment, D1 migration or remote publication"
+  ],
+  "testedFiles": {
+    "scripts/check-docs.mjs": "e484fce3b57bda60dd4f8cd181d9cb3bacb29d47fba2dfd350ce1259993b7ea3",
+    "package.json": "425c9a1f6d03fe9c20387ae2c6872970604331c9e20917204a0ea5ecec461c49"
+  },
+  "reviewedGuideHashes": {
+    "README.md": "ba99273bec302c8fac96312dc74d556141e7ce9d528659399d80f6e82c372388",
+    "AGENTS.md": "30f349df7c87a8e4d751b9d11566e879039a59d509ae7164cc9d95f6140fb5b9",
+    "docs/README.md": "419969036c62bc233b47a8a6c342423aa66c16a47f2151c9d27a3252c6577d51",
+    "docs/PROJECT.md": "a954dda6684f72e0bd302db9bb9df766a97b06a5ab60bb3096e01f52e9d2ac60",
+    "docs/EDITOR_GUIDE.md": "cac15127fa4ce2359f9c28ddd6ef24e78f416fc30e95f2ae63063d95b63afc54",
+    "docs/DEVELOPMENT.md": "99c2082c2589b2c0f5facb9bbb1b138012ffdb2b08900c351cded6711458c119",
+    "docs/ARCHITECTURE.md": "75b0baacd055f0e5df144d6a5110b8faadf3831d868aa6401650e4d2d686b0f6",
+    "docs/CONTENT_MODEL.md": "6331235e24fec60448de97ee4fbe87aeaa1bb63d880c41f0cff929b60b4d3786",
+    "docs/MEDIA_PIPELINE.md": "ec3e89e6d1895db0878ce3e408b4f4428bc92ee4a98f48dceafc4bcbb225173c",
+    "docs/API.md": "d82c15b3a960f96ee60f09b3bb51f54e3cb36c612a7f5af2ada8b4f68ba354e3",
+    "docs/DEPLOYMENT.md": "556e069b6cb6e45c7e87b5cc7688005a968c0b449dfd9379174dc889bf835d04",
+    "docs/OPERATIONS.md": "03cd2f66bd2520871e64fcd1cf0b0a1f760672575eddf0e233b49cefe850a737",
+    "docs/QUALITY_ASSURANCE.md": "39f789c941be6a7cf9a048affbd3fbf22c3e64fff2badd58c2918d437e87eb81"
+  }
+}

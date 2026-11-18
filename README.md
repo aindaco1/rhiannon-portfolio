@@ -1,67 +1,47 @@
 # R. Barela
 
-The source repository is public. The public site uses GitHub Pages at [rbarela.com](https://rbarela.com). The hosted editor implementation uses `/admin/` on Pages plus a separate authenticated Worker API, with Wix DNS unchanged. Provider credentials and live owner acceptance are still pending; see [deployment](docs/DEPLOYMENT.md).
+An artist and filmmaker’s portfolio for art, makeup, props, sets, film, and writing. The site pairs a static visitor experience with a browser editor for projects, essays, Bio, and media.
 
-A static portfolio and a small browser editor. Twenty real projects are included: the four art collections/installations and sixteen projects imported from the supplied Film directory, including the unfinished Santa Bunny. All fictional projects and sample posts have been removed. Bio includes a headshot and director reel; Writing contains three supplied pieces with their original publication dates. The interface takes its typography and spacing from The Dare and its discipline navigation and reading layout from The Creative Independent.
+| Resource | Location |
+| --- | --- |
+| Website | [rbarela.com](https://rbarela.com/) |
+| Hosted editor | [rbarela.com/admin/](https://rbarela.com/admin/) |
+| Source | [GitHub repository](https://github.com/aindaco1/rhiannon-portfolio) |
+| Site releases | [Pages workflow](https://github.com/aindaco1/rhiannon-portfolio/actions/workflows/pages.yml) |
+| Documentation | [Project handbook](docs/README.md) |
 
-## Run locally
+The visitor site and editor shell are built with Node, Jekyll, and native browser JavaScript, then hosted on GitHub Pages. The hosted editor uses a separate Cloudflare Worker, D1 email-link sessions, Resend, and a GitHub App. Dust Wave Platform supplies the shared WYSIWYG editor and infrastructure helpers.
 
-Requires a supported Node runtime (26.12.1 used here), Ruby/Bundler and Git access to Dust Wave Platform.
+**Publishing visibility:** this is a public repository. Hosted draft saves and uploads are visible in GitHub source/history before website publication. The Pages artifact includes only published content and referenced media. Local editing stays on your computer. See [the editor guide](docs/EDITOR_GUIDE.md) and [deployment](docs/DEPLOYMENT.md).
+
+## Start locally
+
+Use Node **26.12.1** and Ruby **3.3** to match CI, with Bundler and Git installed. From the repository root:
 
 ```sh
 git submodule update --init --recursive
-npm ci
 bundle install
+npm ci
+npx playwright install chromium
 npm run dev
 ```
 
-- Portfolio: http://127.0.0.1:4321
-- Writing: http://127.0.0.1:4321/writing/
-- Bio: http://127.0.0.1:4321/bio/
-- Editor: http://127.0.0.1:4322/admin/
+- [Local portfolio](http://127.0.0.1:4321/)
+- [Local editor](http://127.0.0.1:4322/admin/) — opens a loopback session without email sign-in
 
-The editor automatically starts a local session on the loopback address. It cannot be reached over the LAN. Local drafts, staged photos/PDFs and published pages persist in ignored `.local/`; the committed sample content is never rewritten by the local editor. Stop and restart the server to rebuild source changes. Publishing in the local editor rebuilds the visitor site immediately. The previous local artifact is retained in `.local/previous` until the next successful publish.
-
-## Editing
-
-1. Add a project, title, introduction and cover photograph. The **Year or range** field accepts a single year (2026) or a span (2014–2026). Projects appear newest first by their starting year on the home page, category pages and in the admin. The admin arrows arrange projects within the same starting year; Writing retains its publication-date order.
-2. Select categories and tags, or create them under **Categories & tags**. Rename labels without changing their URLs. Reassign entries before deleting a term.
-3. Write with the shared block editor. Text, headings, lists, links, quotes, photos, galleries, YouTube/Vimeo, uploaded MP4 videos and dividers are supported. Select a block for formatting and move controls; use the plus buttons or `/image`, `/gallery`, etc. Undo reverses block edits.
-4. **Save draft** persists the working portfolio. It does not publish text, photos or PDFs. Browser recovery is a fallback, not the durable store. **Preview** renders the current project with the same presentation code as the public build.
-5. Check **Include when publishing** for entries that should appear. **Publish changes** publishes all pending included entries, taxonomy and profile changes together. Draft-only entries stay off the website. In the hosted editor, saved draft source and uploads remain visible in the public GitHub repository.
-
-For free-form text, open **Writing → New piece +**, add a title and write in **The writing** using the same WYSIWYG editor. The introduction, cover, categories and tags are optional; expand **Images, topics & page details** to set them. Use **Save draft** and **Preview** while working, then check **Include this piece when publishing** and choose **Publish changes**. Publishing includes all saved pending changes across the site.
-
-Writing has a permanent navigation link, a newest-first index, and a dedicated reading layout: a narrower text column, author/date/reading-time details, and optional images. Previously shared `/journal/` URLs redirect to `/writing/`. The three imported pieces retain their supplied titles, subtitles, original dates, paragraph spacing and emphasis. Their full text is editable in the shared WYSIWYG editor.
-
-Bio contains the supplied biography and résumé, a downloadable PDF (initially the supplied original), and the listed contact email. The header has the name and Work, Writing and Bio navigation; the footer links to Instagram and IMDb. Old `/about/` links redirect to `/bio/`. Under **Bio & contact** in the admin, edit the introduction and use the shared WYSIWYG block editor for the biography and résumé. The director reel is a Video block: **Upload or replace MP4** changes the file, **Video caption** edits its caption, and **Remove video** clears it. The headshot is an Image block: use **Choose photo** to replace it, **Image description** to edit its accessible description, or **Remove photo** to remove it. Formatting, links, lists, images, undo, **Save draft**, **Preview**, and **Publish changes** work as they do for projects and Writing. Contact links and site settings are in a disclosure below the editor. **Upload or replace PDF** accepts a PDF up to 5 MB. The selected filename links to an authenticated editor download for review. **Save draft** keeps the selection; **Publish changes** updates the public Bio download. Until publication, visitors keep the previous PDF. The page text and PDF are edited separately. Existing profiles keep the original `assets/documents/r-barela-bio-resume.pdf` until a replacement is selected.
-
-Every media picker shows its limits and preparation guidance, also associated through `aria-describedby`. Photos: JPG, PNG and WebP, up to 5 MB / 40 megapixels; 1600–2400 pixels on the longest edge, original aspect ratio and sRGB are recommended. Prepare camera originals separately. The build creates 800px WebP derivatives; uploaded originals must already be web-ready. Project thumbnails fill uniform square frames with a centered crop. Project covers and galleries show complete images without cropping the artwork. Grid galleries use two masonry columns on wider screens and one column on phones. Select any gallery image to open that gallery’s full-size images, with captions, previous/next buttons, arrow-key navigation, and Escape to close. Carousel blocks keep their scrolling layout. Without JavaScript, each image links directly to its original file. Movies can use YouTube or Vimeo links, or a prepared H.264 MP4 video up to 25 MB through **Video → Video source → MP4 video → Upload or replace MP4**. Recommended video: 720p, original aspect ratio, 24–30 fps, 8-bit H.264/AVC with 4:2:0 pixels, AAC stereo at 96–128 kbps, and fast-start MP4. PDFs may use any page size; Letter/A4, searchable text, embedded fonts and images around 150 dpi are recommended. Prepare large originals separately. Playback starts when the visitor chooses Play; uploaded MP4s repeat and preserve their audio. MP4 containers and upload sizes are validated, but the admin does not transcode or inspect codecs.
-
-## Structure and reuse
-
-- `content/catalog.json`: the public, versioned content model. One small catalog avoids a database and duplicate front-matter parsers.
-- `_editor/catalog.json`: saved working copy and published baseline in this repository, excluded from the Pages artifact.
-- `assets/media/`: immutable photo uploads and sample photographs. Only media referenced by the published profile and entries is copied into the visitor artifact.
-- `assets/documents/`: the original bio/résumé PDF and immutable replacements. Only the selected PDF is copied into the visitor artifact; earlier uploads remain in repository source.
-- `lib/content.mjs`: one validation and block-rendering contract shared by preview, Worker and build.
-- `lib/views.mjs`: the common page templates. Jekyll’s small default layout emits prepared HTML without interpreting authored Liquid tags.
-- `admin/`: portfolio forms and thin shared-editor adapter.
-- `worker/`: email-link sessions, authenticated API and GitHub App storage adapter for saved working copies and publication.
-- `scripts/local-store.mjs`: local disk implementation of the same storage contract.
-
-Dust Wave Platform is pinned to **v0.50.0**, commit `fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d`. The app uses its shared block composer/model, rich-text codec and paste sanitization, media-target/removal controls, API client, unsaved-change guard, draft-baseline recovery, bounded request/response readers, GitHub transport, and asset minifier. No editor code was copied from Store or Pool. The hosted editor adds a dedicated D1 session database. There is no React, Vite, or duplicate content editor. Projects, Writing and Bio use one composer integration. Bio accepts existing Markdown and saves block content after its first editor change.
-
-The single catalog is deliberate: this is a small, two-editor portfolio. Saves use optimistic revisions and publish as an atomic multi-file Git commit; concurrent edits are rejected instead of merged silently. Download a recovery copy before reconciling a conflict.
+The development server builds once. Restart it after source changes. Content saves and local publication persist in ignored `.local/`; they do not change the tracked catalog or the hosted site. Do not delete `.local/` to refresh the preview. [Development](docs/DEVELOPMENT.md) explains the separate content stores and troubleshooting.
 
 ## Verify
 
 ```sh
 npm run check
-npm audit
 npm run build:production
 ```
 
-The production build rejects preview mode, sample content and missing domain/contact settings. Browser tests use a separate `.local/browser-tests` store and ports 4325/4326. They use a fixed catalog in `tests/fixtures/` and never write to your preview state or a live repository. Keep the unreferenced `sample-*` image files for these fixtures; the production build excludes them when no published entry uses them. The production Worker bundles for Cloudflare and has no local authentication bypass.
+The first command checks documentation, unit/API behavior, the build, and browser workflows. The second enforces production content requirements. CI additionally audits dependencies. See [quality assurance](docs/QUALITY_ASSURANCE.md) for focused checks and the boundary between local tests and live service acceptance.
 
-See [Film and Writing import acceptance](docs/FILM-IMPORT-TASK.md), [deployment](docs/DEPLOYMENT.md), [initial acceptance evidence](TASK.md), [Writing acceptance evidence](docs/WRITING-TASK.md), [Bio acceptance evidence](docs/BIO-TASK.md), [Bio editor acceptance](docs/BIO-EDITOR-TASK.md), [PDF upload acceptance](docs/PDF-UPLOAD-TASK.md), and [photo sources](docs/IMAGE-SOURCES.md). The original [plan](PLAN.md) remains as the design/scope record; the shared-editor prerequisite is now complete.
+## Work on the project
+
+Start with the [handbook](docs/README.md). Artists can go directly to the [editor guide](docs/EDITOR_GUIDE.md); developers to [development](docs/DEVELOPMENT.md) and [architecture](docs/ARCHITECTURE.md); operators to [deployment](docs/DEPLOYMENT.md) and [recovery](docs/OPERATIONS.md).
+
+Contributors and agents should read [AGENTS.md](AGENTS.md). Keep the stack small, reuse the pinned Platform contracts, and update the relevant guide with behavior changes. The handbook distinguishes current guidance from historical plans and acceptance records.

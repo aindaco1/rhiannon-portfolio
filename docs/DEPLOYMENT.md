@@ -1,8 +1,26 @@
-# Hosting and release handoff
+# Deployment and configuration
+
+**Audience:** maintainers configuring or releasing the hosted site and editor.
+
+This guide describes the checked-in configuration. Confirm the currently deployed Worker, Pages revision, credentials, and owner acceptance before claiming the hosted flow is operational. This documentation review does not send email, configure services, or deploy code.
 
 Keep DNS management at Wix. The public site and the `/admin/` editor interface use GitHub Pages at `https://rbarela.com`. The editor calls a separate authenticated API at `https://r-barela-editor.jogo.workers.dev`. This follows Chile Drop's static admin plus Worker pattern; it needs neither a Cloudflare zone for rbarela.com nor Cloudflare Access.
 
-The approved editors are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc`. Both have full editing and publishing access. The public editor HTML/JavaScript contains no credentials, drafts or staged media. The API requires a valid bearer session and the exact `https://rbarela.com` Origin. CORS is an additional browser boundary, not authentication.
+The approved editors are configured in [worker/wrangler.jsonc](../worker/wrangler.jsonc). All allowlisted editors have full editing and publishing access. The public editor HTML/JavaScript contains no credentials, drafts or staged media. The API requires a valid bearer session and the exact `https://rbarela.com` Origin. CORS is an additional browser boundary, not authentication.
+
+## Configuration map
+
+| Setting | Owner |
+| --- | --- |
+| Public/canonical origin | `profile.url` in [the public catalog](../content/catalog.json) |
+| Browser API origin | [admin/config.json](../admin/config.json) |
+| Allowed editor Origin, repository, branch, email roster, D1 binding | [worker/wrangler.jsonc](../worker/wrangler.jsonc) |
+| Secret names and formats | [worker/.dev.vars.example](../worker/.dev.vars.example); actual values belong in Worker secrets |
+| D1 schema | [worker/migrations/](../worker/migrations) |
+| Public deployment | [pages.yml](../.github/workflows/pages.yml) |
+| Verification and toolchain | [verification action](../.github/actions/verify-site/action.yml) |
+
+Wrangler is an operator prerequisite, not a pinned project npm dependency. Use an authenticated, reviewed installation for deployment commands. Keep real `.dev.vars` files ignored. Installing dependencies or starting the local editor requires none of these production credentials.
 
 ## Configure once
 
@@ -11,11 +29,21 @@ The approved editors are `alonso@hey.com` and `barelarhiannon@gmail.com`, config
 3. Create a private GitHub App for this account, with **Contents: read/write**, **Actions: read**, and mandatory **Metadata: read**. Disable webhooks and OAuth/user authorization; installation tokens handle server-side publication. Install it only on `aindaco1/rhiannon-portfolio`. Put its client ID, installation ID and PKCS#8 private key in Worker secrets. Convert a downloaded PKCS#1 key with `openssl pkcs8 -topk8 -nocrypt -in downloaded.pem -out private-pkcs8.pem` if needed. Never put keys in Pages, source control or browser configuration.
 4. Use the dedicated `r-barela-editor-sessions` D1 database bound as `DB`; its ID is in `worker/wrangler.jsonc`. Run `wrangler d1 migrations apply DB --remote --config worker/wrangler.jsonc` before deployment. Do not use Chile Drop's database or secrets.
 5. Configure a separate sending-only `RESEND_API_KEY` restricted to a verified sender domain and an `EMAIL_FROM` sender on that domain. The existing verified `dustwave.xyz` sender can be used without changing rbarela.com DNS. If a rbarela.com sender is desired later, add the email provider's verification records at Wix; nameservers still stay at Wix.
-6. Set the three GitHub App values and the two email values from `worker/.dev.vars.example` using Worker secrets. Keep the approved email allowlist and origins in the checked-in configuration. `wrangler secret put NAME --config worker/wrangler.jsonc` accepts each value on stdin. Avoid credentials in command arguments or logs.
+6. Set the three GitHub App values and the two email values from `worker/.dev.vars.example` using Worker secrets. Keep the approved email allowlist and origins in the checked-in configuration. `wrangler secret put NAME --config worker/wrangler.jsonc` accepts each value interactively or on stdin. Avoid credentials in command arguments or logs.
 7. Run `npm run check` and `npm run build:production`, then deploy `worker/wrangler.jsonc` using the authenticated Wrangler CLI. `workers_dev` is enabled and preview URLs are disabled. The Worker serves only API/authenticated editor media; Pages serves the editor shell built into `dist/admin/`. `admin/config.json` contains only the public API origin.
 8. Complete hosted acceptance below, then publish the tested site revision to `main`. An App publication commit triggers the normal Pages workflow. The public Platform submodule needs no extra read secret.
 
 The loopback editor retains its existing local cookie/session behavior and isolated `.local/` storage. That bypass does not exist in the Worker.
+
+## Release sequence
+
+For an authorized release, inspect current remote changes and reconcile any working-copy baseline before publishing a source-catalog edit. Run the checks in [Quality assurance](QUALITY_ASSURANCE.md), review the exact diff, and record the tested revision.
+
+A push to `main` runs the verification workflow. Pages also runs for changes outside `_editor/**`, `docs/**`, and Markdown-only files, or on manual workflow dispatch. Its build runs the shared verification action, then `npm run build:production` with `BUILD_SHA` set to the source commit. Only `dist/` is uploaded. Deployments are serialized without canceling an in-progress release.
+
+**A Pages release does not deploy the Worker or migrate D1.** For service changes, back up the affected data and deploy compatible migrations/Worker code deliberately before a browser bundle that requires them. The current schema is additive; future migration compatibility must be reviewed independently.
+
+After deployment, inspect `/`, one real project/gallery, Writing, Bio/PDF/reel, and `/admin/`. Compare [the public release marker](https://rbarela.com/release.json) with the intended Pages commit. Check actual hosted sign-in/publication only within an authorized owner rehearsal. Recheck the origin pair and existing Wix records when changing a domain; do not move nameservers as a side effect of an editor change.
 
 ## Sign-in and editor media
 
@@ -47,3 +75,5 @@ Before calling the hosted editor operational, verify:
 ## Rollback
 
 For a failed build, keep the prior Pages deployment and fix the saved draft. To roll back a successful release, revert its publication commit and let Pages build again. The atomic commit includes both the published catalog and working baseline; download a recovery copy before reconciling later edits. Preserve immutable media so older revisions can still reference it. Worker code can be rolled back independently; do not roll back the session schema without checking its compatibility.
+
+See [Operations](OPERATIONS.md) for backup scope, restore rehearsal, conflict recovery, and incident diagnosis.
