@@ -30,6 +30,7 @@ import {
   MAX_IMAGE_PIXELS,
   VIDEO_SIZE_MESSAGE,
   validateMp4,
+  compareProjectYears,
 } from "../lib/content.mjs";
 const $ = (selector) => document.querySelector(selector),
   api = new AdminApiClient({ baseUrl: location.origin + "/api" }),
@@ -202,15 +203,16 @@ function render() {
   if (view === "projects" || view === "posts") {
     const kind = view === "posts" ? "post" : "project",
       entries = data.entries.filter((e) => e.kind === kind);
-    root.innerHTML = `<div class="view-heading"><h1>${kind === "post" ? "Writing" : "Projects"}</h1><button class="primary" id="new-entry">New ${kind === "post" ? "piece" : "project"} +</button></div><p class="view-description">${kind === "post" ? "A place for essays, notes, or a thought in progress. Write freely with the same editor you use for projects. Published pieces appear newest first by publication date." : "Add your work, arrange its order, and bring the process into view. Changes go live only when you publish."}</p>${entries
+    if (kind === "project") entries.sort(compareProjectYears);
+    root.innerHTML = `<div class="view-heading"><h1>${kind === "post" ? "Writing" : "Projects"}</h1><button class="primary" id="new-entry">New ${kind === "post" ? "piece" : "project"} +</button></div><p class="view-description">${kind === "post" ? "A place for essays, notes, or a thought in progress. Write freely with the same editor you use for projects. Published pieces appear newest first by publication date." : "Projects appear newest first, using the start year for ranges. Use the arrows to arrange projects within the same starting year. Changes go live only when you publish."}</p>${entries
       .map(
-        (e) =>
+        (e, index) =>
           `<article class="entry-row">${e.cover.src ? `<img src="${esc(e.cover.src)}" alt="" loading="lazy">` : "<span></span>"}<div><h2><button class="entry-link" data-edit="${e.id}">${esc(e.title)}</button></h2><p>${e.kind === "post" ? e.date : e.year} · ${
             data.categories
               .filter((t) => e.categories.includes(t.id))
               .map((t) => esc(t.label))
               .join(" / ") || "Uncategorized"
-          }</p></div><div class="row-actions"><span class="status-label">${e.status === "published" ? "Included" : "Draft only"}</span>${kind === "project" ? `<button data-order="${e.id}" data-direction="-1" aria-label="Move ${esc(e.title)} up" ${entries[0] === e ? "disabled" : ""}>↑</button><button data-order="${e.id}" data-direction="1" aria-label="Move ${esc(e.title)} down" ${entries.at(-1) === e ? "disabled" : ""}>↓</button>` : ""}<button data-edit="${e.id}">Edit</button></div></article>`,
+          }</p></div><div class="row-actions"><span class="status-label">${e.status === "published" ? "Included" : "Draft only"}</span>${kind === "project" ? `<button data-order="${e.id}" data-direction="-1" aria-label="Move ${esc(e.title)} up" ${!entries[index - 1] || compareProjectYears(e, entries[index - 1]) !== 0 ? "disabled" : ""}>↑</button><button data-order="${e.id}" data-direction="1" aria-label="Move ${esc(e.title)} down" ${!entries[index + 1] || compareProjectYears(e, entries[index + 1]) !== 0 ? "disabled" : ""}>↓</button>` : ""}<button data-edit="${e.id}">Edit</button></div></article>`,
       )
       .join(
         "",
@@ -255,9 +257,9 @@ function render() {
       (b) =>
         (b.onclick = () => {
           const e = data.entries.find((e) => e.id === b.dataset.order),
-            same = data.entries.filter((x) => x.kind === e.kind),
+            same = data.entries.filter((x) => x.kind === e.kind).sort(compareProjectYears),
             other = same[same.indexOf(e) + Number(b.dataset.direction)];
-          if (other) {
+          if (other && compareProjectYears(e, other) === 0) {
             const i = data.entries.indexOf(e),
               j = data.entries.indexOf(other);
             [data.entries[i], data.entries[j]] = [

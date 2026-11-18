@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-11-18T01:51:04.617Z",
+  "originalHashesMatch": true,
+  "preparedHashesMatch": true,
+  "imageCount": 133,
+  "videos": [
+    {
+      "title": "Alone",
+      "bytes": 5784424,
+      "duration": 27.1271,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "frameRate": "30000/1001",
+      "decode": "passed"
+    },
+    {
+      "title": "Brains For Dinner",
+      "bytes": 6843385,
+      "duration": 74.9,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "frameRate": "10/1",
+      "decode": "passed"
+    },
+    {
+      "title": "Santa Bunny",
+      "bytes": 4353782,
+      "duration": 41,
+      "dimensions": [
+        720,
+        720
+      ],
+      "frameRate": "3/1",
+      "decode": "passed"
+    }
+  ]
+}

@@ -1,0 +1,587 @@
+{
+  "checkedAt": "2026-11-18T01:54:13.017Z",
+  "projects": [
+    {
+      "id": "a-night-in-paradiso",
+      "width": 1440,
+      "images": 6,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "alone",
+      "width": 1440,
+      "images": 20,
+      "videos": 1,
+      "year": 2022
+    },
+    {
+      "id": "brains-for-dinner",
+      "width": 1440,
+      "images": 6,
+      "videos": 1,
+      "year": 2023
+    },
+    {
+      "id": "demons-with-green-faces",
+      "width": 1440,
+      "images": 5,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "dream-synopsis",
+      "width": 1440,
+      "images": 4,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "eraser-x-wilgira-music-video",
+      "width": 1440,
+      "images": 5,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "first-time-sexpot",
+      "width": 1440,
+      "images": 14,
+      "videos": 0,
+      "year": 2025
+    },
+    {
+      "id": "loner",
+      "width": 1440,
+      "images": 28,
+      "videos": 0,
+      "year": 2022
+    },
+    {
+      "id": "noche-obscura",
+      "width": 1440,
+      "images": 7,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "pandora-s-greenhouse",
+      "width": 1440,
+      "images": 13,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "red-razor-on-soft-skin",
+      "width": 1440,
+      "images": 2,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "sanctuary",
+      "width": 1440,
+      "images": 4,
+      "videos": 0,
+      "year": 2023
+    },
+    {
+      "id": "shellfish-knish",
+      "width": 1440,
+      "images": 2,
+      "videos": 0,
+      "year": 2023
+    },
+    {
+      "id": "tarot",
+      "width": 1440,
+      "images": 9,
+      "videos": 0,
+      "year": 2022
+    },
+    {
+      "id": "two-in-the-morning",
+      "width": 1440,
+      "images": 8,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "santa-bunny",
+      "width": 1440,
+      "images": 1,
+      "videos": 1,
+      "year": 2021
+    },
+    {
+      "id": "a-night-in-paradiso",
+      "width": 390,
+      "images": 6,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "alone",
+      "width": 390,
+      "images": 20,
+      "videos": 1,
+      "year": 2022
+    },
+    {
+      "id": "brains-for-dinner",
+      "width": 390,
+      "images": 6,
+      "videos": 1,
+      "year": 2023
+    },
+    {
+      "id": "demons-with-green-faces",
+      "width": 390,
+      "images": 5,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "dream-synopsis",
+      "width": 390,
+      "images": 4,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "eraser-x-wilgira-music-video",
+      "width": 390,
+      "images": 5,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "first-time-sexpot",
+      "width": 390,
+      "images": 14,
+      "videos": 0,
+      "year": 2025
+    },
+    {
+      "id": "loner",
+      "width": 390,
+      "images": 28,
+      "videos": 0,
+      "year": 2022
+    },
+    {
+      "id": "noche-obscura",
+      "width": 390,
+      "images": 7,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "pandora-s-greenhouse",
+      "width": 390,
+      "images": 13,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "red-razor-on-soft-skin",
+      "width": 390,
+      "images": 2,
+      "videos": 0,
+      "year": 2026
+    },
+    {
+      "id": "sanctuary",
+      "width": 390,
+      "images": 4,
+      "videos": 0,
+      "year": 2023
+    },
+    {
+      "id": "shellfish-knish",
+      "width": 390,
+      "images": 2,
+      "videos": 0,
+      "year": 2023
+    },
+    {
+      "id": "tarot",
+      "width": 390,
+      "images": 9,
+      "videos": 0,
+      "year": 2022
+    },
+    {
+      "id": "two-in-the-morning",
+      "width": 390,
+      "images": 8,
+      "videos": 0,
+      "year": 2024
+    },
+    {
+      "id": "santa-bunny",
+      "width": 390,
+      "images": 1,
+      "videos": 1,
+      "year": 2021
+    }
+  ],
+  "writing": [
+    {
+      "title": "Initials on the Chamber Walls",
+      "width": 1440,
+      "date": "2026-06-16",
+      "paragraphs": 6,
+      "textMatches": true
+    },
+    {
+      "title": "Remembering, Becoming",
+      "width": 1440,
+      "date": "2026-04-30",
+      "paragraphs": 9,
+      "textMatches": true
+    },
+    {
+      "title": "The Intimacy of Touching Knees in a Theatre",
+      "width": 1440,
+      "date": "2026-03-30",
+      "paragraphs": 11,
+      "textMatches": true
+    },
+    {
+      "title": "Initials on the Chamber Walls",
+      "width": 390,
+      "date": "2026-06-16",
+      "paragraphs": 6,
+      "textMatches": true
+    },
+    {
+      "title": "Remembering, Becoming",
+      "width": 390,
+      "date": "2026-04-30",
+      "paragraphs": 9,
+      "textMatches": true
+    },
+    {
+      "title": "The Intimacy of Touching Knees in a Theatre",
+      "width": 390,
+      "date": "2026-03-30",
+      "paragraphs": 11,
+      "textMatches": true
+    }
+  ],
+  "archives": [
+    {
+      "path": "/",
+      "width": 1440,
+      "count": 20,
+      "order": [
+        "deep inside",
+        "A Night in Paradiso",
+        "Dream Synopsis",
+        "Red Razor on Soft Skin",
+        "First Time Sexpot",
+        "Demons With Green Faces",
+        "Eraser X - Wilgira Music Video",
+        "Noche Obscura",
+        "Pandora's Greenhouse",
+        "Two in the Morning",
+        "Brains For Dinner",
+        "Sanctuary",
+        "Shellfish Knish",
+        "Alone",
+        "Loner",
+        "Tarot",
+        "Sketches",
+        "Santa Bunny",
+        "Retablos",
+        "Woodcarvings"
+      ]
+    },
+    {
+      "path": "/category/art/",
+      "width": 1440,
+      "count": 4,
+      "order": [
+        "deep inside",
+        "Sketches",
+        "Retablos",
+        "Woodcarvings"
+      ]
+    },
+    {
+      "path": "/category/makeup/",
+      "width": 1440,
+      "count": 10,
+      "order": [
+        "A Night in Paradiso",
+        "Dream Synopsis",
+        "Red Razor on Soft Skin",
+        "Demons With Green Faces",
+        "Eraser X - Wilgira Music Video",
+        "Pandora's Greenhouse",
+        "Sanctuary",
+        "Shellfish Knish",
+        "Loner",
+        "Tarot"
+      ]
+    },
+    {
+      "path": "/category/props/",
+      "width": 1440,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "Noche Obscura",
+        "Two in the Morning",
+        "Loner"
+      ]
+    },
+    {
+      "path": "/category/sets/",
+      "width": 1440,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "Noche Obscura",
+        "Two in the Morning",
+        "Alone"
+      ]
+    },
+    {
+      "path": "/category/film/",
+      "width": 1440,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "First Time Sexpot",
+        "Brains For Dinner",
+        "Santa Bunny"
+      ]
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "count": 20,
+      "order": [
+        "deep inside",
+        "A Night in Paradiso",
+        "Dream Synopsis",
+        "Red Razor on Soft Skin",
+        "First Time Sexpot",
+        "Demons With Green Faces",
+        "Eraser X - Wilgira Music Video",
+        "Noche Obscura",
+        "Pandora's Greenhouse",
+        "Two in the Morning",
+        "Brains For Dinner",
+        "Sanctuary",
+        "Shellfish Knish",
+        "Alone",
+        "Loner",
+        "Tarot",
+        "Sketches",
+        "Santa Bunny",
+        "Retablos",
+        "Woodcarvings"
+      ]
+    },
+    {
+      "path": "/category/art/",
+      "width": 390,
+      "count": 4,
+      "order": [
+        "deep inside",
+        "Sketches",
+        "Retablos",
+        "Woodcarvings"
+      ]
+    },
+    {
+      "path": "/category/makeup/",
+      "width": 390,
+      "count": 10,
+      "order": [
+        "A Night in Paradiso",
+        "Dream Synopsis",
+        "Red Razor on Soft Skin",
+        "Demons With Green Faces",
+        "Eraser X - Wilgira Music Video",
+        "Pandora's Greenhouse",
+        "Sanctuary",
+        "Shellfish Knish",
+        "Loner",
+        "Tarot"
+      ]
+    },
+    {
+      "path": "/category/props/",
+      "width": 390,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "Noche Obscura",
+        "Two in the Morning",
+        "Loner"
+      ]
+    },
+    {
+      "path": "/category/sets/",
+      "width": 390,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "Noche Obscura",
+        "Two in the Morning",
+        "Alone"
+      ]
+    },
+    {
+      "path": "/category/film/",
+      "width": 390,
+      "count": 4,
+      "order": [
+        "A Night in Paradiso",
+        "First Time Sexpot",
+        "Brains For Dinner",
+        "Santa Bunny"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "title": "Alone",
+      "duration": 27.1271,
+      "width": 1280,
+      "height": 720,
+      "time": 16.276259,
+      "error": null,
+      "playAndSeek": true,
+      "muted": true
+    },
+    {
+      "title": "Brains For Dinner",
+      "duration": 74.9,
+      "width": 1280,
+      "height": 720,
+      "time": 44.94,
+      "error": null,
+      "playAndSeek": true,
+      "muted": true
+    },
+    {
+      "title": "Santa Bunny",
+      "duration": 41,
+      "width": 720,
+      "height": 720,
+      "time": 24.599999,
+      "error": null,
+      "playAndSeek": true,
+      "muted": true
+    }
+  ],
+  "admin": [
+    {
+      "title": "A Night in Paradiso",
+      "mediaEditable": true
+    },
+    {
+      "title": "Alone",
+      "mediaEditable": true
+    },
+    {
+      "title": "Brains For Dinner",
+      "mediaEditable": true
+    },
+    {
+      "title": "Demons With Green Faces",
+      "mediaEditable": true
+    },
+    {
+      "title": "Dream Synopsis",
+      "mediaEditable": true
+    },
+    {
+      "title": "Eraser X - Wilgira Music Video",
+      "mediaEditable": true
+    },
+    {
+      "title": "First Time Sexpot",
+      "mediaEditable": true
+    },
+    {
+      "title": "Loner",
+      "mediaEditable": true
+    },
+    {
+      "title": "Noche Obscura",
+      "mediaEditable": true
+    },
+    {
+      "title": "Pandora's Greenhouse",
+      "mediaEditable": true
+    },
+    {
+      "title": "Red Razor on Soft Skin",
+      "mediaEditable": true
+    },
+    {
+      "title": "Sanctuary",
+      "mediaEditable": true
+    },
+    {
+      "title": "Shellfish Knish",
+      "mediaEditable": true
+    },
+    {
+      "title": "Tarot",
+      "mediaEditable": true
+    },
+    {
+      "title": "Two in the Morning",
+      "mediaEditable": true
+    },
+    {
+      "title": "Santa Bunny",
+      "mediaEditable": true
+    },
+    {
+      "title": "Initials on the Chamber Walls",
+      "wysiwyg": true,
+      "textMatches": true,
+      "date": "2026-06-16"
+    },
+    {
+      "title": "Remembering, Becoming",
+      "wysiwyg": true,
+      "textMatches": true,
+      "date": "2026-04-30"
+    },
+    {
+      "title": "The Intimacy of Touching Knees in a Theatre",
+      "wysiwyg": true,
+      "textMatches": true,
+      "date": "2026-03-30"
+    }
+  ],
+  "accessibility": [
+    "Home 1440",
+    "A Night in Paradiso 1440",
+    "Alone 1440",
+    "Santa Bunny 1440",
+    "Writing archive 1440",
+    "Initials on the Chamber Walls 1440",
+    "Remembering, Becoming 1440",
+    "The Intimacy of Touching Knees in a Theatre 1440",
+    "Home 390",
+    "A Night in Paradiso 390",
+    "Alone 390",
+    "Santa Bunny 390",
+    "Writing archive 390",
+    "Initials on the Chamber Walls 390",
+    "Remembering, Becoming 390",
+    "The Intimacy of Touching Knees in a Theatre 390"
+  ],
+  "consoleErrors": [],
+  "removedSampleRoutesReturn404": true
+}

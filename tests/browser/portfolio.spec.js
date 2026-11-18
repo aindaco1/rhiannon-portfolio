@@ -357,6 +357,37 @@ async function resetDraft(page) {
   ).toBe(200);
   await page.reload();
 }
+test("admin sorts by the starting year and reorders only within that year", async ({ page }) => {
+  await page.goto(admin + "/admin/");
+  await resetDraft(page);
+  const state = (await api(page, "/state")).body;
+  const catalog = structuredClone(seed);
+  catalog.entries = catalog.entries.slice(0, 4);
+  ["2014–2026", 2026, "2021–2026", 2026].forEach((year, i) => {
+    catalog.entries[i].year = year;
+  });
+  expect((await api(page, "/draft", "PUT", {
+    catalog, revision: state.revision, publishedRevision: state.publishedRevision,
+  })).status).toBe(200);
+  await page.reload();
+  const titles = catalog.entries.map((e) => e.title);
+  await expect(page.locator(".entry-link")).toHaveText([titles[1], titles[3], titles[2], titles[0]]);
+  await expect(page.getByRole("button", { name: `Move ${titles[2]} up`, exact: true })).toBeDisabled();
+  await expect(page.getByRole("button", { name: `Move ${titles[3]} down`, exact: true })).toBeDisabled();
+  await page.getByRole("button", { name: `Move ${titles[3]} up`, exact: true }).click();
+  await expect(page.locator(".entry-link")).toHaveText([titles[3], titles[1], titles[2], titles[0]]);
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await page.reload();
+  await expect(page.locator(".entry-link")).toHaveText([titles[3], titles[1], titles[2], titles[0]]);
+  await page.getByRole("button", { name: titles[0], exact: true }).click();
+  await page.getByRole("textbox", { name: /^Year or range/ }).fill("2027–2028");
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.locator("#save-state")).toHaveText("Draft saved");
+  await page.reload();
+  await expect(page.locator(".entry-link")).toHaveText([titles[0], titles[3], titles[1], titles[2]]);
+  await resetDraft(page);
+});
 test("mobile editor remains usable and accessible", async ({ page }) => {
   await page.goto(admin + "/admin/");
   await resetDraft(page);

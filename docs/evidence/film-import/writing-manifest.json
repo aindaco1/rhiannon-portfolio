@@ -1,0 +1,36 @@
+{
+  "importedAt": "2026-11-18T01:52:58.468Z",
+  "pieces": [
+    {
+      "title": "Initials on the Chamber Walls",
+      "date": "2026-06-16",
+      "intro": "you always loved possessing what was yours",
+      "source": "/Users/aindaco1/Desktop/Writing/Initials on the Chamber Walls.pdf",
+      "sourceSha256": "911fa144b3566e80ac173fe6c9dcb47bd5441540f5edd9bc2fce257e73e2c15c",
+      "pages": 1,
+      "paragraphs": 6,
+      "bodySha256": "52d1d0224c7cb3d6770a5a61949101a34f0648467ca1da81b5e002c1f84ba06b"
+    },
+    {
+      "title": "Remembering, Becoming",
+      "date": "2026-04-30",
+      "intro": "my own siamese dream",
+      "source": "/Users/aindaco1/Desktop/Writing/Remembering, Becoming.pdf",
+      "sourceSha256": "b9fdf7d6afa9214f2100c2c5a89787f01f72cb409f9bb42d8d601a6f4c652436",
+      "pages": 1,
+      "paragraphs": 9,
+      "bodySha256": "9c7c15cdc25e0b200358f18c2c82c6a978d992e52fae333aa600634fddcd6ec7"
+    },
+    {
+      "title": "The Intimacy of Touching Knees in a Theatre",
+      "date": "2026-03-30",
+      "intro": "Delusions of connection in the most obvious of places",
+      "source": "/Users/aindaco1/Desktop/Writing/The Intimacy of Touching Knees in a Theatre.pdf",
+      "sourceSha256": "f8372fb9ddba3b7bd8623922980f25eec53a90ef47b31948887d695e8f6b0ace",
+      "pages": 2,
+      "paragraphs": 11,
+      "bodySha256": "9fdd101497173e79bb8a8e67268c49643e852c1aa76a429246adc698ae79a8e7"
+    }
+  ],
+  "notes": "Text extracted from the supplied PDFs, visually checked against all four pages. Original titles, subtitles, dates, paragraphs and italics retained. PDF author avatar, print footer, page numbers and duplicate headings omitted. Source wording and punctuation retained."
+}

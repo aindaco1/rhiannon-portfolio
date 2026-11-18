@@ -1,12 +1,14 @@
 # Hosting and release handoff
 
-This checkout is a working local build, not a public deployment. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. The domain and hosted Access setup are still required. The existing Store and Pool releases are unchanged.
+The source repository is public by owner request. Publishing the repository does not deploy the website. The approved admins are `alonso@hey.com` and `barelarhiannon@gmail.com`, configured in `worker/wrangler.jsonc` under `EDITOR_EMAILS`. GitHub Pages, the custom domain and hosted Access setup still require configuration. The existing Store and Pool releases are unchanged.
+
+The current hosted editor stores drafts and staged uploads in its configured GitHub repository. It must not use this public repository for private drafts: excluding files from the Pages artifact does not hide them from repository visitors. Keep using the local editor until private draft storage and publication to this public repository are implemented and verified.
 
 ## Configure once
 
-1. Choose the existing domain and confirm the public contact email. Use the approved admin allowlist in `worker/wrangler.jsonc` for editor access.
-2. Create/use a **private** GitHub repository. Push this checkout with its pinned Platform submodule. Unpublished content and staged photos/PDFs must not live in a public repository. GitHub Pages for private repositories requires an eligible account plan; verify this before enabling it. If unavailable, retain the build and use private-repository Cloudflare Pages hosting instead.
-3. Give CI a read-only `PLATFORM_READ_TOKEN` for the Platform submodule, unless the repository’s Actions token already has access. Never put tokens in Git URLs. Enable GitHub Pages with Actions and configure the existing domain and HTTPS.
+1. Use `rbarela.com` for the public site and confirm the public contact email. Use the approved admin allowlist in `worker/wrangler.jsonc` for editor access.
+2. Use the public `aindaco1/rhiannon-portfolio` repository with its pinned Platform submodule. Local editor state, environment files and build output remain ignored. This public-repository decision supersedes the original private-repository plan; the hosted editor needs the storage change described above before deployment.
+3. The Platform submodule is public, so CI can use the standard Actions token; no `PLATFORM_READ_TOKEN` secret is needed for the current dependency. Enable GitHub Pages with Actions, set the custom domain to `rbarela.com`, and enable HTTPS when available. Before a production build, complete the content review below, set `profile.url` to `https://rbarela.com`, and set `demo` to `false` in `content/catalog.json`.
 4. Create a GitHub App installed **only on this portfolio repository**, with Contents read/write and Actions read. Keep its client ID, installation ID and PKCS#8 private key in Worker secrets. An App commit triggers the Pages workflow; it does not require a personal token.
 5. Create a Cloudflare Access application for the full editor hostname with an allow policy matching the two `EDITOR_EMAILS` addresses in `worker/wrangler.jsonc`. Configure `ADMIN_ORIGIN`, `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` and the GitHub values shown in `worker/.dev.vars.example` as Worker secrets/configuration. The email allowlist is already a Worker variable; do not replace it with a secret or duplicate override. Set the Worker’s custom domain/route only after Access covers it.
 6. Run `npm run build` to produce `.admin-build`. Deploy `worker/wrangler.jsonc` with an authenticated Wrangler installation. `workers_dev` and preview URLs are disabled; `run_worker_first` enforces JWT verification before **every** asset, media and API request. The Worker rejects missing configuration, unexpected origins, invalid audiences and unapproved emails.
@@ -15,7 +17,7 @@ Do not copy the local preview session mechanism into production. It exists only 
 
 ## Prepare real content
 
-The twenty sample projects have been removed; four real projects remain. Before production, remove or replace the two sample Writing pieces, verify roles and credits, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
+All sample projects and Writing pieces have been removed; twenty real projects and three supplied Writing pieces are included. Before production, verify roles and credits, review the imported content, and update the profile/domain/email. Turn off each entry’s sample flag and the portfolio-wide preview flag only after that content pass. Both the Worker and `build:production` refuse sample entries and references to the known `sample-*` stock photos. The build also requires the real HTTPS site URL and public contact email. Generated pages include canonical/Open Graph tags and a sitemap after these are set.
 
 ## Publication behavior
 

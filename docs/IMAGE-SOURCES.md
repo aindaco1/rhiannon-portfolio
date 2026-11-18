@@ -20,3 +20,9 @@ User-supplied media imported with source hashes, dimensions and output paths in 
 ## November 17, 2026 — director reel
 
 The user supplied `R.BarelaDirectorReel copy.mov`. Its complete video and audio were prepared as 720p H.264/AAC MP4 for Bio; the poster is the opening title at 0.5 seconds. Original/output hashes and byte counts are in [the reel manifest](evidence/director-reel/import-manifest.json). See [the task record](DIRECTOR-REEL-TASK.md) for preparation and verification details.
+
+## November 17, 2026 — Film projects and Writing
+
+The supplied `Desktop/Film` directory provides fifteen project folders plus the approved loose unfinished Santa Bunny film: 133 photographs and three full-length videos. Folder labels supply project titles, years and categories. Photos were oriented using embedded metadata and prepared as WebP copies up to 1600 pixels on the longest edge; originals remain unchanged. The three videos were prepared as H.264/AAC fast-start MP4 files, preserving full duration, aspect ratio and stop-motion frame rates. Santa Bunny uses a frame from its video as its cover. The [media manifest](evidence/film-import/import-manifest.json) records every source/output hash, dimensions, cover, image description and video properties.
+
+The [writing manifest](evidence/film-import/writing-manifest.json) records the three supplied PDFs and their original dates. Full text was imported into editable text blocks; print footers and the Substack avatar were omitted. See [the task record](FILM-IMPORT-TASK.md) for checks and publication scope.

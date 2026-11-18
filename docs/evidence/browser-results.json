@@ -117,12 +117,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 244,
+                  "duration": 225,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:19.689Z",
+                  "startTime": "2026-11-18T01:56:18.219Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -151,12 +151,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 251,
+                  "duration": 256,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:20.117Z",
+                  "startTime": "2026-11-18T01:56:18.616Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -185,12 +185,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 216,
+                  "duration": 226,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:20.378Z",
+                  "startTime": "2026-11-18T01:56:18.881Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -219,12 +219,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 380,
+                  "duration": 376,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:20.601Z",
+                  "startTime": "2026-11-18T01:56:19.114Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -253,12 +253,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 443,
+                  "duration": 434,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:20.988Z",
+                  "startTime": "2026-11-18T01:56:19.497Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -268,11 +268,11 @@
           ],
           "id": "1e37615933ad85f00b37-d9c963de2e0ea42586a6",
           "file": "portfolio.spec.js",
-          "line": 61,
+          "line": 62,
           "column": 1
         },
         {
-          "title": "public archive, project and about pass automated accessibility checks",
+          "title": "public archive, project and bio pass automated accessibility checks",
           "ok": true,
           "tags": [],
           "tests": [
@@ -287,12 +287,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1135,
+                  "duration": 1263,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:21.438Z",
+                  "startTime": "2026-11-18T01:56:19.939Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -300,9 +300,9 @@
               "status": "expected"
             }
           ],
-          "id": "1e37615933ad85f00b37-880f2964d4039abcfd45",
+          "id": "1e37615933ad85f00b37-964fed0f12593e25d48c",
           "file": "portfolio.spec.js",
-          "line": 87,
+          "line": 88,
           "column": 1
         },
         {
@@ -321,12 +321,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 235,
+                  "duration": 237,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:22.578Z",
+                  "startTime": "2026-11-18T01:56:21.207Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -336,7 +336,7 @@
           ],
           "id": "1e37615933ad85f00b37-f19e8cc3208f7e0420d1",
           "file": "portfolio.spec.js",
-          "line": 103,
+          "line": 104,
           "column": 1
         },
         {
@@ -355,12 +355,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 226,
+                  "duration": 238,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:22.819Z",
+                  "startTime": "2026-11-18T01:56:21.451Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -370,7 +370,7 @@
           ],
           "id": "1e37615933ad85f00b37-c8e37fa9947ede010ed3",
           "file": "portfolio.spec.js",
-          "line": 120,
+          "line": 121,
           "column": 1
         },
         {
@@ -389,12 +389,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5856,
+                  "duration": 5936,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:23.052Z",
+                  "startTime": "2026-11-18T01:56:21.694Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -404,7 +404,7 @@
           ],
           "id": "1e37615933ad85f00b37-b0f970c67b529cbf9159",
           "file": "portfolio.spec.js",
-          "line": 136,
+          "line": 137,
           "column": 1
         },
         {
@@ -423,12 +423,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 215,
+                  "duration": 207,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:28.916Z",
+                  "startTime": "2026-11-18T01:56:27.636Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -438,7 +438,7 @@
           ],
           "id": "1e37615933ad85f00b37-70f76815e99f23311c47",
           "file": "portfolio.spec.js",
-          "line": 283,
+          "line": 284,
           "column": 1
         },
         {
@@ -457,12 +457,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 204,
+                  "duration": 209,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:29.136Z",
+                  "startTime": "2026-11-18T01:56:27.848Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -472,7 +472,41 @@
           ],
           "id": "1e37615933ad85f00b37-be84006304b4719bff82",
           "file": "portfolio.spec.js",
-          "line": 314,
+          "line": 315,
+          "column": 1
+        },
+        {
+          "title": "admin sorts by the starting year and reorders only within that year",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 761,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:28.063Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-80607c1f4838bb1852ac",
+          "file": "portfolio.spec.js",
+          "line": 360,
           "column": 1
         },
         {
@@ -491,12 +525,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 835,
+                  "duration": 873,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:29.345Z",
+                  "startTime": "2026-11-18T01:56:28.829Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -506,7 +540,7 @@
           ],
           "id": "1e37615933ad85f00b37-c7e25cba1e5b2da92e8e",
           "file": "portfolio.spec.js",
-          "line": 359,
+          "line": 391,
           "column": 1
         },
         {
@@ -525,12 +559,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 509,
+                  "duration": 510,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:30.185Z",
+                  "startTime": "2026-11-18T01:56:29.707Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -540,11 +574,11 @@
           ],
           "id": "1e37615933ad85f00b37-6f59d3e6787a41694f34",
           "file": "portfolio.spec.js",
-          "line": 379,
+          "line": 411,
           "column": 1
         },
         {
-          "title": "a pending photo cannot return to a block that was removed",
+          "title": "a pending project photo cannot return to a block that was removed",
           "ok": true,
           "tags": [],
           "tests": [
@@ -559,12 +593,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 540,
+                  "duration": 543,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:30.699Z",
+                  "startTime": "2026-11-18T01:56:30.222Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -572,13 +606,13 @@
               "status": "expected"
             }
           ],
-          "id": "1e37615933ad85f00b37-6c68fe97cb79d1365deb",
+          "id": "1e37615933ad85f00b37-0ccc9a5cd0bd22001e37",
           "file": "portfolio.spec.js",
-          "line": 403,
-          "column": 1
+          "line": 436,
+          "column": 3
         },
         {
-          "title": "the journal uses the same editor and appears only after publication",
+          "title": "a pending bio photo cannot return to a block that was removed",
           "ok": true,
           "tags": [],
           "tests": [
@@ -593,12 +627,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4953,
+                  "duration": 480,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-17T22:52:31.245Z",
+                  "startTime": "2026-11-18T01:56:30.769Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -606,9 +640,315 @@
               "status": "expected"
             }
           ],
-          "id": "1e37615933ad85f00b37-0de71236b1f428ebc289",
+          "id": "1e37615933ad85f00b37-fc3c8383fb31816058a9",
           "file": "portfolio.spec.js",
-          "line": 427,
+          "line": 436,
+          "column": 3
+        },
+        {
+          "title": "writing uses the shared editor; only published pieces appear",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4849,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:31.255Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-65be5cf4a80f2413a90d",
+          "file": "portfolio.spec.js",
+          "line": 469,
+          "column": 1
+        },
+        {
+          "title": "Writing is text-led, responsive, accessible and uses the same WYSIWYG preview",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6054,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:36.109Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-ec7f358e47b04647c397",
+          "file": "portfolio.spec.js",
+          "line": 516,
+          "column": 1
+        },
+        {
+          "title": "Bio supports the shared WYSIWYG editor, recovery, private preview and publication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5948,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:42.168Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-bd4ebf6ac4c0ceb2ffbe",
+          "file": "portfolio.spec.js",
+          "line": 642,
+          "column": 1
+        },
+        {
+          "title": "Bio PDF replacement is private until publication and survives save/reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10759,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:48.122Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-dedbf0c4901af0a8c041",
+          "file": "portfolio.spec.js",
+          "line": 789,
+          "column": 1
+        },
+        {
+          "title": "a late PDF upload cannot replace a newer selection or a remounted Bio editor",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 605,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:58.886Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-0b6363c215ead4065362",
+          "file": "portfolio.spec.js",
+          "line": 870,
+          "column": 1
+        },
+        {
+          "title": "project year ranges save, reload and appear in preview",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 765,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:56:59.497Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-7a4bb786edd4cb330edd",
+          "file": "portfolio.spec.js",
+          "line": 904,
+          "column": 1
+        },
+        {
+          "title": "MP4 blocks upload privately, save, preview, play, seek and publish",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6874,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:57:00.267Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-a4f49ddf523ca71827b6",
+          "file": "portfolio.spec.js",
+          "line": 929,
+          "column": 1
+        },
+        {
+          "title": "late MP4 uploads cannot overwrite a changed block",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 693,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:57:07.147Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-176238a7e9827a276088",
+          "file": "portfolio.spec.js",
+          "line": 988,
+          "column": 1
+        },
+        {
+          "title": "all media pickers explain limits and preparation; Bio videos can be removed and restored",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 969,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-18T01:57:07.846Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-008777d67d285ded3e25",
+          "file": "portfolio.spec.js",
+          "line": 1013,
           "column": 1
         }
       ]
@@ -616,9 +956,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-17T22:52:16.444Z",
-    "duration": 19805.045,
-    "expected": 15,
+    "startTime": "2026-11-18T01:56:15.013Z",
+    "duration": 53963.907,
+    "expected": 25,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

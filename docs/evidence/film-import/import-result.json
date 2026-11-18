@@ -1,0 +1,17 @@
+{
+  "time": "2026-11-18T01:53:16.372Z",
+  "beforeRevision": "27e509004c01ce4ffbb045d76ee0fa6aee6d40cf3b5969915900545082afc785",
+  "afterRevision": "ed9259fd4f20c64324dbcd53fd6d79215bca8e31f9a8bafdb4fe704626bb4ada",
+  "publishedRevision": "ed9259fd4f20c64324dbcd53fd6d79215bca8e31f9a8bafdb4fe704626bb4ada",
+  "status": "live",
+  "catalogSha256": "7a5acbdf4b91e341b194ba69cec694ce9a1dde730105e6665cd186efcd6aa1fb",
+  "ownerBioAndSettingsPreserved": true,
+  "existingRealProjectsPreserved": true,
+  "removedSamplePostIds": [
+    "sample-writing-room",
+    "sample-writing-notebook"
+  ],
+  "projectCount": 20,
+  "writingCount": 3,
+  "uploadedAssets": 138
+}

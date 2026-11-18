@@ -8,6 +8,7 @@ import {
   parseVideo,
   renderBlocks,
   esc,
+  compareProjectYears,
 } from "../lib/content.mjs";
 import { shell, archive, project } from "../lib/views.mjs";
 const seed = JSON.parse(
@@ -58,6 +59,26 @@ test("project years accept an editable range while preserving single years", () 
     d.entries[0].year = value;
     assert.throws(() => validateCatalog(d), /ascending year range/);
   }
+});
+test("project lists sort newest first by starting year, preserving ties and source data", () => {
+  const d = copy();
+  d.entries = d.entries.slice(0, 5);
+  ["2014–2026", 2026, "2021–2026", 2026, 2024].forEach((year, i) => {
+    d.entries[i].year = year;
+    d.entries[i].categories = [d.categories[0].id];
+  });
+  const before = structuredClone(d), expected = [1, 3, 4, 2, 0].map((i) => d.entries[i]);
+  assert.deepEqual([...d.entries].sort(compareProjectYears), expected);
+  for (const options of [{}, { kind: "all", term: d.categories[0] }]) {
+    const html = archive(d, options);
+    const positions = expected.map((e) => html.indexOf(`<h2>${esc(e.title)}</h2>`));
+    assert(positions.every((n, i) => n >= 0 && (!i || n > positions[i - 1])));
+  }
+  const related = project(d, d.entries[0]).split('<section class="related">')[1];
+  assert(related.indexOf(esc(expected[0].title)) < related.indexOf(esc(expected[1].title)));
+  assert(related.indexOf(esc(expected[1].title)) < related.indexOf(esc(expected[2].title)));
+  assert(!related.includes(esc(expected[3].title)));
+  assert.deepEqual(d, before);
 });
 test("private draft entries and their photos are absent from published data", () => {
   const d = copy();
