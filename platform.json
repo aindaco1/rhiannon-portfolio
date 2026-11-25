@@ -1,9 +1,10 @@
 {
-  "release": "v0.50.0",
-  "commit": "fa363d72d3e5c15dbdb6f9596bb80c41ebbbda8d",
+  "release": "v0.58.0",
+  "commit": "d90ab548158005acdab483a0e76034aeb1a61726",
   "packages": {
-    "admin-shell": "0.15.0",
-    "worker-core": "0.16.0",
-    "build-core": "0.2.0"
+    "admin-shell": "0.20.2",
+    "worker-core": "0.18.0",
+    "build-core": "0.2.0",
+    "media-core": "0.6.0"
   }
 }

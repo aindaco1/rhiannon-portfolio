@@ -1,3 +1,4 @@
+import { readPngDimensions } from "../shared/dust-wave-platform/packages/media-core/src/image-dimensions.js";
 import { api, hosted, mediaAttribute, mediaURL, privatePreview, startSession } from "./session.mjs";
 import { createBlockEditor } from "../shared/dust-wave-platform/packages/admin-shell/src/block-editor.js";
 import {
@@ -809,11 +810,6 @@ function mediaField(
         );
       if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
         throw new Error("Choose a JPG, PNG or WebP photo.");
-      const bitmap = await createImageBitmap(file);
-      const pixels = bitmap.width * bitmap.height;
-      bitmap.close();
-      if (pixels > MAX_IMAGE_PIXELS)
-        throw new Error("Resize this photo below 40 megapixels.");
       const generation = (mediaGeneration.get(target) || 0) + 1;
       mediaGeneration.set(target, generation);
       const ticket = remove.beginUpload();
@@ -828,8 +824,18 @@ function mediaField(
       });
       pendingUploads++;
       update();
-      feedback("Uploading photo…");
       try {
+        const header = await readPngDimensions(file);
+        if (captured.index() < 0 || !remove.isCurrentUpload(ticket)) return;
+        if (header && header.width * header.height > MAX_IMAGE_PIXELS)
+          throw new Error("Resize this photo below 40 megapixels.");
+        const bitmap = await createImageBitmap(file);
+        const pixels = bitmap.width * bitmap.height;
+        bitmap.close();
+        if (captured.index() < 0 || !remove.isCurrentUpload(ticket)) return;
+        if (pixels > MAX_IMAGE_PIXELS)
+          throw new Error("Resize this photo below 40 megapixels.");
+        feedback("Uploading photo…");
         const result = await api.request("/media", {
           method: "POST",
           body: file,
@@ -847,7 +853,10 @@ function mediaField(
         notify();
         refresh();
         feedback("Photo uploaded. Add its description, then save your draft.");
+      } catch (error) {
+        if (captured.index() >= 0 && remove.isCurrentUpload(ticket)) throw error;
       } finally {
+        if (remove.isCurrentUpload(ticket)) remove.changed();
         pendingUploads--;
         update();
       }

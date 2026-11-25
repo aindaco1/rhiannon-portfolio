@@ -158,6 +158,26 @@ test("owner creates taxonomy, authors blocks, uploads, saves, reloads, previews 
     .fill("A locally authored project for the editor rehearsal.");
   await page.getByLabel("Practical effects", { exact: true }).check();
   await page.getByLabel("Handmade", { exact: true }).check();
+  // A large PNG can fit under the compressed byte budget.
+  const oversized = await page.evaluate(async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 6400;
+    canvas.height = 6400;
+    const png = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    const bytes = new Uint8Array(await png.arrayBuffer());
+    return Array.from(bytes);
+  });
+  const decodeCalls = await page.evaluateHandle(() => {
+    const calls = [];
+    const original = window.createImageBitmap;
+    window.createImageBitmap = function (...args) { calls.push(args[0].name); return original.apply(this, args); };
+    return calls;
+  });
+  await page.locator("#cover input[type=file]").setInputFiles({
+    name: "oversized.png", mimeType: "image/png", buffer: Buffer.from(oversized),
+  });
+  await expect(page.locator("#feedback")).toContainText("below 40 megapixels");
+  expect(await decodeCalls.jsonValue()).toEqual([]);
   await page
     .locator("#cover input[type=file]")
     .setInputFiles("assets/media/sample-red-study.jpg");
