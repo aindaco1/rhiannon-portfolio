@@ -52,8 +52,9 @@ The hosted admin shell is copied into `dist/admin/` with a public API origin and
 
 ## Shared Platform ownership
 
-[platform.json](../platform.json) and the submodule commit pin the shared contracts. The current release is v0.50.0. The portfolio imports:
+[platform.json](../platform.json) and the submodule commit pin the shared contracts. The portfolio imports:
 
+- `media-core` reads a selected PNG header before the editor decodes it. The portfolio enforces the 40-megapixel limit and validates the file on upload.
 - `admin-shell`: block composer/model, rich-text conversion and sanitization, media controls, API client, unsaved-change guard, and draft recovery.
 - `worker-core`: bounded request/response readers, GitHub client, email preparation, and crypto helpers.
 - `build-core`: asset minification.

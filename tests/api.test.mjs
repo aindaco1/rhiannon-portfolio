@@ -74,6 +74,18 @@ test("cross-origin mutations and missing Origin fail", async () => {
     200,
   );
 });
+test("image uploads retain their minimum length and extension mapping", () => {
+  const jpeg = Uint8Array.of(255, 216, 255);
+  assert.throws(() => imageType(jpeg), /not a supported image/);
+  const header = new Uint8Array(12);
+  header.set(jpeg);
+  assert.deepEqual(imageType(header), { ext: "jpg", type: "image/jpeg" });
+  header.set([137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.deepEqual(imageType(header), { ext: "png", type: "image/png" });
+  assert.deepEqual(imageType(new TextEncoder().encode("RIFF1234WEBP")), { ext: "webp", type: "image/webp" });
+  assert.throws(() => imageType(new Uint8Array(12)), /Upload a JPG, PNG or WebP/);
+});
+
 test("request body budgets and unsupported images fail before writes", async () => {
   let writes = 0;
   const adapter = { ...store, upload: async () => writes++ };

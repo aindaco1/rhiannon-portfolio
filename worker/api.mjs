@@ -1,3 +1,4 @@
+import { detectImageType } from "../shared/dust-wave-platform/packages/media-core/src/image-dimensions.js";
 import {
   readJsonObject,
   readBoundedBytes,
@@ -42,13 +43,8 @@ export function assertSameOrigin(request, editorOrigin = "") {
 export function imageType(bytes) {
   if (bytes.length < 12)
     throw new ContentError("This is not a supported image.");
-  if (bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255)
-    return { ext: "jpg", type: "image/jpeg" };
-  if ([137, 80, 78, 71, 13, 10, 26, 10].every((v, i) => bytes[i] === v))
-    return { ext: "png", type: "image/png" };
-  const s = new TextDecoder().decode(bytes.slice(0, 12));
-  if (s.startsWith("RIFF") && s.endsWith("WEBP"))
-    return { ext: "webp", type: "image/webp" };
+  const type = detectImageType(bytes);
+  if (type) return { ext: type === "image/jpeg" ? "jpg" : type.slice("image/".length), type };
   throw new ContentError(
     "Upload a JPG, PNG or WebP photo. SVG, camera originals and video files are not supported.",
   );
