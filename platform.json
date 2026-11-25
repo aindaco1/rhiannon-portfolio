@@ -1,6 +1,6 @@
 {
-  "release": "v0.58.0",
-  "commit": "d90ab548158005acdab483a0e76034aeb1a61726",
+  "release": "v0.59.0",
+  "commit": "072ec0b956d8c58f7469ad8d6df019f004bc8c5e",
   "packages": {
     "admin-shell": "0.20.2",
     "worker-core": "0.18.0",
